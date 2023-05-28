@@ -4,7 +4,7 @@ import { User } from "../utils/user";
 export const getUserById = (userId: number) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT * FROM users WHERE id = ?",
+      "SELECT * FROM usuarios WHERE idUsuario = ?",
       [userId],
       (error, results) => {
         if (error) {
@@ -19,7 +19,7 @@ export const getUserById = (userId: number) => {
 
 export const createUser = (user: User) => {
   return new Promise((resolve, reject) => {
-    connection.query("INSERT INTO users SET ?", user, (error, result) => {
+    connection.query("INSERT INTO usuarios SET ?", user, (error, result) => {
       if (error) {
         reject(error);
       } else {

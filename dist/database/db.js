@@ -8,7 +8,7 @@ const connection = mysql2_1.default.createConnection({
     host: "localhost",
     user: "root",
     password: "@Andreyalmp10",
-    database: "cadastro",
+    database: "dbcadastro",
 });
 connection.connect((error) => {
     if (error) {

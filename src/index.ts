@@ -6,9 +6,9 @@ const app = express();
 app.use(express.json());
 
 // Exemplo de rota para consultar dados no banco de dados
-app.get("/dados:idUsuario", async (req: Request, res: Response) => {
+app.get("/dados", async (req: Request, res: Response) => {
   try {
-    const userId = parseInt(req.params.idUsuario);
+    const userId = parseInt(req.query.idUsuario);
     const user = await getUserById(userId);
     res.json(user);
   } catch (error) {
@@ -18,7 +18,7 @@ app.get("/dados:idUsuario", async (req: Request, res: Response) => {
 });
 
 // Exemplo de rota para inserir dados no banco de dados
-app.post("/dados", async (req: Request, res: Response) => {
+app.post("/criarUser", async (req: Request, res: Response) => {
   try {
     const { name, sobrenome, username, email, password } = req.body;
     const newUser = new User(name, sobrenome, username, email, password); //{ name, email, password };
