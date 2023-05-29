@@ -18,7 +18,7 @@ app.get("/dados", async (req: Request, res: Response) => {
 });
 
 // Exemplo de rota para inserir dados no banco de dados
-app.post("/criarUser", async (req: Request, res: Response) => {
+app.post("/createUser", async (req: Request, res: Response) => {
   try {
     const { name, sobrenome, username, email, password } = req.body;
     const newUser = new User(name, sobrenome, username, email, password); //{ name, email, password };
