@@ -20,6 +20,10 @@
       border-radius: 5px;
       height: 30px;
     }
+
+    input.error {
+      border: 1px solid red;
+    }
   }
 
   .half {

@@ -23,25 +23,54 @@ const CadastroUsuario: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (e.target.value === "") {
+      e.target.classList.add('error');
+    } else {
+      e.target.classList.remove('error');
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  const validateInputs = () => {
+    let retorno = true;
+    const form = document.getElementById("cadastroUsuario") as HTMLFormElement;
+
+    const inputs = form?.querySelectorAll('input');
+
+    inputs?.forEach((input: HTMLInputElement) => {
+      if (input.value == "") {
+        input.classList.add("error");
+      }
+
+      if (input.classList.contains("error")) {
+        retorno = false
+      }
+    })
+    return retorno
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    let retorno = validateInputs();
     // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
     console.log(formData);
-    // Limpa o formulário após o envio
-    setFormData({
-      nome: '',
-      sobrenome: '',
-      username: '',
-      email: '',
-      password: '',
-      confpassword: '',
-    });
+
+    if (retorno) {
+      //faz a requisiçao pro back
+      // Limpa o formulário após o envio
+      setFormData({
+        nome: '',
+        sobrenome: '',
+        username: '',
+        email: '',
+        password: '',
+        confpassword: '',
+      });
+    }
+
   };
 
   return (
