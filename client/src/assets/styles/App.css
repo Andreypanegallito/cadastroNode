@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+.container {
+  padding: 0;
+  margin: auto;
+  max-width: 95%;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 70%;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
