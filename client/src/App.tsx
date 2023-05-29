@@ -1,10 +1,12 @@
 import React from 'react';
 import logo from './assets/img/logo.svg';
 import './assets/styles/App.css';
+import Cadastro from './pages/cadastro';
 
 function App() {
   return (
     <div className="App">
+      <Cadastro />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
