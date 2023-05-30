@@ -73,8 +73,19 @@ const CadastroUsuario: React.FC = () => {
 
   };
 
+  const togglePasswordVisibility = (id: string) => {
+    const input = document.getElementById(id) as HTMLInputElement;
+
+    if (input.type === 'password') {
+      input.type = "text"
+    }
+    else if (input.type === "text") {
+      input.type = "password"
+    }
+  };
+
   return (
-    <form id='cadastroUsuario' onSubmit={handleSubmit}>
+    <form id='cadastroUsuario'>
       <div className='itens-form half'>
         <label htmlFor="name">Nome:</label>
         <input
@@ -123,7 +134,9 @@ const CadastroUsuario: React.FC = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
+          className='senha'
         />
+        <button type="button" onClick={() => { togglePasswordVisibility("password") }}>o</button>
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -133,9 +146,11 @@ const CadastroUsuario: React.FC = () => {
           name="confpassword"
           value={formData.confpassword}
           onChange={handleChange}
+          className='senha'
         />
+        <button type="button" onClick={() => { togglePasswordVisibility("confpassword") }}>o</button>
       </div>
-      <button type="submit" className='btn-enviar'>Enviar</button>
+      <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>
   );
 };

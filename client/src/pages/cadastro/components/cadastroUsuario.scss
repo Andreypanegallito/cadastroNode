@@ -6,23 +6,55 @@
 
   .itens-form {
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     width: 100%;
     margin: 10px 0;
     padding: 0 10px;
+    flex-wrap: wrap;
 
     label {
       text-align: left;
+      width: 100%;
     }
 
     input {
       border: 1px solid #ccc;
       border-radius: 5px;
       height: 30px;
+      width: 100%;
+    }
+
+    input.senha {
+      // width: 95%;
     }
 
     input.error {
       border: 1px solid red;
+    }
+
+    input#password::-ms-reveal,
+    input#password::-ms-clear,
+    input#password::-webkit-contacts-auto-fill-button,
+    input#confpassword::-ms-reveal,
+    input#confpassword::-ms-clear,
+    input#confpassword::-webkit-contacts-auto-fill-button {
+      display: none;
+    }
+
+    input#password::-webkit-credentials-auto-fill-button,
+    input#confpassword::-webkit-credentials-auto-fill-button {
+      visibility: hidden;
+    }
+
+    button {
+      /* width: 5%; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      /* right: 20px; */
+      bottom: 35%;
+      margin: auto 8px auto auto;
     }
   }
 
