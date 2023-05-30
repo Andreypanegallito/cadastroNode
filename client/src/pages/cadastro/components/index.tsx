@@ -99,14 +99,11 @@ const CadastroUsuario: React.FC = () => {
     }
   };
 
-  const canViewButtonPassword = (id: string) => {
+  const activateViewButtonPassword = (id: string) => {
     const button = document.getElementById(id) as HTMLElement;
-    console.log(button.style.display)
-    if (button.style.display === "") {
-      button.style.display = "block";
-    } else {
-      button.style.display = "";
-    }
+
+    button.style.display = "block";
+
   };
 
   return (
@@ -159,8 +156,8 @@ const CadastroUsuario: React.FC = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          onFocus={() => { canViewButtonPassword("viewPassword") }}
-          onBlur={() => { canViewButtonPassword("viewPassword") }}
+          onFocus={() => { activateViewButtonPassword("viewPassword") }}
+          // onBlur={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
         <a className='viewPassword' id='viewPassword' onClick={() => { togglePasswordVisibility("password") }}>o</a>
@@ -173,8 +170,8 @@ const CadastroUsuario: React.FC = () => {
           name="confpassword"
           value={formData.confpassword}
           onChange={handleChange}
-          onFocus={() => { canViewButtonPassword("viewConfPassword") }}
-          onBlur={() => { canViewButtonPassword("viewConfPassword") }}
+          onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
+          // onBlur={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
         <a className='viewPassword' id='viewConfPassword' onClick={() => { togglePasswordVisibility("confpassword") }}>o</a>
