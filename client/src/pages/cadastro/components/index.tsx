@@ -52,13 +52,27 @@ const CadastroUsuario: React.FC = () => {
     return retorno
   };
 
+  const validatePassword = () => {
+    const password = document.getElementById("password") as HTMLInputElement;
+    const confpassword = document.getElementById("confpassword") as HTMLInputElement;
+
+    if (password.value === confpassword.value) {
+      return true
+    }
+    else {
+      return false;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let retorno = validateInputs();
+    const retorno = validateInputs();
+    const retornoPassword = validatePassword();
     // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
-    console.log(formData);
+    console.log(retorno);
+    console.log(retornoPassword);
 
-    if (retorno) {
+    if (retorno && retornoPassword) {
       //faz a requisiçao pro back
       // Limpa o formulário após o envio
       setFormData({
@@ -69,6 +83,7 @@ const CadastroUsuario: React.FC = () => {
         password: '',
         confpassword: '',
       });
+
     }
 
   };
@@ -81,6 +96,16 @@ const CadastroUsuario: React.FC = () => {
     }
     else if (input.type === "text") {
       input.type = "password"
+    }
+  };
+
+  const canViewButtonPassword = (id: string) => {
+    const button = document.getElementById(id) as HTMLElement;
+    console.log(button.style.display)
+    if (button.style.display === "") {
+      button.style.display = "block";
+    } else {
+      button.style.display = "";
     }
   };
 
@@ -134,9 +159,11 @@ const CadastroUsuario: React.FC = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
+          onFocus={() => { canViewButtonPassword("viewPassword") }}
+          onBlur={() => { canViewButtonPassword("viewPassword") }}
           className='senha'
         />
-        <button type="button" onClick={() => { togglePasswordVisibility("password") }}>o</button>
+        <a className='viewPassword' id='viewPassword' onClick={() => { togglePasswordVisibility("password") }}>o</a>
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -146,9 +173,11 @@ const CadastroUsuario: React.FC = () => {
           name="confpassword"
           value={formData.confpassword}
           onChange={handleChange}
+          onFocus={() => { canViewButtonPassword("viewConfPassword") }}
+          onBlur={() => { canViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
-        <button type="button" onClick={() => { togglePasswordVisibility("confpassword") }}>o</button>
+        <a className='viewPassword' id='viewConfPassword' onClick={() => { togglePasswordVisibility("confpassword") }}>o</a>
       </div>
       <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>

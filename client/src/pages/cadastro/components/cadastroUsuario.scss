@@ -6,11 +6,14 @@
 
   .itens-form {
     display: flex;
+    align-content: flex-start;
+
     // flex-direction: column;
     width: 100%;
     margin: 10px 0;
     padding: 0 10px;
     flex-wrap: wrap;
+    position: relative;
 
     label {
       text-align: left;
@@ -22,10 +25,6 @@
       border-radius: 5px;
       height: 30px;
       width: 100%;
-    }
-
-    input.senha {
-      // width: 95%;
     }
 
     input.error {
@@ -46,15 +45,11 @@
       visibility: hidden;
     }
 
-    button {
-      /* width: 5%; */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      /* right: 20px; */
-      bottom: 35%;
-      margin: auto 8px auto auto;
+    .viewPassword {
+      position: absolute;
+      right: 20px;
+      bottom: 7px;
+      display: none;
     }
   }
 
