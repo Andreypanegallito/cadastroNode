@@ -29,9 +29,16 @@ const CadastroUsuario: React.FC = () => {
     const { name, value } = e.target;
     if (e.target.value === "") {
       e.target.classList.add('error');
+      if (e.target.id === "password") {
+        togglePasswordVisibility("password")
+      } else if (e.target.id === "confpassword") {
+        togglePasswordVisibility("confpassword")
+      }
     } else {
       e.target.classList.remove('error');
     }
+
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
