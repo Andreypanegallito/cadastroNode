@@ -96,7 +96,6 @@ const CadastroUsuario: React.FC = () => {
       });
 
     }
-
   };
 
   const togglePasswordVisibility = (id: string) => {
