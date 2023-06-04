@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './cadastroUsuario.scss'
 
-import { AiOutlineEye } from '';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 interface FormData {
   nome: string;
@@ -22,6 +22,8 @@ const CadastroUsuario: React.FC = () => {
     password: '',
     confpassword: ''
   });
+  const [isPasswordVisible, setPasswordVisible] = useState(false)
+  const [isConfPasswordVisible, setConfPasswordVisible] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -99,6 +101,12 @@ const CadastroUsuario: React.FC = () => {
     else if (input.type === "text") {
       input.type = "password"
     }
+
+    if (id === 'password') {
+      setPasswordVisible(!isPasswordVisible);
+    } else if (id === 'confpassword') {
+      setConfPasswordVisible(!isConfPasswordVisible);
+    }
   };
 
   const activateViewButtonPassword = (id: string) => {
@@ -162,7 +170,13 @@ const CadastroUsuario: React.FC = () => {
           // onBlur={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
-        <button type='button' className='viewPassword' id='viewPassword' onClick={() => { togglePasswordVisibility("password") }}>o</button>
+        <button
+          type='button'
+          className='viewPassword'
+          id='viewPassword'
+          onClick={() => { togglePasswordVisibility("password") }}>
+          {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+        </button>
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -176,7 +190,13 @@ const CadastroUsuario: React.FC = () => {
           // onBlur={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
-        <button type='button' className='viewPassword' id='viewConfPassword' onClick={() => { togglePasswordVisibility("confpassword") }}>o</button>
+        <button
+          type='button'
+          className='viewPassword'
+          id='viewConfPassword'
+          onClick={() => { togglePasswordVisibility("confpassword") }}>
+          {isConfPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+        </button>
       </div>
       <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>
