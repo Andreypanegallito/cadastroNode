@@ -119,7 +119,7 @@ const CadastroUsuario: React.FC = () => {
   const activateViewButtonPassword = (id: string) => {
     const button = document.getElementById(id) as HTMLElement;
 
-    button.style.display = "block";
+    button.style.display = "flex";
 
   };
 
@@ -174,7 +174,6 @@ const CadastroUsuario: React.FC = () => {
           value={formData.password}
           onChange={handleChange}
           onFocus={() => { activateViewButtonPassword("viewPassword") }}
-          // onBlur={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
         <button
@@ -194,7 +193,6 @@ const CadastroUsuario: React.FC = () => {
           value={formData.confpassword}
           onChange={handleChange}
           onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
-          // onBlur={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
         <button
