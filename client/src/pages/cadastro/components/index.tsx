@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import './cadastroUsuario.scss'
 
+import { AiOutlineEye } from '';
+
 interface FormData {
   nome: string;
   sobrenome: string;
@@ -41,7 +43,7 @@ const CadastroUsuario: React.FC = () => {
     const inputs = form?.querySelectorAll('input');
 
     inputs?.forEach((input: HTMLInputElement) => {
-      if (input.value == "") {
+      if (input.value === "") {
         input.classList.add("error");
       }
 
@@ -160,7 +162,7 @@ const CadastroUsuario: React.FC = () => {
           // onBlur={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
-        <a className='viewPassword' id='viewPassword' onClick={() => { togglePasswordVisibility("password") }}>o</a>
+        <button type='button' className='viewPassword' id='viewPassword' onClick={() => { togglePasswordVisibility("password") }}>o</button>
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -174,7 +176,7 @@ const CadastroUsuario: React.FC = () => {
           // onBlur={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
-        <a className='viewPassword' id='viewConfPassword' onClick={() => { togglePasswordVisibility("confpassword") }}>o</a>
+        <button type='button' className='viewPassword' id='viewConfPassword' onClick={() => { togglePasswordVisibility("confpassword") }}>o</button>
       </div>
       <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>
