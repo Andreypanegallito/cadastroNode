@@ -18,16 +18,13 @@ const Login = () => {
 
 
   const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("aa")
     const { name, value } = e.target;
-    if (e.target.value === "") {
-      e.target.classList.add('error');
-      if (e.target.id === "password") {
-        togglePasswordVisibility("password")
-      }
-    } else {
+    if (e.target.value !== "") {
       e.target.classList.remove('error');
     }
+    //else {
+    //   e.target.classList.remove('error');
+    // }
 
 
     setFormDataLogin((prevData) => ({
@@ -70,11 +67,19 @@ const Login = () => {
   };
 
   const activateViewButtonPassword = (id: string) => {
-    const button = document.getElementById(id) as HTMLElement;
+    const button = document.getElementById(id) as HTMLButtonElement;
 
     button.style.display = "flex";
-
   };
+
+  const desactivateViewButtonPassword = (id: string) => {
+    const button = document.getElementById(id) as HTMLButtonElement;
+    const input = document.getElementById("passwordLogin") as HTMLInputElement;
+    if (input.value === "") {
+      button.style.display = "";
+    }
+  }
+
 
   const handleSubmitLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,6 +125,7 @@ const Login = () => {
               onChange={handleChangeLogin}
               className='senha'
               onFocus={() => { activateViewButtonPassword("viewPasswordLogin") }}
+              onBlur={() => { desactivateViewButtonPassword("viewPasswordLogin") }}
             />
             <button
               type='button'
@@ -129,7 +135,7 @@ const Login = () => {
               {isPasswordLoginVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </button>
           </div>
-          <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Enviar</button>
+          <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
         </form>
       </div>
     </section>

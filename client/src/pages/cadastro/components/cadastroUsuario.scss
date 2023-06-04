@@ -31,17 +31,13 @@
       border: 1px solid red;
     }
 
-    input#password::-ms-reveal,
-    input#password::-ms-clear,
-    input#password::-webkit-contacts-auto-fill-button,
-    input#confpassword::-ms-reveal,
-    input#confpassword::-ms-clear,
-    input#confpassword::-webkit-contacts-auto-fill-button {
+    input.senha::-ms-reveal,
+    input.senha::-ms-clear,
+    input.senha::-webkit-contacts-auto-fill-button {
       display: none;
     }
 
-    input#password::-webkit-credentials-auto-fill-button,
-    input#confpassword::-webkit-credentials-auto-fill-button {
+    input.senha::-webkit-credentials-auto-fill-button {
       visibility: hidden;
     }
 
