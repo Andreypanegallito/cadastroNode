@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
-import { getUserById, createUser } from "./services/userService";
+import cors from "cors";
+import { getUserById, createUser, loginUser } from "./services/userService";
 import { User } from "./utils/user";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Exemplo de rota para consultar dados no banco de dados
 app.get("/dados", async (req: Request, res: Response) => {
@@ -15,6 +17,17 @@ app.get("/dados", async (req: Request, res: Response) => {
     console.error("Erro ao consultar usuário:", error);
     res.status(500).json({ error: "Erro ao consultar usuário" });
   }
+});
+
+app.post("/login", async (req: Request, res: Response) => {
+  try {
+    const { usernameLogin, passwordLogin } = req.body;
+    const retorno = await loginUser(usernameLogin, passwordLogin);
+    if (retorno.status === "Ok") {
+      const user = retorno.result;
+      res.json({ status: "OK", user });
+    }
+  } catch (error) {}
 });
 
 // Exemplo de rota para inserir dados no banco de dados
@@ -32,6 +45,6 @@ app.post("/createUser", async (req: Request, res: Response) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Servidor da API iniciado na porta 3000");
+app.listen(5000, () => {
+  console.log("Servidor da API iniciado na porta 5000");
 });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // import login from './components';
+import axios from 'axios';
 
 import './login.scss';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -81,7 +82,7 @@ const Login = () => {
   }
 
 
-  const handleSubmitLogin = (e: React.FormEvent) => {
+  const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const retorno = validateInputs();
     // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
@@ -89,6 +90,14 @@ const Login = () => {
 
     if (retorno) {
       //faz a requisiçao pro back
+      try {
+        const response = await axios.post('http://localhost:5000/login', formDataLogin);
+
+        console.log(response);
+      }
+      catch (error) {
+        console.error(error);
+      }
       // Limpa o formulário após o envio
       setFormDataLogin({
         usernameLogin: '',
