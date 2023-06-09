@@ -1,0 +1,31 @@
+#initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  .itens {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .item {
+      margin: 0 15px;
+
+      .btn-link {
+        width: 200px;
+        height: 50px;
+        background-color: rebeccapurple;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        border-radius: 10px;
+        text-decoration: none;
+      }
+    }
+  }
+}
