@@ -9,9 +9,12 @@ const Initial = () => {
       <div className="itens">
         <div className="item">
           <div className="item-title">
-            <button type="button" className="btn-link">
-              <Link to="/login" className='btn-link' >Login</Link>
-            </button>
+            <Link to="/login" className='btn-link' >Login</Link>
+          </div>
+        </div>
+        <div className="item">
+          <div className="item-title">
+            <Link to="/users" className='btn-link' >Usuários</Link>
           </div>
         </div>
         <div className="item">

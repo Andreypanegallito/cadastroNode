@@ -1,11 +1,26 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { getUserById, createUser, loginUser } from "./services/userService";
+import {
+  getUserById,
+  createUser,
+  loginUser,
+  getAllUsers,
+} from "./services/userService";
 import { User } from "./utils/user";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.get("/allUsers", async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUsers();
+    res.json(users);
+  } catch (error) {
+    console.error("Erro ao consultar usuário:", error);
+    res.status(500).json({ error: "Erro ao consultar usuário" });
+  }
+});
 
 // Exemplo de rota para consultar dados no banco de dados
 app.get("/dados", async (req: Request, res: Response) => {

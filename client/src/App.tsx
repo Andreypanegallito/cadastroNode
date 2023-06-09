@@ -6,6 +6,7 @@ import './assets/styles/App.css';
 import Cadastro from './pages/cadastro';
 import Login from './pages/login';
 import Initial from './pages/initial';
+import Users from './pages/users';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Initial />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
 

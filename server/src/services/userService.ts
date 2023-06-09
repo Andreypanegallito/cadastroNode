@@ -7,6 +7,21 @@ interface LoginResponse {
   status: string;
 }
 
+export const getAllUsers = () => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM USUARIOS",
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+};
+
 export const getUserById = (userId: number) => {
   return new Promise((resolve, reject) => {
     connection.query(
