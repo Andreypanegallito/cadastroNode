@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './users.scss'
 import axios from 'axios';
-import UserTable from './components';
+import UserTable from './components/table';
 
 const Users = () => {
   const [users, setUsers] = useState([]);

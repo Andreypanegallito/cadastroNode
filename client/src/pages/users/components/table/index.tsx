@@ -1,13 +1,14 @@
 import React from 'react';
-import { User } from '../../../utils/user';
+import { User } from '../../../../utils/user';
 
+import './table.scss'
 interface UserTable {
   users: User[];
 }
 
 function UserTable({ users }: UserTable) {
   return (
-    <table>
+    <table id="tableUsers">
       <thead>
         <tr>
           <th>ID</th>
@@ -22,16 +23,16 @@ function UserTable({ users }: UserTable) {
           users.length > 0 ? (
             users.map(user => (
               <tr key={user.idUsuario}>
-                <td>{user.idUsuario}</td>
-                <td>{user.nome}</td>
-                <td>{user.sobrenome}</td>
-                <td>{user.email}</td>
-                <td>{user.data_criacao.toLocaleString()}</td>
+                <td className="id">{user.idUsuario}</td>
+                <td className="name">{user.nome} {user.sobrenome}</td>
+                {/* <td >{user.sobrenome}</td> */}
+                <td className='email'>{user.email}</td>
+                <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
               </tr>
             ))
           ) : (
             <tr key='1'>
-              <td>Não foi encontrado usuários cadastrados</td>
+              <td colSpan={5}>Não foi encontrado usuários cadastrados</td>
             </tr>
           )
         }

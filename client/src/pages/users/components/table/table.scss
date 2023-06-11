@@ -1,0 +1,21 @@
+#tableUsers {
+  width: 100%;
+
+  thead {
+    tr {
+      border: 1px solid #000;
+
+      th {
+        text-align: center;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border: 1px solid #000;
+      }
+    }
+  }
+}
