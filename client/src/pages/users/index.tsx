@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './users.scss'
 import axios from 'axios';
 import UserTable from './components/table';
+import Menu from '../../components/menu';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -24,14 +25,17 @@ const Users = () => {
   }, []);
 
   return (
-    <section id="users">
-      <div className="titulo">
-        <h1>Tabela de usuários</h1>
-      </div>
-      <div className="users">
-        <UserTable users={users} />
-      </div>
-    </section>
+    <>
+      <Menu />
+      <section id="users">
+        <div className="titulo">
+          <h1>Tabela de usuários a</h1>
+        </div>
+        <div className="users">
+          <UserTable users={users} />
+        </div>
+      </section>
+    </>
   )
 };
 
