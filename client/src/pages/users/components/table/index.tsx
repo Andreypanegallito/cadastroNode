@@ -37,7 +37,7 @@ function UserTable({ users }: UserTable) {
             ))
           ) : (
             <tr key='1'>
-              <td colSpan={5}>Não foi encontrado usuários cadastrados</td>
+              <td colSpan={5} className="noUsers">Não foi encontrado usuários cadastrados</td>
             </tr>
           )
         }
