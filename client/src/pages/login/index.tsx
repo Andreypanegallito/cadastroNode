@@ -108,12 +108,12 @@ const Login = () => {
   };
 
   return (
-    <section >
-      <div className="titulo">
-        <h1>Login</h1>
-      </div>
+    <section id='login'>
       <div className="container">
-        <form id='login'>
+        <div className="titulo">
+          <h1>Login</h1>
+        </div>
+        <form id='formLogin'>
           <div className='itens-form'>
             <label htmlFor="usernameLogin">Usuário:</label>
             <input

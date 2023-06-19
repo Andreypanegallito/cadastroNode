@@ -1,83 +1,91 @@
 #login {
   display: flex;
-  flex-wrap: wrap;
-  width: 80%;
-  margin: auto;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  flex-direction: column;
 
-  .itens-form {
+  #formLogin {
     display: flex;
-    align-content: flex-start;
-
-    // flex-direction: column;
-    width: 100%;
-    margin: 10px 0;
-    padding: 0 10px;
     flex-wrap: wrap;
-    position: relative;
+    width: 450px;
+    margin: auto;
 
-    label {
-      text-align: left;
+    .itens-form {
+      display: flex;
+      align-content: flex-start;
+
       width: 100%;
-    }
+      margin: 10px 0;
+      padding: 0 10px;
+      flex-wrap: wrap;
+      position: relative;
 
-    input {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      height: 30px;
-      width: 100%;
-    }
+      label {
+        text-align: left;
+        width: 100%;
+      }
 
-    input.error {
-      border: 1px solid red;
-    }
+      input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        height: 30px;
+        width: 100%;
+      }
 
-    input.senha::-ms-reveal,
-    input.senha::-ms-clear,
-    input.senha::-webkit-contacts-auto-fill-button {
-      display: none;
-    }
+      input.error {
+        border: 1px solid red;
+      }
 
-    input.senha::-webkit-credentials-auto-fill-button {
-      visibility: hidden;
-    }
+      input.senha::-ms-reveal,
+      input.senha::-ms-clear,
+      input.senha::-webkit-contacts-auto-fill-button {
+        display: none;
+      }
 
-    .viewPassword {
-      position: absolute;
-      right: 20px;
-      bottom: 4px;
-      display: none;
-      cursor: pointer;
-      align-items: center;
-      justify-content: end;
+      input.senha::-webkit-credentials-auto-fill-button {
+        visibility: hidden;
+      }
 
-      svg {
-        width: 20px;
-        height: 20px;
+      .viewPassword {
+        position: absolute;
+        right: 20px;
+        bottom: 4px;
+        display: none;
+        cursor: pointer;
+        align-items: center;
+        justify-content: end;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
-  }
 
-  .half {
-    width: 50%;
-  }
+    .half {
+      width: 50%;
+    }
 
-  .btn-enviar {
-    width: 300px;
-    height: 30px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    background-color: rgb(36, 77, 90);
-    color: #fff;
-    cursor: pointer;
-    transition: 0.5s;
-  }
+    .btn-enviar {
+      width: 300px;
+      height: 30px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      background-color: rgb(36, 77, 90);
+      color: #fff;
+      cursor: pointer;
+      transition: 0.5s;
+    }
 
-  .btn-enviar:hover {
-    transform: scale(1.1);
-    transition: 0.5s;
-    background-color: #5c09b5;
+    .btn-enviar:hover {
+      transform: scale(1.1);
+      transition: 0.5s;
+      background-color: #5c09b5;
+    }
   }
 }
