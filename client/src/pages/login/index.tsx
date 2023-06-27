@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-// import login from './components';
 import axios from 'axios';
-
 import './login.scss';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -16,6 +15,7 @@ const Login = () => {
     passwordLogin: '',
   });
   const [isPasswordLoginVisible, setPasswordLoginVisible] = useState(false);
+  const navigate = useNavigate();
 
 
   const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,10 +23,6 @@ const Login = () => {
     if (e.target.value !== "") {
       e.target.classList.remove('error');
     }
-    //else {
-    //   e.target.classList.remove('error');
-    // }
-
 
     setFormDataLogin((prevData) => ({
       ...prevData,
@@ -81,19 +77,22 @@ const Login = () => {
     }
   }
 
-
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const retorno = validateInputs();
-    // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
-    console.log(retorno);
 
     if (retorno) {
-      //faz a requisiçao pro back
+      //faz a requisiçao pro back-end
       try {
         const response = await axios.post('http://localhost:5000/login', formDataLogin);
 
         console.log(response);
+        console.log(response.data);
+
+        if (response.data.status === 'OK') {
+          // Realiza o redirecionamento para outra página
+          navigate('/users');
+        }
       }
       catch (error) {
         console.error(error);
@@ -103,7 +102,6 @@ const Login = () => {
         usernameLogin: '',
         passwordLogin: '',
       });
-
     }
   };
 

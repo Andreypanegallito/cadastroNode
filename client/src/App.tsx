@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Initial />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} Component={Login} />
         <Route path="/cadastro" element={<Cadastro />} />
 
       </Routes>
