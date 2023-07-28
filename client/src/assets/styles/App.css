@@ -34,6 +34,14 @@
   max-width: 95%;
 }
 
+.titulo {
+  text-align: center;
+}
+
+.titulo h1 {
+  font-size: 28px;
+}
+
 @media (min-width: 1400px) {
   .container {
     max-width: 70%;
