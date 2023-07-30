@@ -8,6 +8,12 @@ import Menu from '../../components/menu';
 const Users = () => {
   const [users, setUsers] = useState([]);
 
+  const linksMenu = [
+    { url: '/', text: 'Página Inicial' },
+    { url: '/cadastro', text: 'Cadastro' },
+    { url: '/contato', text: 'Contato' },
+  ];
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -26,12 +32,12 @@ const Users = () => {
 
   return (
     <>
-      <Menu />
+      <Menu links={linksMenu} />
       <section id="users">
         <div className="titulo">
           <h1>Tabela de usuários a</h1>
         </div>
-        <div className="users">
+        <div className="container">
           <UserTable users={users} />
         </div>
       </section>

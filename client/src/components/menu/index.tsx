@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom'
+
+
 
 import './menu.scss';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
+import { LinksMenu } from '../../utils/menu';
 
-const Menu = () => {
+
+const Menu = ({ links }: LinksMenu) => {
   useEffect(() => {
     function handleScroll() {
       const elementos = document.querySelectorAll('.initial');
@@ -23,6 +28,34 @@ const Menu = () => {
   function ativaDesativaMenu() {
     document.body.classList.toggle('active');
   }
+
+  function geraLinksMenu() {
+    if (links.length > 0) {
+      return links.map((link, index) => (
+        <li className='nav-item' key={index}>
+          <Link
+            to={link.url}
+            className='nav-link'
+            onClick={ativaDesativaMenu}>
+            {link.text}
+          </Link>
+        </li>
+      ));
+    }
+    else {
+      return (
+        <li className="nav-item">
+          <Link to="/"
+            className='nav-link current'
+            onClick={ativaDesativaMenu}>
+            Home
+          </Link>
+        </li>
+      );
+    }
+  }
+
+
   return (
     <header>
       <div id='btn-menu' className="btn-menu" onClick={ativaDesativaMenu}>
@@ -35,36 +68,7 @@ const Menu = () => {
               <AiOutlineClose color='#fff' onClick={ativaDesativaMenu} />
             </a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link current" href="#initial" onClick={ativaDesativaMenu}>
-              Home
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#about" onClick={ativaDesativaMenu}>
-              Sobre
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#hability" onClick={ativaDesativaMenu}>
-              Habilidades
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#scholarity" onClick={ativaDesativaMenu}>
-              Experiências
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#experience" onClick={ativaDesativaMenu}>
-              Experiências profissionais
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#footer" onClick={ativaDesativaMenu}>
-              Redes
-            </a>
-          </li>
+          {geraLinksMenu()}
         </ul>
       </nav>
     </header>
