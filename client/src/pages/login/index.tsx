@@ -86,9 +86,6 @@ const Login = () => {
       try {
         const response = await axios.post('http://localhost:5000/login', formDataLogin);
 
-        console.log(response);
-        console.log(response.data);
-
         if (response.data.status === 'OK') {
           // Realiza o redirecionamento para outra página
           navigate('/users');

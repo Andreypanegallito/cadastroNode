@@ -48,8 +48,8 @@ app.post("/login", async (req: Request, res: Response) => {
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/createUser", async (req: Request, res: Response) => {
   try {
-    const { name, sobrenome, username, email, password } = req.body;
-    const newUser = new User(name, sobrenome, username, email, password); //{ name, email, password };
+    const { nome, sobrenome, username, email, password } = req.body;
+    const newUser = new User(nome, sobrenome, username, email, password); //{ name, email, password };
     const retorno = await createUser(newUser);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário criado com sucesso" });

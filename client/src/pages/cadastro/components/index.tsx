@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import './cadastroUsuario.scss'
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 interface FormData {
   nome: string;
@@ -23,7 +26,8 @@ const CadastroUsuario: React.FC = () => {
     confpassword: ''
   });
   const [isPasswordVisible, setPasswordVisible] = useState(false)
-  const [isConfPasswordVisible, setConfPasswordVisible] = useState(false)
+  const [isConfPasswordVisible, setConfPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,16 +79,26 @@ const CadastroUsuario: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const retorno = validateInputs();
     const retornoPassword = validatePassword();
     // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
-    console.log(retorno);
-    console.log(retornoPassword);
 
     if (retorno && retornoPassword) {
       //faz a requisiçao pro back
+      try {
+        console.log(formData);
+        const response = await axios.post('http://localhost:5000/createUser', formData);
+
+        if (response.data.status === 'OK') {
+          // Realiza o redirecionamento para outra página
+          navigate('/users');
+        }
+      }
+      catch (error) {
+
+      }
       // Limpa o formulário após o envio
       setFormData({
         nome: '',
