@@ -4,14 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const userService_1 = require("./services/userService");
 const user_1 = require("./utils/user");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-// Exemplo de rota para consultar dados no banco de dados
-app.get("/dados:idUsuario", async (req, res) => {
+app.use((0, cors_1.default)());
+app.get("/allUsers", async (req, res) => {
     try {
-        const userId = parseInt(req.params.idUsuario);
+        const users = await (0, userService_1.getAllUsers)();
+        res.json(users);
+    }
+    catch (error) {
+        console.error("Erro ao consultar usuário:", error);
+        res.status(500).json({ error: "Erro ao consultar usuário" });
+    }
+});
+// Exemplo de rota para consultar dados no banco de dados
+app.get("/dados", async (req, res) => {
+    try {
+        const userId = parseInt(req.query.idUsuario);
         const user = await (0, userService_1.getUserById)(userId);
         res.json(user);
     }
@@ -20,8 +32,19 @@ app.get("/dados:idUsuario", async (req, res) => {
         res.status(500).json({ error: "Erro ao consultar usuário" });
     }
 });
+app.post("/login", async (req, res) => {
+    try {
+        const { usernameLogin, passwordLogin } = req.body;
+        const retorno = await (0, userService_1.loginUser)(usernameLogin, passwordLogin);
+        if (retorno.status === "Ok") {
+            const user = retorno.result;
+            res.json({ status: "OK", user });
+        }
+    }
+    catch (error) { }
+});
 // Exemplo de rota para inserir dados no banco de dados
-app.post("/dados", async (req, res) => {
+app.post("/createUser", async (req, res) => {
     try {
         const { name, sobrenome, username, email, password } = req.body;
         const newUser = new user_1.User(name, sobrenome, username, email, password); //{ name, email, password };
@@ -35,6 +58,6 @@ app.post("/dados", async (req, res) => {
         res.status(500).json({ error: "Erro ao criar usuário" });
     }
 });
-app.listen(3000, () => {
-    console.log("Servidor da API iniciado na porta 3000");
+app.listen(5000, () => {
+    console.log("Servidor da API iniciado na porta 5000");
 });

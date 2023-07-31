@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "./server/dist",
     "esModuleInterop": true
   },
   "include": [

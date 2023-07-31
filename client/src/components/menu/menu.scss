@@ -1,0 +1,142 @@
+.btn-menu {
+  display: flex;
+  position: fixed;
+  top: 2rem;
+  left: 3rem;
+  font-size: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.5s;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.btn-menu:hover {
+  background-color: var(--cor-destaque);
+}
+
+.btn-menu.cor-fundo {
+  background-color: var(--cor-destaque);
+  transition: background-color 0.5s;
+}
+
+.nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 1000;
+  width: 28rem;
+  background-color: #1a1d24;
+  padding: 1.6rem;
+  transform: translateX(-32rem);
+  transition: transform 0.6s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+
+  .nav-list {
+    list-style: none;
+
+    .nav-item {
+      position: relative;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        /* line-height: 5rem; */
+        letter-spacing: 3px;
+        opacity: 0.75;
+        transition: opacity 0.25s;
+        font-size: 1.25rem;
+        color: #fff;
+
+        span {
+          font-size: 2rem;
+          margin-right: 1rem;
+        }
+      }
+
+      .nav-link.current {
+        color: #fff;
+        opacity: 1;
+      }
+
+      .nav-link:hover {
+        opacity: 1;
+      }
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--cor-destaque);
+    }
+
+    .btn-fecha-menu {
+      display: flex;
+      justify-content: flex-end;
+      align-items: inherit;
+      height: auto;
+    }
+
+    .btn-fecha-menu::before {
+      display: none;
+    }
+
+    .btn-fecha-menu a {
+      margin-right: 10px;
+      cursor: pointer;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.7s;
+    }
+
+    .btn-fecha-menu a:hover {
+      background-color: var(--cor-destaque);
+      transition: background-color 0.5s;
+    }
+  }
+}
+
+.active {
+  .nav {
+    transform: translateX(0);
+  }
+
+  .zoom {
+    transform: translate3d(0, 0, -25rem);
+  }
+}
+
+.zoom {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+}
+
+@media screen and (max-width: 768px) {
+  .nav {
+    width: 20rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .active {
+    overflow-y: hidden;
+  }
+  .btn-menu {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  .nav {
+    width: 100%;
+  }
+}

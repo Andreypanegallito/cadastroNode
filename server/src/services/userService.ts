@@ -1,5 +1,26 @@
+import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
+
+interface LoginResponse {
+  result: RowDataPacket[];
+  status: string;
+}
+
+export const getAllUsers = () => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM USUARIOS",
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+};
 
 export const getUserById = (userId: number) => {
   return new Promise((resolve, reject) => {
@@ -24,6 +45,28 @@ export const createUser = (user: User) => {
         reject(error);
       } else {
         resolve("Ok");
+      }
+    });
+  });
+};
+
+export const loginUser = (
+  userName: string,
+  password: string
+): Promise<LoginResponse> => {
+  return new Promise((resolve, reject) => {
+    const sql = `select * from usuarios where username = '${userName}' and password = '${password}'`;
+
+    connection.query(sql, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        const status = "Ok";
+        const loginResponse: LoginResponse = {
+          result: result as RowDataPacket[],
+          status,
+        };
+        resolve(loginResponse);
       }
     });
   });
