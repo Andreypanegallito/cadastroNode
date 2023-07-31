@@ -10,7 +10,7 @@ interface LoginResponse {
 export const getAllUsers = () => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM USUARIOS",
+      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM usuarios",
       (error, results) => {
         if (error) {
           reject(error);
