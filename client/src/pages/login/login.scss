@@ -51,6 +51,7 @@
         flex-wrap: wrap;
         width: 450px;
         margin: auto;
+        max-width: 100%;
 
         .itens-form {
           display: flex;
@@ -139,6 +140,61 @@
           transition: 0.5s;
           padding: 10px 15px;
           border-radius: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  #login {
+    .container-login {
+      padding: 0 35px;
+      .half-login {
+      }
+
+      .img-login {
+        svg {
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          button {
+          }
+
+          button:hover {
+          }
         }
       }
     }
