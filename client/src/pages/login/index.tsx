@@ -64,20 +64,6 @@ const Login = () => {
     return retorno
   };
 
-  const activateViewButtonPassword = (id: string) => {
-    const button = document.getElementById(id) as HTMLButtonElement;
-
-    button.style.display = "flex";
-  };
-
-  const desactivateViewButtonPassword = (id: string) => {
-    const button = document.getElementById(id) as HTMLButtonElement;
-    const input = document.getElementById("passwordLogin") as HTMLInputElement;
-    if (input.value === "") {
-      button.style.display = "";
-    }
-  }
-
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const retorno = validateInputs();
@@ -133,21 +119,13 @@ const Login = () => {
                 value={formDataLogin.passwordLogin}
                 onChange={handleChangeLogin}
                 className='senha'
-                onFocus={() => { activateViewButtonPassword("viewPasswordLogin") }}
-                onBlur={() => { desactivateViewButtonPassword("viewPasswordLogin") }}
               />
-              <button
-                type='button'
-                className='viewPassword'
-                id='viewPasswordLogin'
-                onClick={() => { togglePasswordVisibility("passwordLogin") }}>
-                {isPasswordLoginVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-              </button>
+
             </div>
             <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
           </form>
           <div className="esqueceu-senha">
-            <button>Esqueceu Usuário/Senha</button>
+            <button>Esqueceu usuário/senha</button>
           </div>
         </div>
       </div>

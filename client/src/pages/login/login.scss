@@ -78,16 +78,6 @@
             border: 1px solid red;
           }
 
-          input.senha::-ms-reveal,
-          input.senha::-ms-clear,
-          input.senha::-webkit-contacts-auto-fill-button {
-            display: none;
-          }
-
-          input.senha::-webkit-credentials-auto-fill-button {
-            visibility: hidden;
-          }
-
           .viewPassword {
             position: absolute;
             right: 20px;
@@ -152,5 +142,19 @@
         }
       }
     }
+  }
+}
+
+@-webkit-keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 70px 25px;
+    opacity: 0;
+  }
+}
+
+@keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 70px 25px;
+    opacity: 0;
   }
 }
