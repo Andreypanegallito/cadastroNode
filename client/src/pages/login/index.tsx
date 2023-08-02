@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './login.scss';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 
 interface FormDataLogin {
@@ -104,43 +105,51 @@ const Login = () => {
 
   return (
     <section id='login'>
-      <div className="container">
-        <div className="titulo">
-          <h1>Login</h1>
+      <div className="container-login">
+        <div className="img-login half-login">
+          <BsPersonCircle />
         </div>
-        <form id='formLogin'>
-          <div className='itens-form'>
-            <label htmlFor="usernameLogin">Usuário:</label>
-            <input
-              type="text"
-              id="usernameLogin"
-              name="usernameLogin"
-              value={formDataLogin.usernameLogin}
-              onChange={handleChangeLogin}
-            />
+        <div className="content-login half-login">
+          <div className="titulo">
+            <h1>Login</h1>
           </div>
-          <div className='itens-form'>
-            <label htmlFor="passwordLogin">Senha:</label>
-            <input
-              type="password"
-              id="passwordLogin"
-              name="passwordLogin"
-              value={formDataLogin.passwordLogin}
-              onChange={handleChangeLogin}
-              className='senha'
-              onFocus={() => { activateViewButtonPassword("viewPasswordLogin") }}
-              onBlur={() => { desactivateViewButtonPassword("viewPasswordLogin") }}
-            />
-            <button
-              type='button'
-              className='viewPassword'
-              id='viewPasswordLogin'
-              onClick={() => { togglePasswordVisibility("passwordLogin") }}>
-              {isPasswordLoginVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-            </button>
+          <form id='formLogin'>
+            <div className='itens-form'>
+              <label htmlFor="usernameLogin">Usuário:</label>
+              <input
+                type="text"
+                id="usernameLogin"
+                name="usernameLogin"
+                value={formDataLogin.usernameLogin}
+                onChange={handleChangeLogin}
+              />
+            </div>
+            <div className='itens-form'>
+              <label htmlFor="passwordLogin">Senha:</label>
+              <input
+                type="password"
+                id="passwordLogin"
+                name="passwordLogin"
+                value={formDataLogin.passwordLogin}
+                onChange={handleChangeLogin}
+                className='senha'
+                onFocus={() => { activateViewButtonPassword("viewPasswordLogin") }}
+                onBlur={() => { desactivateViewButtonPassword("viewPasswordLogin") }}
+              />
+              <button
+                type='button'
+                className='viewPassword'
+                id='viewPasswordLogin'
+                onClick={() => { togglePasswordVisibility("passwordLogin") }}>
+                {isPasswordLoginVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </button>
+            </div>
+            <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
+          </form>
+          <div className="esqueceu-senha">
+            <button>Esqueceu Usuário/Senha</button>
           </div>
-          <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
-        </form>
+        </div>
       </div>
     </section>
   )
