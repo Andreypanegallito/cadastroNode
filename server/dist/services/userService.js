@@ -7,7 +7,7 @@ exports.loginUser = exports.createUser = exports.getUserById = exports.getAllUse
 const db_1 = __importDefault(require("../database/db"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM USUARIOS", (error, results) => {
+        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM usuarios", (error, results) => {
             if (error) {
                 reject(error);
             }
