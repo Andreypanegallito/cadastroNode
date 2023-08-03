@@ -5,93 +5,400 @@
   height: 100vh;
   align-items: center;
   flex-direction: column;
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 
-  .titulo {
-    text-align: center;
-    font-size: 22px;
-    margin: 5px 0;
-  }
-
-  #formLogin {
+  .container-login {
+    width: 60%;
+    height: 75%;
+    min-height: 300px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    width: 450px;
-    margin: auto;
+    justify-content: center;
+    padding: 0 125px;
+    align-items: center;
+    align-content: center;
 
-    .itens-form {
-      display: flex;
-      align-content: flex-start;
-
-      width: 100%;
-      margin: 10px 0;
-      padding: 0;
-      flex-wrap: wrap;
-      position: relative;
-
-      label {
-        text-align: left;
-        width: 100%;
-      }
-
-      input {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        height: 30px;
-        width: 100%;
-      }
-
-      input.error {
-        border: 1px solid red;
-      }
-
-      input.senha::-ms-reveal,
-      input.senha::-ms-clear,
-      input.senha::-webkit-contacts-auto-fill-button {
-        display: none;
-      }
-
-      input.senha::-webkit-credentials-auto-fill-button {
-        visibility: hidden;
-      }
-
-      .viewPassword {
-        position: absolute;
-        right: 20px;
-        bottom: 4px;
-        display: none;
-        cursor: pointer;
-        align-items: center;
-        justify-content: end;
-
-        svg {
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
-
-    .half {
+    .half-login {
       width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .btn-enviar {
-      width: 300px;
-      height: 30px;
-      margin: auto;
+    .img-login {
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 5px;
-      background-color: rgb(36, 77, 90);
-      color: #fff;
-      cursor: pointer;
-      transition: 0.5s;
+
+      svg {
+        height: 10em;
+        width: 10em;
+      }
     }
 
-    .btn-enviar:hover {
-      transform: scale(1.1);
-      transition: 0.5s;
-      background-color: #5c09b5;
+    .content-login {
+      .titulo {
+        text-align: center;
+        font-size: 22px;
+        margin: 5px 0;
+      }
+
+      #formLogin {
+        display: flex;
+        flex-wrap: wrap;
+        width: 450px;
+        margin: 5px auto;
+        max-width: 100%;
+
+        .itens-form {
+          display: flex;
+          align-content: flex-start;
+
+          width: 100%;
+          margin: 10px 0;
+          padding: 0;
+          flex-wrap: wrap;
+          position: relative;
+
+          label {
+            text-align: left;
+            width: 100%;
+          }
+
+          input {
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            height: 30px;
+            width: 100%;
+          }
+
+          input.error {
+            border: 1px solid red;
+          }
+
+          .viewPassword {
+            position: absolute;
+            right: 20px;
+            bottom: 4px;
+            display: none;
+            cursor: pointer;
+            align-items: center;
+            justify-content: end;
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+
+        .half {
+          width: 50%;
+        }
+
+        .btn-enviar {
+          width: 250px;
+          height: 40px;
+          margin: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 20px;
+          background-color: rgb(36, 77, 90);
+          color: #fff;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+
+        .btn-enviar:hover {
+          transform: scale(1.1);
+          transition: 0.5s;
+          background-color: #5c09b5;
+        }
+      }
+
+      .esqueceu-senha {
+        width: 100%;
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          cursor: pointer;
+          // padding: 15px;
+          transition: 0.5s;
+        }
+
+        button:hover {
+          background-color: #5c09b5;
+          color: #fff;
+          transform: scale(1.1);
+          transition: 0.5s;
+          padding: 10px 15px;
+          border-radius: 10px;
+        }
+      }
     }
+  }
+}
+
+@media (max-width: 1600px) {
+  #login {
+    .container-login {
+      padding: 0 35px;
+
+      .half-login {
+      }
+
+      .img-login {
+        svg {
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  #login {
+    .container-login {
+      flex-direction: column;
+      height: 80%;
+
+      .half-login {
+        width: 100%;
+        height: 50%;
+      }
+
+      .img-login {
+        height: 40%;
+        svg {
+          height: 8em;
+          width: 8em;
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          margin: 10px 0;
+
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #login {
+    .container-login {
+      .half-login {
+      }
+
+      .img-login {
+        svg {
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  #login {
+    .container-login {
+      height: 80%;
+      width: 85%;
+
+      .half-login {
+        height: 60%;
+      }
+
+      .img-login {
+        height: auto;
+
+        svg {
+          height: 6em;
+          width: 6em;
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          margin: 10px 0;
+
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
+@-webkit-keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 70px 25px;
+    opacity: 0;
+  }
+}
+
+@keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 70px 25px;
+    opacity: 0;
   }
 }
