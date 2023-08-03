@@ -271,6 +271,124 @@
   }
 }
 
+@media (max-width: 768px) {
+  #login {
+    .container-login {
+      .half-login {
+      }
+
+      .img-login {
+        svg {
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  #login {
+    .container-login {
+      height: 80%;
+      width: 85%;
+
+      .half-login {
+        height: 60%;
+      }
+
+      .img-login {
+        height: auto;
+
+        svg {
+          height: 6em;
+          width: 6em;
+        }
+      }
+
+      .content-login {
+        .titulo {
+        }
+
+        #formLogin {
+          .itens-form {
+            label {
+            }
+
+            input {
+            }
+
+            input.error {
+            }
+
+            .viewPassword {
+              svg {
+              }
+            }
+          }
+
+          .half {
+          }
+
+          .btn-enviar {
+          }
+
+          .btn-enviar:hover {
+          }
+        }
+
+        .esqueceu-senha {
+          margin: 10px 0;
+
+          button {
+          }
+
+          button:hover {
+          }
+        }
+      }
+    }
+  }
+}
+
 @-webkit-keyframes anim-shadow {
   to {
     box-shadow: 0px 0px 70px 25px;
