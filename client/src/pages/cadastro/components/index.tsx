@@ -33,11 +33,11 @@ const CadastroUsuario: React.FC = () => {
     const { name, value } = e.target;
     if (e.target.value === "") {
       e.target.classList.add('error');
-      if (e.target.id === "password") {
-        togglePasswordVisibility("password")
-      } else if (e.target.id === "confpassword") {
-        togglePasswordVisibility("confpassword")
-      }
+      // if (e.target.id === "password") {
+      //   togglePasswordVisibility("password")
+      // } else if (e.target.id === "confpassword") {
+      //   togglePasswordVisibility("confpassword")
+      // }
     } else {
       e.target.classList.remove('error');
     }
@@ -133,7 +133,6 @@ const CadastroUsuario: React.FC = () => {
     const button = document.getElementById(id) as HTMLElement;
 
     button.style.display = "flex";
-
   };
 
   return (
@@ -186,16 +185,16 @@ const CadastroUsuario: React.FC = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          onFocus={() => { activateViewButtonPassword("viewPassword") }}
+          // onFocus={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
-        <button
+        {/* <button
           type='button'
           className='viewPassword'
           id='viewPassword'
           onClick={() => { togglePasswordVisibility("password") }}>
           {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-        </button>
+        </button> */}
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -205,16 +204,16 @@ const CadastroUsuario: React.FC = () => {
           name="confpassword"
           value={formData.confpassword}
           onChange={handleChange}
-          onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
+          // onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
-        <button
+        {/* <button
           type='button'
           className='viewPassword'
           id='viewConfPassword'
           onClick={() => { togglePasswordVisibility("confpassword") }}>
           {isConfPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-        </button>
+        </button> */}
       </div>
       <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>
