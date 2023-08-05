@@ -28,6 +28,7 @@ const CadastroUsuario: React.FC = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isConfPasswordVisible, setConfPasswordVisible] = useState(false);
   const [isPasswordEquals, setPasswordEquals] = useState(false);
+  const [isPasswordAltered, setIsPasswordAltered] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,6 +72,9 @@ const CadastroUsuario: React.FC = () => {
   };
 
   const validatePassword = () => {
+    console.log(isPasswordAltered)
+    setIsPasswordAltered(true);
+    console.log(isPasswordAltered)
     const password = document.getElementById("password") as HTMLInputElement;
     const confpassword = document.getElementById("confpassword") as HTMLInputElement;
 
@@ -187,9 +191,9 @@ const CadastroUsuario: React.FC = () => {
           value={formData.password}
           onChange={(e) => { handleChange(e); validatePassword() }}
           // onFocus={() => { activateViewButtonPassword("viewPassword") }}
-          className='senha'
+          className={`senha ${isPasswordAltered ? isPasswordEquals ? 'sucess' : 'error' : ''}`}
         />
-        {isPasswordEquals ? <div className='passwordCorrect'>A confirmação de senha confere.</div> : <div className='passwordWrong'>A confirmação de senha não confere.</div>}
+        {isPasswordAltered ? isPasswordEquals ? <div className='passwordCorrect'>A confirmação de senha confere.</div> : <div className='passwordWrong'>A confirmação de senha não confere.</div> : <></>}
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
