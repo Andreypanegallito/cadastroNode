@@ -27,6 +27,7 @@ const CadastroUsuario: React.FC = () => {
   });
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isConfPasswordVisible, setConfPasswordVisible] = useState(false);
+  const [isPasswordEquals, setPasswordEquals] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,8 @@ const CadastroUsuario: React.FC = () => {
     } else {
       e.target.classList.remove('error');
     }
+
+    console.log(e.target);
 
 
     setFormData((prevData) => ({
@@ -71,12 +74,10 @@ const CadastroUsuario: React.FC = () => {
     const password = document.getElementById("password") as HTMLInputElement;
     const confpassword = document.getElementById("confpassword") as HTMLInputElement;
 
-    if (password.value === confpassword.value) {
-      return true
-    }
-    else {
-      return false;
-    }
+    // console.log(password.value === confpassword.value)
+    setPasswordEquals(password.value === confpassword.value);
+
+    return (password.value === confpassword.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,17 +185,11 @@ const CadastroUsuario: React.FC = () => {
           id="password"
           name="password"
           value={formData.password}
-          onChange={handleChange}
+          onChange={(e) => { handleChange(e); validatePassword() }}
           // onFocus={() => { activateViewButtonPassword("viewPassword") }}
           className='senha'
         />
-        {/* <button
-          type='button'
-          className='viewPassword'
-          id='viewPassword'
-          onClick={() => { togglePasswordVisibility("password") }}>
-          {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-        </button> */}
+        {isPasswordEquals ? <div className='passwordCorrect'>A confirmação de senha confere.</div> : <div className='passwordWrong'>A confirmação de senha não confere.</div>}
       </div>
       <div className='itens-form half'>
         <label htmlFor="confpassword">Confirme sua senha:</label>
@@ -203,17 +198,10 @@ const CadastroUsuario: React.FC = () => {
           id="confpassword"
           name="confpassword"
           value={formData.confpassword}
-          onChange={handleChange}
+          onChange={(e) => { handleChange(e); validatePassword() }}
           // onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
-        {/* <button
-          type='button'
-          className='viewPassword'
-          id='viewConfPassword'
-          onClick={() => { togglePasswordVisibility("confpassword") }}>
-          {isConfPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-        </button> */}
       </div>
       <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
     </form>
