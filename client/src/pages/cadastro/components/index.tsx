@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import './cadastroUsuario.scss'
 
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,8 +24,6 @@ const CadastroUsuario: React.FC = () => {
     password: '',
     confpassword: ''
   });
-  const [isPasswordVisible, setPasswordVisible] = useState(false)
-  const [isConfPasswordVisible, setConfPasswordVisible] = useState(false);
   const [isPasswordEquals, setPasswordEquals] = useState(false);
   const [isPasswordAltered, setIsPasswordAltered] = useState(false);
   const navigate = useNavigate();
@@ -35,17 +32,9 @@ const CadastroUsuario: React.FC = () => {
     const { name, value } = e.target;
     if (e.target.value === "") {
       e.target.classList.add('error');
-      // if (e.target.id === "password") {
-      //   togglePasswordVisibility("password")
-      // } else if (e.target.id === "confpassword") {
-      //   togglePasswordVisibility("confpassword")
-      // }
     } else {
       e.target.classList.remove('error');
     }
-
-    console.log(e.target);
-
 
     setFormData((prevData) => ({
       ...prevData,
@@ -72,13 +61,10 @@ const CadastroUsuario: React.FC = () => {
   };
 
   const validatePassword = () => {
-    console.log(isPasswordAltered)
     setIsPasswordAltered(true);
-    console.log(isPasswordAltered)
     const password = document.getElementById("password") as HTMLInputElement;
     const confpassword = document.getElementById("confpassword") as HTMLInputElement;
 
-    // console.log(password.value === confpassword.value)
     setPasswordEquals(password.value === confpassword.value);
 
     return (password.value === confpassword.value);
@@ -93,16 +79,16 @@ const CadastroUsuario: React.FC = () => {
     if (retorno && retornoPassword) {
       //faz a requisiçao pro back
       try {
-        console.log(formData);
         const response = await axios.post('http://localhost:5000/createUser', formData);
 
-        if (response.data.status === 'OK') {
+        if (response.data.status === 'Ok') {
           // Realiza o redirecionamento para outra página
           navigate('/users');
         }
       }
       catch (error) {
-
+        console.error(error);
+        alert("Ops... Algo deu errado ao efetuar o cadastro do usuário. Tente novamente");
       }
       // Limpa o formulário após o envio
       setFormData({
@@ -113,31 +99,7 @@ const CadastroUsuario: React.FC = () => {
         password: '',
         confpassword: '',
       });
-
     }
-  };
-
-  const togglePasswordVisibility = (id: string) => {
-    const input = document.getElementById(id) as HTMLInputElement;
-
-    if (input.type === 'password') {
-      input.type = "text"
-    }
-    else if (input.type === "text") {
-      input.type = "password"
-    }
-
-    if (id === 'password') {
-      setPasswordVisible(!isPasswordVisible);
-    } else if (id === 'confpassword') {
-      setConfPasswordVisible(!isConfPasswordVisible);
-    }
-  };
-
-  const activateViewButtonPassword = (id: string) => {
-    const button = document.getElementById(id) as HTMLElement;
-
-    button.style.display = "flex";
   };
 
   return (
@@ -190,7 +152,6 @@ const CadastroUsuario: React.FC = () => {
           name="password"
           value={formData.password}
           onChange={(e) => { handleChange(e); validatePassword() }}
-          // onFocus={() => { activateViewButtonPassword("viewPassword") }}
           className={`senha ${isPasswordAltered ? isPasswordEquals ? 'sucess' : 'error' : ''}`}
         />
         {isPasswordAltered ? isPasswordEquals ? <div className='passwordCorrect'>A confirmação de senha confere.</div> : <div className='passwordWrong'>A confirmação de senha não confere.</div> : <></>}
@@ -203,7 +164,6 @@ const CadastroUsuario: React.FC = () => {
           name="confpassword"
           value={formData.confpassword}
           onChange={(e) => { handleChange(e); validatePassword() }}
-          // onFocus={() => { activateViewButtonPassword("viewConfPassword") }}
           className='senha'
         />
       </div>
