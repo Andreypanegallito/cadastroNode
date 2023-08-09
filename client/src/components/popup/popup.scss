@@ -8,29 +8,52 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-}
+  .popup-content {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    height: 300px;
+    width: 300px;
 
-.popup-content h2 {
-  margin-top: 0;
-}
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
 
-.popup-content label {
-  display: block;
-  margin-bottom: 5px;
-}
+    .item-popup {
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
 
-.popup-content input {
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-}
+      input {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+    }
 
-.popup-content button {
-  margin-right: 10px;
+    button {
+      margin-right: 10px;
+    }
+
+    .div-botoes {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      button {
+        width: 100px;
+        height: 30px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      button.save {
+        background-color: green;
+        color: #fff;
+      }
+    }
+  }
 }

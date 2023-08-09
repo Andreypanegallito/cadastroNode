@@ -35,7 +35,7 @@ const Users = () => {
       <Menu links={linksMenu} />
       <section id="users">
         <div className="titulo">
-          <h1>Tabela de usuários a</h1>
+          <h1>Tabela de usuários</h1>
         </div>
         <div className="container">
           <UserTable users={users} />
