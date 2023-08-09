@@ -38,7 +38,7 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
       <div className="popup-content">
         <h2>Edit User</h2>
         <div className="item-popup">
-          <label>Name:</label>
+          <label>Nome:</label>
           <input type="text" value={nome} onChange={handleNameChange} />
         </div>
         <div className="item-popup">
@@ -48,6 +48,10 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
         <div className="item-popup">
           <label>Email:</label>
           <input type="email" value={email} onChange={handleEmailChange} />
+        </div>
+        <div className="item-popup div-active">
+          <label>Ativo:</label>
+          <input type="checkbox" onChange={handleEmailChange} />
         </div>
         <div className="div-botoes">
           <button onClick={handleSave} className='save'>Save</button>
