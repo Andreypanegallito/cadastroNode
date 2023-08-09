@@ -167,7 +167,7 @@ const CadastroUsuario: React.FC = () => {
           className='senha'
         />
       </div>
-      <button type="button" className='btn-enviar' onClick={handleSubmit}>Enviar</button>
+      <button type="button" className='btn-enviar' onClick={handleSubmit}>Cadastrar</button>
     </form>
   );
 };
