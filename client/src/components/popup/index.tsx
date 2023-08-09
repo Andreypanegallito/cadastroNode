@@ -5,9 +5,10 @@ import './popup.scss'
 
 interface UserPopup {
   user: User;
+  onClose: () => void;
 }
 
-const UserEditPopup = ({ user }: UserPopup) => {
+const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
   const [nome, setNome] = useState(user.nome);
   const [email, setEmail] = useState(user.email);
 
@@ -27,8 +28,6 @@ const UserEditPopup = ({ user }: UserPopup) => {
     // onSave(updatedUser);
   };
 
-  const onCancel = () => { };
-
   return (
     <div className="popup">
       <div className="popup-content">
@@ -38,7 +37,7 @@ const UserEditPopup = ({ user }: UserPopup) => {
         <label>Email:</label>
         <input type="email" value={email} onChange={handleEmailChange} />
         <button onClick={handleSave}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+        <button onClick={onClose}>Cancel</button>
       </div>
     </div>
   );
