@@ -18,7 +18,7 @@ const Cadastro = () => {
     <>
       <Menu links={linksMenu} />
       <section id="sectionCadastroUsuarios">
-        <div className="container">
+        <div className="containerCadUsu">
           <div className="titulo">
             <h1>Cadastro de usuário</h1>
           </div>
