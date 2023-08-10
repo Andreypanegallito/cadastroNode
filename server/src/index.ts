@@ -5,6 +5,7 @@ import {
   createUser,
   loginUser,
   getAllUsers,
+  updateUser,
 } from "./services/userService";
 import { User } from "./utils/user";
 
@@ -53,6 +54,21 @@ app.post("/createUser", async (req: Request, res: Response) => {
     const retorno = await createUser(newUser);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário criado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    res.status(500).json({ error: "Erro ao criar usuário" });
+  }
+});
+
+// Exemplo de rota para inserir dados no banco de dados
+app.post("/updateUser", async (req: Request, res: Response) => {
+  try {
+    const { nome, sobrenome, email, ativo } = req.body;
+    const newUpdateUser = new User(nome, sobrenome, email, ativo); //{ name, email, password };
+    const retorno = await updateUser(newUpdateUser);
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Usuário alterado com sucesso" });
     }
   } catch (error) {
     console.error("Erro ao criar usuário:", error);

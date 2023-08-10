@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../../utils/user';
 
 import './popup.scss'
+import axios from 'axios';
 
 interface UserPopup {
   user: User;
@@ -12,6 +13,7 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
   const [nome, setNome] = useState(user.nome);
   const [sobreNome, setSobreNome] = useState(user.sobrenome);
   const [email, setEmail] = useState(user.email);
+  const [userActive, setUserActive] = useState(false);
 
   const handleNameChange = (e: any) => {
     setNome(e.target.value);
@@ -25,12 +27,30 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
     setEmail(e.target.value);
   };
 
-  const handleSave = () => {
+  const handleActiveChange = (e: any) => {
+    setUserActive(e.target.value);
+  };
+
+  const handleSave = async () => {
     const updatedUser = {
       name: nome,
-      email: email
+      sobrenome: sobreNome,
+      email: email,
+      ativo: userActive
     };
-    // onSave(updatedUser);
+
+    try {
+      const response = await axios.post('http://localhost:5000/updateUser', updatedUser);
+
+      if (response.data.status === 'Ok') {
+        // Realiza o redirecionamento para outra página
+        // navigate('/users');
+      }
+    }
+    catch (error) {
+      console.error(error);
+      alert("Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente");
+    }
   };
 
   return (
@@ -51,7 +71,7 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
         </div>
         <div className="item-popup div-active">
           <label>Ativo:</label>
-          <input type="checkbox" onChange={handleEmailChange} />
+          <input type="checkbox" checked={userActive} onChange={handleActiveChange} />
         </div>
         <div className="div-botoes">
           <button onClick={handleSave} className='save'>Save</button>

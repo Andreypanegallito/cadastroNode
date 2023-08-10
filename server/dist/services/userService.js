@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
@@ -44,6 +44,19 @@ const createUser = (user) => {
     });
 };
 exports.createUser = createUser;
+const updateUser = (user) => {
+    return new Promise((resolve, reject) => {
+        db_1.default.query("INSERT INTO usuarios SET ?", user, (error, result) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve("Ok");
+            }
+        });
+    });
+};
+exports.updateUser = updateUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `select * from usuarios where username = '${userName}' and password = '${password}'`;
