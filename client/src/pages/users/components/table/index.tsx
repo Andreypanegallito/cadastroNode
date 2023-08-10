@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { User } from '../../../../utils/user';
+import { UpdateUser, User } from '../../../../utils/user';
 
 import './table.scss'
 import UserEditPopup from '../../../../components/popup';
+import axios from 'axios';
 interface UserTable {
   users: User[];
 }
@@ -19,6 +20,21 @@ function UserTable({ users }: UserTable) {
   const closePopup = () => {
     setSelectedUser(null);
     setIsPopupOpen(false);
+  };
+
+  const savePopup = async (user: UpdateUser) => {
+    try {
+      const response = await axios.post('http://localhost:5000/updateUser', user);
+
+      if (response.data.status === 'Ok') {
+        // Realiza o redirecionamento para outra página
+        // navigate('/users');
+      }
+    }
+    catch (error) {
+      console.error(error);
+      alert("Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente");
+    }
   };
 
   return (
@@ -59,7 +75,7 @@ function UserTable({ users }: UserTable) {
         </tbody>
       </table>
       {isPopupOpen && selectedUser && (
-        <UserEditPopup user={selectedUser} onClose={closePopup} />
+        <UserEditPopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
       )}
     </>
   );

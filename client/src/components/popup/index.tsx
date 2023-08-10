@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User } from '../../utils/user';
+import { UpdateUser, User } from '../../utils/user';
 
 import './popup.scss'
 import axios from 'axios';
@@ -7,9 +7,11 @@ import axios from 'axios';
 interface UserPopup {
   user: User;
   onClose: () => void;
+  onSave: (updatedUser: UpdateUser) => void;
 }
 
-const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
+const UserEditPopup: React.FC<UserPopup> = ({ user, onClose, onSave }) => {
+  const [idUsuario, setIdUsuario] = useState(user.idUsuario);
   const [nome, setNome] = useState(user.nome);
   const [sobreNome, setSobreNome] = useState(user.sobrenome);
   const [email, setEmail] = useState(user.email);
@@ -33,24 +35,27 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose }) => {
 
   const handleSave = async () => {
     const updatedUser = {
-      name: nome,
+      idUsuario: idUsuario,
+      nome: nome,
       sobrenome: sobreNome,
       email: email,
       ativo: userActive
     };
 
-    try {
-      const response = await axios.post('http://localhost:5000/updateUser', updatedUser);
+    onSave(updatedUser);
 
-      if (response.data.status === 'Ok') {
-        // Realiza o redirecionamento para outra página
-        // navigate('/users');
-      }
-    }
-    catch (error) {
-      console.error(error);
-      alert("Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente");
-    }
+    // try {
+    //   const response = await axios.post('http://localhost:5000/updateUser', updatedUser);
+
+    //   if (response.data.status === 'Ok') {
+    //     // Realiza o redirecionamento para outra página
+    //     // navigate('/users');
+    //   }
+    // }
+    // catch (error) {
+    //   console.error(error);
+    //   alert("Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente");
+    // }
   };
 
   return (

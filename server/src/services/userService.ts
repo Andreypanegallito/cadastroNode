@@ -53,7 +53,7 @@ export const createUser = (user: User) => {
 export const updateUser = (user: User) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE INTO usuarios SET ? where idUsuario = ",
+      "UPDATE INTO usuarios SET ? where idUsuario = ?",
       user,
       (error, result) => {
         if (error) {
