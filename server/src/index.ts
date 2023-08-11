@@ -50,7 +50,7 @@ app.post("/login", async (req: Request, res: Response) => {
 app.post("/createUser", async (req: Request, res: Response) => {
   try {
     const { nome, sobrenome, username, email, password } = req.body;
-    const newUser = new User(nome, sobrenome, username, email, password); //{ name, email, password };
+    const newUser = new User(nome, sobrenome, username, email, password, true);
     const retorno = await createUser(newUser);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário criado com sucesso" });
@@ -64,15 +64,23 @@ app.post("/createUser", async (req: Request, res: Response) => {
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/updateUser", async (req: Request, res: Response) => {
   try {
-    const {idUsuario, nome, sobrenome, email, ativo } = req.body;
-    const newUpdateUser = new User(idUsuario, nome, sobrenome, email, ativo); //{ name, email, password };
+    const { idUsuario, nome, sobrenome, email, ativo } = req.body;
+    const newUpdateUser = new User(
+      nome,
+      sobrenome,
+      undefined,
+      email,
+      undefined,
+      ativo,
+      idUsuario
+    ); //{ name, email, password };
     const retorno = await updateUser(newUpdateUser);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário alterado com sucesso" });
     }
   } catch (error) {
-    console.error("Erro ao criar usuário:", error);
-    res.status(500).json({ error: "Erro ao criar usuário" });
+    console.error("Erro ao alterar o usuário:", error);
+    res.status(500).json({ error: "Erro ao alterar o usuário" });
   }
 });
 

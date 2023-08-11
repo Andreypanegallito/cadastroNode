@@ -47,6 +47,7 @@ function UserTable({ users }: UserTable) {
             {/* <th>Sobrenome</th> */}
             <th>Email</th>
             <th>Data de criação</th>
+            <th>Ativo</th>
             <th>Opções</th>
           </tr>
         </thead>
@@ -60,6 +61,7 @@ function UserTable({ users }: UserTable) {
                   {/* <td >{user.sobrenome}</td> */}
                   <td className='email'>{user.email}</td>
                   <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
+                  <td className='ativo'>{user.ativo}</td>
                   <td className='opcoes'>
                     <button onClick={() => openPopup(user)}>Editar</button>
                     <button>Apagar</button>

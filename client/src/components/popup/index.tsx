@@ -15,7 +15,7 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose, onSave }) => {
   const [nome, setNome] = useState(user.nome);
   const [sobreNome, setSobreNome] = useState(user.sobrenome);
   const [email, setEmail] = useState(user.email);
-  const [userActive, setUserActive] = useState(false);
+  const [userActive, setUserActive] = useState(user.ativo);
 
   const handleNameChange = (e: any) => {
     setNome(e.target.value);
@@ -30,10 +30,12 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose, onSave }) => {
   };
 
   const handleActiveChange = (e: any) => {
-    setUserActive(e.target.value);
+    setUserActive(e.target.checked);
   };
 
   const handleSave = async () => {
+    alert(userActive);
+
     const updatedUser = {
       idUsuario: idUsuario,
       nome: nome,
