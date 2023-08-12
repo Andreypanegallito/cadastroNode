@@ -37,6 +37,30 @@ function UserTable({ users }: UserTable) {
     }
   };
 
+  const renderTableUsers = () => {
+    return (
+      users.length > 0 ? (
+        users.map(user => (
+          <tr key={user.idUsuario} className={user.idUsuario % 2 === 0 ? 'even' : 'odd'}>
+            <td className="id">{user.idUsuario}</td>
+            <td className="name">{user.nome} {user.sobrenome}</td>
+            {/* <td >{user.sobrenome}</td> */}
+            <td className='email'>{user.email}</td>
+            <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
+            <td className='ativo'>{user.ativo}</td>
+            <td className='opcoes'>
+              <button onClick={() => openPopup(user)}>Editar</button>
+              <button>Apagar</button>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr key='1'>
+          <td colSpan={5} className="noUsers">Não foi encontrado usuários cadastrados</td>
+        </tr>
+      )
+    )
+  };
   return (
     <>
       <table id="tableUsers">
@@ -52,28 +76,7 @@ function UserTable({ users }: UserTable) {
           </tr>
         </thead>
         <tbody>
-          {
-            users.length > 0 ? (
-              users.map(user => (
-                <tr key={user.idUsuario} className={user.idUsuario % 2 === 0 ? 'even' : 'odd'}>
-                  <td className="id">{user.idUsuario}</td>
-                  <td className="name">{user.nome} {user.sobrenome}</td>
-                  {/* <td >{user.sobrenome}</td> */}
-                  <td className='email'>{user.email}</td>
-                  <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
-                  <td className='ativo'>{user.ativo}</td>
-                  <td className='opcoes'>
-                    <button onClick={() => openPopup(user)}>Editar</button>
-                    <button>Apagar</button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr key='1'>
-                <td colSpan={5} className="noUsers">Não foi encontrado usuários cadastrados</td>
-              </tr>
-            )
-          }
+          {renderTableUsers()}
         </tbody>
       </table>
       {isPopupOpen && selectedUser && (
