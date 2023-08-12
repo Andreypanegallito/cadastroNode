@@ -35,6 +35,29 @@
         width: 15%;
       }
 
+      td.usuario_ativo {
+        width: 4%;
+        padding: 0;
+
+        span {
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 5px;
+          padding: 0px 5px;
+          color: #fff;
+          height: 25px;
+        }
+        span.ativo {
+          background-color: green;
+        }
+
+        span.inativo {
+          background-color: red;
+        }
+      }
+
       td.opcoes {
         width: 10%;
         text-align: center;

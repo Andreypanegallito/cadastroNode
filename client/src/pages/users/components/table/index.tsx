@@ -4,6 +4,9 @@ import { UpdateUser, User } from '../../../../utils/user';
 import './table.scss'
 import UserEditPopup from '../../../../components/popup';
 import axios from 'axios';
+import { FaUserEdit } from 'react-icons/fa';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+
 interface UserTableProps {
   users: User[];
   onUserUpdated: () => void;
@@ -30,8 +33,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
       if (response.data.status === 'Ok') {
         closePopup();
         onUserUpdated();
-        // Realiza o redirecionamento para outra página
-        // navigate('/users');
       }
     }
     catch (error) {
@@ -50,12 +51,16 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
             {/* <td >{user.sobrenome}</td> */}
             <td className='email'>{user.email}</td>
             <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
-            <td className='ativo'>{user.ativo}</td>
-            <td className='opcoes'>
-              <button onClick={() => openPopup(user)}>Editar</button>
-              <button>Apagar</button>
+            <td className='usuario_ativo'>
+              <span className={user.ativo ? 'ativo' : 'inativo'}>
+                {user.ativo ? 'Ativo' : 'Inativo'}
+              </span>
             </td>
-          </tr>
+            <td className='opcoes'>
+              <button onClick={() => openPopup(user)}><FaUserEdit /></button>
+              <button><RiDeleteBin6Line /> </button>
+            </td>
+          </tr >
         ))
       ) : (
         <tr key='1'>
