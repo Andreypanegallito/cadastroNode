@@ -4,11 +4,12 @@ import { UpdateUser, User } from '../../../../utils/user';
 import './table.scss'
 import UserEditPopup from '../../../../components/popup';
 import axios from 'axios';
-interface UserTable {
+interface UserTableProps {
   users: User[];
+  onUserUpdated: () => void;
 }
 
-function UserTable({ users }: UserTable) {
+function UserTable({ users, onUserUpdated }: UserTableProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
@@ -27,6 +28,8 @@ function UserTable({ users }: UserTable) {
       const response = await axios.post('http://localhost:5000/updateUser', user);
 
       if (response.data.status === 'Ok') {
+        closePopup();
+        onUserUpdated();
         // Realiza o redirecionamento para outra página
         // navigate('/users');
       }

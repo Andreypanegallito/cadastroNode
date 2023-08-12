@@ -14,19 +14,19 @@ const Users = () => {
     { url: '/contato', text: 'Contato' },
   ];
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/allUsers');
-        console.log(response.data);
-        const data = response.data;
+  const getUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/allUsers');
+      console.log(response.data);
+      const data = response.data;
 
-        setUsers(data);
-      } catch (erro) {
-        console.error(erro);
-      }
+      setUsers(data);
+    } catch (erro) {
+      console.error(erro);
     }
+  }
 
+  useEffect(() => {
     getUsers();
   }, []);
 
@@ -38,7 +38,7 @@ const Users = () => {
           <h1>Tabela de usuários</h1>
         </div>
         <div className="container">
-          <UserTable users={users} />
+          <UserTable users={users} onUserUpdated={getUsers} />
         </div>
       </section>
     </>
