@@ -7,7 +7,7 @@ exports.loginUser = exports.updateUser = exports.createUser = exports.getUserByI
 const db_1 = __importDefault(require("../database/db"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM usuarios", (error, results) => {
+        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios", (error, results) => {
             if (error) {
                 reject(error);
             }
@@ -46,7 +46,7 @@ const createUser = (user) => {
 exports.createUser = createUser;
 const updateUser = (user) => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("INSERT INTO usuarios SET ?", user, (error, result) => {
+        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?", [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario], (error, result) => {
             if (error) {
                 reject(error);
             }
