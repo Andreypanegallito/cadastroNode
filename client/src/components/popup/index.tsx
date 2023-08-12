@@ -34,8 +34,6 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose, onSave }) => {
   };
 
   const handleSave = async () => {
-    alert(userActive);
-
     const updatedUser = {
       idUsuario: idUsuario,
       nome: nome,
@@ -45,19 +43,6 @@ const UserEditPopup: React.FC<UserPopup> = ({ user, onClose, onSave }) => {
     };
 
     onSave(updatedUser);
-
-    // try {
-    //   const response = await axios.post('http://localhost:5000/updateUser', updatedUser);
-
-    //   if (response.data.status === 'Ok') {
-    //     // Realiza o redirecionamento para outra página
-    //     // navigate('/users');
-    //   }
-    // }
-    // catch (error) {
-    //   console.error(error);
-    //   alert("Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente");
-    // }
   };
 
   return (
