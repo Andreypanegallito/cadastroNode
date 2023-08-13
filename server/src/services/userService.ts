@@ -66,6 +66,22 @@ export const updateUser = (user: User) => {
   });
 };
 
+export const deleteUser = (idUsuario: number) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "DELETE FROM usuarios WHERE idUsuario = ?",
+      idUsuario,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      }
+    );
+  });
+};
+
 export const loginUser = (
   userName: string,
   password: string

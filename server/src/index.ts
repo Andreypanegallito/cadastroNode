@@ -6,6 +6,7 @@ import {
   loginUser,
   getAllUsers,
   updateUser,
+  deleteUser,
 } from "./services/userService";
 import { User } from "./utils/user";
 
@@ -81,6 +82,20 @@ app.post("/updateUser", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao alterar o usuário:", error);
     res.status(500).json({ error: "Erro ao alterar o usuário" });
+  }
+});
+
+app.post("/deleteUser", async (req: Request, res: Response) => {
+  try {
+    const { idUsuario } = req.body;
+
+    const retorno = await deleteUser(idUsuario);
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Usuário deletado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao alterar o usuário:", error);
+    res.status(500).json({ error: "Erro ao deletar o usuário" });
   }
 });
 

@@ -5,7 +5,7 @@ import Popup from '../../../../components/popup';
 interface UserDeletePopupProps {
   user: User;
   onClose: () => void;
-  onSave: (updatedUser: UpdateUser) => void;
+  onSave: (idUsuario: number) => void;
 }
 const UserDeletePopup: React.FC<UserDeletePopupProps> = ({ user, onClose, onSave }) => {
   const [idUsuario, setIdUsuario] = useState(user.idUsuario);
@@ -17,15 +17,7 @@ const UserDeletePopup: React.FC<UserDeletePopupProps> = ({ user, onClose, onSave
 
 
   const handleSave = async () => {
-    const updatedUser = {
-      idUsuario: idUsuario,
-      nome: nome,
-      sobrenome: sobreNome,
-      email: email,
-      ativo: userActive
-    };
-
-    onSave(updatedUser);
+    onSave(idUsuario);
   };
 
   const renderHtmlPopup = () => {

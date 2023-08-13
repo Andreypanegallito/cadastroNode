@@ -49,6 +49,20 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
     }
   };
 
+  const deleteUser = async (idUser: number) => {
+    try {
+      alert(idUser);
+      const response = await axios.post('http://localhost:5000/deleteUser', { idUsuario: idUser });
+
+      if (response.data.status === 'Ok') { }
+      closePopup();
+      onUserUpdated();
+    } catch (error) {
+      console.error(error);
+      alert("Ops... Algo deu errado ao tentar excluir o cadastro de usuário. Tente novamente");
+    }
+  };
+
   const renderTableUsers = () => {
     return (
       users.length > 0 ? (
@@ -97,7 +111,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
         <UserPopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
       )}
       {isPopupDeleteOpen && selectedUser && (
-        <UserDeletePopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
+        <UserDeletePopup user={selectedUser} onSave={deleteUser} onClose={closePopup} />
       )}
     </>
   );
