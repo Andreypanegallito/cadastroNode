@@ -34,7 +34,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
     setIsPopupDeleteOpen(false);
   };
 
-  const savePopup = async (user: UpdateUser) => {
+  const saveUser = async (user: UpdateUser) => {
     try {
       const response = await axios.post('http://localhost:5000/updateUser', user);
 
@@ -108,7 +108,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
         </tbody>
       </table>
       {isPopupEditOpen && selectedUser && (
-        <UserPopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
+        <UserPopup user={selectedUser} onSave={saveUser} onClose={closePopup} />
       )}
       {isPopupDeleteOpen && selectedUser && (
         <UserDeletePopup user={selectedUser} onSave={deleteUser} onClose={closePopup} />
