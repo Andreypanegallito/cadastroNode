@@ -19,7 +19,7 @@
       }
 
       td.id {
-        width: 5%;
+        width: 3%;
         text-align: center;
       }
 
@@ -36,18 +36,19 @@
       }
 
       td.usuario_ativo {
-        width: 4%;
+        width: 5%;
         padding: 0;
 
         span {
           border-radius: 5px;
           display: flex;
-          align-items: center;
+          /* align-items: center; */
           justify-content: center;
-          margin: 5px;
-          padding: 0px 5px;
+          margin: 5px auto;
+          /* padding: 0px 5px; */
           color: #fff;
           height: 25px;
+          width: 60px;
         }
         span.ativo {
           background-color: green;
@@ -59,12 +60,26 @@
       }
 
       td.opcoes {
-        width: 10%;
+        width: 6%;
         text-align: center;
         flex-wrap: wrap;
 
         button {
-          width: 50px;
+          // width: 50px;
+          margin: 1px 10px 0 10px;
+          background-color: transparent;
+          transition: 0.5s;
+
+          svg {
+            height: 17px;
+            width: 17px;
+          }
+        }
+
+        button:hover {
+          cursor: pointer;
+          transform: scale(1.4);
+          transition: 0.3s;
         }
       }
 

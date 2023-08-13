@@ -48,7 +48,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
           <tr key={user.idUsuario} className={user.idUsuario % 2 === 0 ? 'even' : 'odd'}>
             <td className="id">{user.idUsuario}</td>
             <td className="name">{user.nome} {user.sobrenome}</td>
-            {/* <td >{user.sobrenome}</td> */}
             <td className='email'>{user.email}</td>
             <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
             <td className='usuario_ativo'>
