@@ -6,6 +6,8 @@ import UserEditPopup from '../../../../components/popup';
 import axios from 'axios';
 import { FaUserEdit } from 'react-icons/fa';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import UserPopup from '../userEditPopup';
+import UserDeletePopup from '../userDeletePopup';
 
 interface UserTableProps {
   users: User[];
@@ -13,17 +15,23 @@ interface UserTableProps {
 }
 
 function UserTable({ users, onUserUpdated }: UserTableProps) {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
+  const [isPopupDeleteOpen, setIsPopupDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const openPopup = (user: User) => {
+  const openPopup = (user: User, type: string) => {
     setSelectedUser(user);
-    setIsPopupOpen(true);
+    if (type === "edit") {
+      setIsPopupEditOpen(true);
+    } else {
+      setIsPopupDeleteOpen(true);
+    }
   };
 
   const closePopup = () => {
     setSelectedUser(null);
-    setIsPopupOpen(false);
+    setIsPopupEditOpen(false);
+    setIsPopupDeleteOpen(false);
   };
 
   const savePopup = async (user: UpdateUser) => {
@@ -56,8 +64,8 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
               </span>
             </td>
             <td className='opcoes'>
-              <button onClick={() => openPopup(user)}><FaUserEdit /></button>
-              <button><RiDeleteBin6Line /> </button>
+              <button onClick={() => openPopup(user, "edit")}><FaUserEdit /></button>
+              <button onClick={() => openPopup(user, "delete")}><RiDeleteBin6Line /> </button>
             </td>
           </tr >
         ))
@@ -75,7 +83,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            {/* <th>Sobrenome</th> */}
             <th>Email</th>
             <th>Data de criação</th>
             <th>Ativo</th>
@@ -86,8 +93,11 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
           {renderTableUsers()}
         </tbody>
       </table>
-      {isPopupOpen && selectedUser && (
-        <UserEditPopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
+      {isPopupEditOpen && selectedUser && (
+        <UserPopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
+      )}
+      {isPopupDeleteOpen && selectedUser && (
+        <UserDeletePopup user={selectedUser} onSave={savePopup} onClose={closePopup} />
       )}
     </>
   );
