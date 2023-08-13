@@ -73,6 +73,19 @@ app.post("/updateUser", async (req, res) => {
         res.status(500).json({ error: "Erro ao alterar o usuário" });
     }
 });
+app.post("/deleteUser", async (req, res) => {
+    try {
+        const { idUsuario } = req.body;
+        const retorno = await (0, userService_1.deleteUser)(idUsuario);
+        if (retorno == "Ok") {
+            res.json({ status: "Ok", message: "Usuário deletado com sucesso" });
+        }
+    }
+    catch (error) {
+        console.error("Erro ao alterar o usuário:", error);
+        res.status(500).json({ error: "Erro ao deletar o usuário" });
+    }
+});
 app.listen(5000, () => {
     console.log("Servidor da API iniciado na porta 5000");
 });

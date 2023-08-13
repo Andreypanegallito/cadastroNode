@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
@@ -57,6 +57,19 @@ const updateUser = (user) => {
     });
 };
 exports.updateUser = updateUser;
+const deleteUser = (idUsuario) => {
+    return new Promise((resolve, reject) => {
+        db_1.default.query("DELETE FROM usuarios WHERE idUsuario = ?", idUsuario, (error, result) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve("Ok");
+            }
+        });
+    });
+};
+exports.deleteUser = deleteUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `select * from usuarios where username = '${userName}' and password = '${password}'`;
