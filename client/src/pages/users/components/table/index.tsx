@@ -17,6 +17,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
   const [isPopupDeleteOpen, setIsPopupDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const apiUrl = process.env.API_NODE_URL;
 
   const openPopup = (user: User, type: string) => {
     setSelectedUser(user);
@@ -35,7 +36,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
 
   const saveUser = async (user: UpdateUser) => {
     try {
-      const response = await axios.post('http://localhost:5000/updateUser', user);
+      const response = await axios.post(`${apiUrl}/updateUser`, user);
 
       if (response.data.status === 'Ok') {
         closePopup();
@@ -51,7 +52,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const deleteUser = async (idUser: number) => {
     try {
       alert(idUser);
-      const response = await axios.post('http://localhost:5000/deleteUser', { idUsuario: idUser });
+      const response = await axios.post(`${apiUrl}/deleteUser`,{ idUsuario: idUser });
 
       if (response.data.status === 'Ok') { }
       closePopup();

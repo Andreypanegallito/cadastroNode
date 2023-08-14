@@ -7,6 +7,7 @@ import Menu from '../../components/menu';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const apiUrl = process.env.API_NODE_URL;
 
   const linksMenu = [
     { url: '/', text: 'Página Inicial' },
@@ -16,7 +17,7 @@ const Users = () => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/allUsers');
+      const response = await axios.get(`${apiUrl}/allUsers`);
       const data = response.data;
 
       setUsers(data);

@@ -27,6 +27,7 @@ const CadastroUsuario: React.FC = () => {
   const [isPasswordEquals, setPasswordEquals] = useState(false);
   const [isPasswordAltered, setIsPasswordAltered] = useState(false);
   const navigate = useNavigate();
+  const apiUrl = process.env.API_NODE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,7 +80,7 @@ const CadastroUsuario: React.FC = () => {
     if (retorno && retornoPassword) {
       //faz a requisiçao pro back
       try {
-        const response = await axios.post('http://localhost:5000/createUser', formData);
+        const response = await axios.post(`${apiUrl}/createUser`, formData);
 
         if (response.data.status === 'Ok') {
           // Realiza o redirecionamento para outra página
