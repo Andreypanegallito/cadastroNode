@@ -17,6 +17,7 @@ const Login = () => {
   });
   const [isPasswordLoginVisible, setPasswordLoginVisible] = useState(false);
   const navigate = useNavigate();
+  const apiUrl = process.env.API_NODE_URL;
 
 
   const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +72,7 @@ const Login = () => {
     if (retorno) {
       //faz a requisiçao pro back-end
       try {
-        const response = await axios.post('http://localhost:5000/login', formDataLogin);
+        const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === 'OK') {
           // Realiza o redirecionamento para outra página
