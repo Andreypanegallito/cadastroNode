@@ -17,7 +17,6 @@ const Users = () => {
   const getUsers = async () => {
     try {
       const response = await axios.get('http://localhost:5000/allUsers');
-      console.log(response.data);
       const data = response.data;
 
       setUsers(data);

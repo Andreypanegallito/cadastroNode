@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { UpdateUser, User } from '../../../../utils/user';
+import React from 'react';
+import { User } from '../../../../utils/user';
 import Popup from '../../../../components/popup';
 
 interface UserDeletePopupProps {

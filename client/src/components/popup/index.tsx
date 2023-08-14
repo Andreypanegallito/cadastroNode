@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { UpdateUser, User } from '../../utils/user';
+import React from 'react';
 
 import './popup.scss'
 

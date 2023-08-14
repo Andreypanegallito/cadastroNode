@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { UpdateUser, User } from '../../../../utils/user';
 
 import './table.scss'
-import UserEditPopup from '../../../../components/popup';
 import axios from 'axios';
 import { FaUserEdit } from 'react-icons/fa';
 import { RiDeleteBin6Line } from 'react-icons/ri';
@@ -85,7 +84,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
         ))
       ) : (
         <tr key='1'>
-          <td colSpan={5} className="noUsers">Não foi encontrado usuários cadastrados</td>
+          <td colSpan={6} className="noUsers">Não foi encontrado usuários cadastrados</td>
         </tr>
       )
     )
