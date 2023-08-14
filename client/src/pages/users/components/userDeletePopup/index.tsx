@@ -20,7 +20,7 @@ const UserDeletePopup: React.FC<UserDeletePopupProps> = ({ user, onClose, onSave
     return (
       <>
         <h2>Apagar usuário?</h2>
-        <div className="item-popup">
+        <div className="item-popup delete">
           <p>Tem certeza que deseja apagar o usuário {nome} {sobreNome}?</p>
         </div>
         <div className="div-botoes">

@@ -52,6 +52,12 @@
       }
     }
 
+    .item-popup.delete {
+      p {
+        margin: 20px 0;
+      }
+    }
+
     .div-active {
       display: flex;
       align-items: center;
@@ -90,6 +96,7 @@
       button.delete {
         background-color: #ff0000;
         color: #fff;
+        width: 130px;
       }
 
       button.cancel {
