@@ -45,7 +45,7 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({ user, onClose, onSave }) 
   const renderHtmlPopup = () => {
     return (
       <>
-        <h2>Edit User</h2>
+        <h2>Editar usuário</h2>
         <div className="item-popup">
           <label>Nome:</label>
           <input type="text" value={nome} onChange={handleNameChange} />
