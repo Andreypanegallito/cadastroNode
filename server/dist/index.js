@@ -86,6 +86,6 @@ app.post("/deleteUser", async (req, res) => {
         res.status(500).json({ error: "Erro ao deletar o usuário" });
     }
 });
-app.listen(5000, () => {
-    console.log("Servidor da API iniciado na porta 5000");
+app.listen(process.env.PORT, () => {
+    console.log("Servidor da API iniciado na porta", process.env.PORT);
 });
