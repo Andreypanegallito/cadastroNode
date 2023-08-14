@@ -99,6 +99,6 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("Servidor da API iniciado na porta 5000");
+app.listen(process.env.PORT, () => {
+  console.log("Servidor da API iniciado na porta", process.env.PORT);
 });
