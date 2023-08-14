@@ -9,17 +9,22 @@ const Initial = () => {
       <div className="itens">
         <div className="item">
           <div className="item-title">
-            <Link to="/login" className='btn-link' >Login</Link>
+            <Link to="/login" className='btn-link'>Login</Link>
           </div>
         </div>
         <div className="item">
           <div className="item-title">
-            <Link to="/users" className='btn-link' >Usuários</Link>
+            <Link to="/users" className='btn-link'>Usuários</Link>
           </div>
         </div>
         <div className="item">
           <div className="item-title">
-            <Link to="/cadastro" className='btn-link' >Cadastro</Link>
+            <Link to="/cadastro" className='btn-link'>Cadastro</Link>
+          </div>
+        </div>
+        <div className="item">
+          <div className="item-title">
+            <Link to="/contato" className='btn-link'>Contato</Link>
           </div>
         </div>
       </div>
