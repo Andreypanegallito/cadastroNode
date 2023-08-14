@@ -7,7 +7,7 @@ import Menu from '../../components/menu';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const apiUrl = process.env.API_NODE_URL;
+  const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const linksMenu = [
     { url: '/', text: 'Página Inicial' },

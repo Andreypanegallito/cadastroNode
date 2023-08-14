@@ -17,7 +17,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
   const [isPopupDeleteOpen, setIsPopupDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const apiUrl = process.env.API_NODE_URL;
+  const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const openPopup = (user: User, type: string) => {
     setSelectedUser(user);
