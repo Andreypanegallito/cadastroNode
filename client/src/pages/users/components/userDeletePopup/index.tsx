@@ -8,13 +8,9 @@ interface UserDeletePopupProps {
   onSave: (idUsuario: number) => void;
 }
 const UserDeletePopup: React.FC<UserDeletePopupProps> = ({ user, onClose, onSave }) => {
-  const [idUsuario, setIdUsuario] = useState(user.idUsuario);
-  const [nome, setNome] = useState(user.nome);
-  const [sobreNome, setSobreNome] = useState(user.sobrenome);
-  const [email, setEmail] = useState(user.email);
-  const [userActive, setUserActive] = useState(user.ativo);
-
-
+  const idUsuario = user.idUsuario;
+  const nome = user.nome;
+  const sobreNome = user.sobrenome;
 
   const handleSave = async () => {
     onSave(idUsuario);
@@ -28,7 +24,7 @@ const UserDeletePopup: React.FC<UserDeletePopupProps> = ({ user, onClose, onSave
           <p>Tem certeza que deseja apagar o usuário {nome} {sobreNome}?</p>
         </div>
         <div className="div-botoes">
-          <button onClick={handleSave} className='save'>Save</button>
+          <button onClick={handleSave} className='delete'>Sim, quero apagar!</button>
           <button onClick={onClose} className='cancel'>Cancel</button>
         </div>
       </>
