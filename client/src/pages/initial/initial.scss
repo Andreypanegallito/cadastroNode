@@ -29,3 +29,16 @@
     }
   }
 }
+
+@media (max-width: 1200px) {
+  #initial {
+    .itens {
+      flex-wrap: wrap;
+      margin: 10px 0;
+
+      .item {
+        margin: 10px 15px;
+      }
+    }
+  }
+}
