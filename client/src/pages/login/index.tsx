@@ -17,7 +17,7 @@ const Login = () => {
   });
   const [isPasswordLoginVisible, setPasswordLoginVisible] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = process.env.API_NODE_URL;
+  const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
 
   const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {

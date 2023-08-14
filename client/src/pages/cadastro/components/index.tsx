@@ -27,7 +27,7 @@ const CadastroUsuario: React.FC = () => {
   const [isPasswordEquals, setPasswordEquals] = useState(false);
   const [isPasswordAltered, setIsPasswordAltered] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = process.env.API_NODE_URL;
+  const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
