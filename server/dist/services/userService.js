@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM usuarios", (error, results) => {
+        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios", (error, results) => {
             if (error) {
                 reject(error);
             }
@@ -44,6 +44,32 @@ const createUser = (user) => {
     });
 };
 exports.createUser = createUser;
+const updateUser = (user) => {
+    return new Promise((resolve, reject) => {
+        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?", [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario], (error, result) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve("Ok");
+            }
+        });
+    });
+};
+exports.updateUser = updateUser;
+const deleteUser = (idUsuario) => {
+    return new Promise((resolve, reject) => {
+        db_1.default.query("DELETE FROM usuarios WHERE idUsuario = ?", idUsuario, (error, result) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve("Ok");
+            }
+        });
+    });
+};
+exports.deleteUser = deleteUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `select * from usuarios where username = '${userName}' and password = '${password}'`;

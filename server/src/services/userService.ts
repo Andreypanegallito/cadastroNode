@@ -10,7 +10,7 @@ interface LoginResponse {
 export const getAllUsers = () => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao FROM usuarios",
+      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios",
       (error, results) => {
         if (error) {
           reject(error);
@@ -47,6 +47,38 @@ export const createUser = (user: User) => {
         resolve("Ok");
       }
     });
+  });
+};
+
+export const updateUser = (user: User) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?",
+      [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario],
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      }
+    );
+  });
+};
+
+export const deleteUser = (idUsuario: number) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "DELETE FROM usuarios WHERE idUsuario = ?",
+      idUsuario,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      }
+    );
   });
 };
 
