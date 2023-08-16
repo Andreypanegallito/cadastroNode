@@ -102,7 +102,6 @@ export const loginUser = (
 ): Promise<LoginResponse> => {
   return new Promise((resolve, reject) => {
     const sql = `SELECT * FROM usuarios WHERE username = ?`;
-    // and password = '${password}'`;
 
     connection.query(sql, [userName], async (error, results) => {
       if (error) {
@@ -120,7 +119,7 @@ export const loginUser = (
           return;
         }
 
-        const storedHashedPassword = result.password; // Senha criptografada armazenada no banco de dados
+        const storedHashedPassword = result.password;
         const passwordsMatch = await bcrypt.compare(
           password,
           storedHashedPassword
@@ -134,6 +133,7 @@ export const loginUser = (
           };
           resolve(loginResponse);
         } else {
+          // senha errada
           const status = "passErr";
           const loginResponse: LoginResponse = {
             result: null,

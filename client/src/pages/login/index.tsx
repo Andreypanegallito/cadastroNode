@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.scss';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/popup';
