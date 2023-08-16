@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
+import bcrypt = require("bcrypt");
 
 interface LoginResponse {
   result: RowDataPacket[];
@@ -40,12 +41,25 @@ export const getUserById = (userId: number) => {
 
 export const createUser = (user: User) => {
   return new Promise((resolve, reject) => {
-    connection.query("INSERT INTO usuarios SET ?", user, (error, result) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve("Ok");
+    bcrypt.hash(user.password, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
       }
+
+      const newUser = { ...user, password: hashedPassword };
+
+      connection.query(
+        "INSERT INTO usuarios SET ?",
+        newUser,
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve("Ok");
+          }
+        }
+      );
     });
   });
 };
@@ -87,18 +101,46 @@ export const loginUser = (
   password: string
 ): Promise<LoginResponse> => {
   return new Promise((resolve, reject) => {
-    const sql = `select * from usuarios where username = '${userName}' and password = '${password}'`;
+    const sql = `SELECT * FROM usuarios WHERE username = ?`;
+    // and password = '${password}'`;
 
-    connection.query(sql, (error, result) => {
+    connection.query(sql, [userName], async (error, results) => {
       if (error) {
         reject(error);
       } else {
-        const status = "Ok";
-        const loginResponse: LoginResponse = {
-          result: result as RowDataPacket[],
-          status,
-        };
-        resolve(loginResponse);
+        const result = results[0];
+        if (!result) {
+          // Usuário não encontrado
+          const status = "userErr";
+          const loginResponse: LoginResponse = {
+            result: null,
+            status,
+          };
+          resolve(loginResponse);
+          return;
+        }
+
+        const storedHashedPassword = result.password; // Senha criptografada armazenada no banco de dados
+        const passwordsMatch = await bcrypt.compare(
+          password,
+          storedHashedPassword
+        );
+
+        if (passwordsMatch) {
+          const status = "Ok";
+          const loginResponse: LoginResponse = {
+            result: result as RowDataPacket[],
+            status,
+          };
+          resolve(loginResponse);
+        } else {
+          const status = "passErr";
+          const loginResponse: LoginResponse = {
+            result: null,
+            status,
+          };
+          resolve(loginResponse);
+        }
       }
     });
   });

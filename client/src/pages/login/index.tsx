@@ -70,23 +70,29 @@ const Login = () => {
     const retorno = validateInputs();
 
     if (retorno) {
-      //faz a requisiçao pro back-end
       try {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === 'OK') {
+          // Limpa o formulário após o envio
+          setFormDataLogin({
+            usernameLogin: '',
+            passwordLogin: '',
+          });
+
           // Realiza o redirecionamento para outra página
           navigate('/users');
+        }
+        else if (response.data.status === 'passErr') {
+          alert("Senha incorreta!")
+        }
+        else if (response.data.status === 'userErr') {
+          alert("Usuário inválido!")
         }
       }
       catch (error) {
         console.error(error);
       }
-      // Limpa o formulário após o envio
-      setFormDataLogin({
-        usernameLogin: '',
-        passwordLogin: '',
-      });
     }
   };
 
