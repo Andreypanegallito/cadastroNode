@@ -40,6 +40,9 @@ app.post("/login", async (req, res) => {
             const user = retorno.result;
             res.json({ status: "OK", user });
         }
+        else {
+            res.json({ status: retorno.status });
+        }
     }
     catch (error) { }
 });

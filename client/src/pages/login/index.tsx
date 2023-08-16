@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.scss';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
+import Popup from '../../components/popup';
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -15,7 +15,8 @@ const Login = () => {
     usernameLogin: '',
     passwordLogin: '',
   });
-  const [isPasswordLoginVisible, setPasswordLoginVisible] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState('');
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
@@ -30,21 +31,6 @@ const Login = () => {
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const togglePasswordVisibility = (id: string) => {
-    const input = document.getElementById(id) as HTMLInputElement;
-
-    if (input.type === 'password') {
-      input.type = "text"
-    }
-    else if (input.type === "text") {
-      input.type = "password"
-    }
-
-    if (id === 'passwordLogin') {
-      setPasswordLoginVisible(!isPasswordLoginVisible);
-    }
   };
 
   const validateInputs = () => {
@@ -65,28 +51,53 @@ const Login = () => {
     return retorno
   };
 
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const renderHtmlPopup = () => {
+    return (
+      <>
+        <div className="item-popup message-user">
+          <h2>{popupContent}</h2>
+        </div>
+        <div className="div-botoes">
+          <button onClick={closePopup} className='cancel'>Fechar</button>
+        </div>
+      </>
+    );
+  };
+
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const retorno = validateInputs();
 
     if (retorno) {
-      //faz a requisiçao pro back-end
       try {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === 'OK') {
+          // Limpa o formulário após o envio
+          setFormDataLogin({
+            usernameLogin: '',
+            passwordLogin: '',
+          });
+
           // Realiza o redirecionamento para outra página
           navigate('/users');
+        }
+        else if (response.data.status === 'passErr') {
+          setPopupContent('Senha incorreta!');
+          setShowPopup(true);
+        }
+        else if (response.data.status === 'userErr') {
+          setPopupContent('Usuário inválido!');
+          setShowPopup(true);
         }
       }
       catch (error) {
         console.error(error);
       }
-      // Limpa o formulário após o envio
-      setFormDataLogin({
-        usernameLogin: '',
-        passwordLogin: '',
-      });
     }
   };
 
@@ -121,7 +132,6 @@ const Login = () => {
                 onChange={handleChangeLogin}
                 className='senha'
               />
-
             </div>
             <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
           </form>
@@ -130,6 +140,9 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {showPopup && (
+        <Popup renderContent={renderHtmlPopup} />
+      )}
     </section>
   )
 }

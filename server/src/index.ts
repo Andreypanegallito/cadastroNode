@@ -43,6 +43,8 @@ app.post("/login", async (req: Request, res: Response) => {
     if (retorno.status === "Ok") {
       const user = retorno.result;
       res.json({ status: "OK", user });
+    } else {
+      res.json({ status: retorno.status });
     }
   } catch (error) {}
 });
