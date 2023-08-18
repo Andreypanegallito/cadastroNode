@@ -82,9 +82,10 @@ const Login = () => {
             usernameLogin: '',
             passwordLogin: '',
           });
+          console.log(response)
 
           // Realiza o redirecionamento para outra página
-          navigate('/users');
+          // navigate('/users');
         }
         else if (response.data.status === 'passErr') {
           setPopupContent('Senha incorreta!');

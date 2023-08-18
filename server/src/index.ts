@@ -42,7 +42,8 @@ app.post("/login", async (req: Request, res: Response) => {
     const retorno = await loginUser(usernameLogin, passwordLogin);
     if (retorno.status === "Ok") {
       const user = retorno.result;
-      res.json({ status: "OK", user });
+      const token = retorno.token;
+      res.json({ status: "OK", user, token });
     } else {
       res.json({ status: retorno.status });
     }
