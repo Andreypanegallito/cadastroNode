@@ -38,7 +38,8 @@ app.post("/login", async (req, res) => {
         const retorno = await (0, userService_1.loginUser)(usernameLogin, passwordLogin);
         if (retorno.status === "Ok") {
             const user = retorno.result;
-            res.json({ status: "OK", user });
+            const token = retorno.token;
+            res.json({ status: "OK", user, token });
         }
         else {
             res.json({ status: retorno.status });

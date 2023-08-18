@@ -1,23 +1,90 @@
-// AppRoutes.tsx
-import React from 'react';
-import { BrowserRouter, Route, Routes, RouteProps } from 'react-router-dom';
-import Initial from '../../pages/initial';
-import Users from '../../pages/users';
-import Login from '../../pages/login/index';
-import Cadastro from '../../pages/cadastro';
-import PrivateRoute from '../privateRoute/';
+import React from "react";
+import {
+  Form,
+  Link,
+  Navigate,
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+  useActionData,
+  useFetcher,
+  useLocation,
+  useNavigation,
+  useRouteLoaderData,
+  useNavigate,
+} from "react-router-dom";
+import PrivateRoute from "../privateRoute/index"; // Certifique-se de importar o caminho correto
 
-const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
+import Initial from "../../pages/initial/index";
+import Users from "../../pages/users/index";
+import Cadastro from "../../pages/cadastro/index";
+import Login from "../../pages/login/index";
+import Cookies from "js-cookie";
 
-      {/* Rotas privadas */}
-      <PrivateRoute path="/" element={<Initial />} /> {/* Rota índice */}
-      <PrivateRoute path="/users" element={<Users />} />
-      <PrivateRoute path="/cadastro" element={<Cadastro />} />
-    </Routes>
-  );
+const token = Cookies.get("jwtToken");
+
+const Initialaa = () => {
+  if (token !== undefined) {
+    return <Initial />;
+  }
+  return <Login />;
 };
+
+const LoginPage = () => {
+  return <Login />;
+};
+
+const UsersPage = () => {
+  if (token !== undefined) {
+    return <Users />;
+  }
+
+  <Navigate to="/login" />;
+  return <Login />;
+};
+
+const CadastroPage = () => {
+  if (token !== undefined) {
+    return <Cadastro />;
+  }
+  <Navigate to="/login" />;
+  return <Login />;
+};
+// async function loginLoader() {
+//   if (fakeAuthProvider.isAuthenticated) {
+//     return redirect("/");
+//   }
+//   return null;
+// }
+
+const AppRoutes = createBrowserRouter([
+  {
+    id: "root",
+    path: "/",
+    Component: Initialaa,
+    children: [
+      {
+        index: true,
+        Component: Initialaa,
+      },
+    ],
+  },
+  {
+    id: "Login",
+    path: "/login",
+    Component: LoginPage,
+  },
+  {
+    id: "Users",
+    path: "/users",
+    Component: UsersPage,
+  },
+  {
+    id: "Cadastro",
+    path: "cadastro",
+    Component: CadastroPage,
+  },
+]);
 
 export default AppRoutes;

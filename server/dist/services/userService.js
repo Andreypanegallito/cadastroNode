@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
-const bcrypt = require("bcrypt");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios", (error, results) => {
@@ -34,7 +35,7 @@ const getUserById = (userId) => {
 exports.getUserById = getUserById;
 const createUser = (user) => {
     return new Promise((resolve, reject) => {
-        bcrypt.hash(user.password, 10, (err, hashedPassword) => {
+        bcrypt_1.default.hash(user.password, 10, (err, hashedPassword) => {
             if (err) {
                 reject(err);
                 return;
@@ -93,17 +94,27 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
+                        token: null
                     };
                     resolve(loginResponse);
                     return;
                 }
                 const storedHashedPassword = result.password;
-                const passwordsMatch = await bcrypt.compare(password, storedHashedPassword);
+                const passwordsMatch = await bcrypt_1.default.compare(password, storedHashedPassword);
                 if (passwordsMatch) {
+                    // Senha correta - gera um token JWT
+                    const payload = {
+                        userId: result.idUsuario,
+                        username: result.username,
+                    };
+                    const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+                        expiresIn: '1h', // Tempo de expiração do token (opcional)
+                    });
                     const status = "Ok";
                     const loginResponse = {
                         result: result,
                         status,
+                        token, // Inclui o token na resposta
                     };
                     resolve(loginResponse);
                 }
@@ -113,6 +124,7 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
+                        token: null
                     };
                     resolve(loginResponse);
                 }

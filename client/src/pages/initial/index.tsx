@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import './initial.scss'
 
@@ -29,8 +29,7 @@ const Initial = () => {
         </div>
       </div>
     </section>
-  )
+  );
 };
-
 
 export default Initial;

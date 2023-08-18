@@ -1,9 +1,8 @@
-// PrivateRoute.tsx
 import React from 'react';
 import { Route, Navigate, RouteProps } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-export type PrivateRouteProps = RouteProps & {
+type PrivateRouteProps = RouteProps & {
   // remove the `component` property
 };
 
@@ -16,6 +15,5 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ ...rest }) => {
     />
   );
 };
-
 
 export default PrivateRoute;
