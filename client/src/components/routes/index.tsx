@@ -1,5 +1,6 @@
+// AppRoutes.tsx
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, RouteProps } from 'react-router-dom';
 import Initial from '../../pages/initial';
 import Users from '../../pages/users';
 import Login from '../../pages/login/index';
