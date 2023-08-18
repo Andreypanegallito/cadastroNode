@@ -83,12 +83,12 @@ const Login = () => {
             usernameLogin: '',
             passwordLogin: '',
           });
-          console.log(response)
+
           const token = response.data.token;
           Cookies.set('jwtToken', token);
 
           // Realiza o redirecionamento para outra página
-          // navigate('/users');
+          navigate('/users');
         }
         else if (response.data.status === 'passErr') {
           setPopupContent('Senha incorreta!');
