@@ -4,6 +4,7 @@ import './login.scss';
 import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/popup';
+import Cookies from 'js-cookie';
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -83,6 +84,8 @@ const Login = () => {
             passwordLogin: '',
           });
           console.log(response)
+          const token = response.data.token;
+          Cookies.set('jwtToken', token);
 
           // Realiza o redirecionamento para outra página
           // navigate('/users');
