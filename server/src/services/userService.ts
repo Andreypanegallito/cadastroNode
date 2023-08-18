@@ -1,7 +1,8 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
-import bcrypt = require("bcrypt");
+import bcrypt  from "bcrypt";
+import jwt from "jsonwebtoken"
 
 interface LoginResponse {
   result: RowDataPacket[];
