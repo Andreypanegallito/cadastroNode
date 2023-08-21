@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './initial.scss'
+import Cookies from 'js-cookie';
 
 const Initial = () => {
+  const navigate = useNavigate();
+  const deslogar = () => {
+    Cookies.remove('jwtToken');
+
+    navigate('/login');
+  };
   return (
     <section id='initial'>
       <div className="itens">
@@ -25,6 +32,11 @@ const Initial = () => {
         <div className="item">
           <div className="item-title">
             <Link to="/contato" className='btn-link'>Contato</Link>
+          </div>
+        </div>
+        <div className="item">
+          <div className="item-title">
+            <button onClick={deslogar}>Deslogar</button>
           </div>
         </div>
       </div>

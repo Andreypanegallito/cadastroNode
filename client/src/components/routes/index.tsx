@@ -1,21 +1,5 @@
 import React from "react";
-import {
-  Form,
-  Link,
-  Navigate,
-  Outlet,
-  RouterProvider,
-  createBrowserRouter,
-  redirect,
-  useActionData,
-  useFetcher,
-  useLocation,
-  useNavigation,
-  useRouteLoaderData,
-  useNavigate,
-} from "react-router-dom";
-import PrivateRoute from "../privateRoute/index"; // Certifique-se de importar o caminho correto
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Initial from "../../pages/initial/index";
 import Users from "../../pages/users/index";
 import Cadastro from "../../pages/cadastro/index";
@@ -24,67 +8,23 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get("jwtToken");
 
-const Initialaa = () => {
-  if (token !== undefined) {
-    return <Initial />;
-  }
-  return <Login />;
+const AppRoutes = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={
+          token !== undefined ? <Initial /> : <Navigate to="/login" />
+        } />
+        <Route path='/login' element={<Login />} />
+        <Route path='/users' element={
+          token !== undefined ? <Users /> : <Navigate to="/login" />
+        } />
+        <Route path='/cadastro' element={
+          token !== undefined ? <Cadastro /> : <Navigate to="/login" />
+        } />
+      </Routes>
+    </BrowserRouter>
+  );
 };
-
-const LoginPage = () => {
-  return <Login />;
-};
-
-const UsersPage = () => {
-  if (token !== undefined) {
-    return <Users />;
-  }
-
-  <Navigate to="/login" />;
-  return <Login />;
-};
-
-const CadastroPage = () => {
-  if (token !== undefined) {
-    return <Cadastro />;
-  }
-  <Navigate to="/login" />;
-  return <Login />;
-};
-// async function loginLoader() {
-//   if (fakeAuthProvider.isAuthenticated) {
-//     return redirect("/");
-//   }
-//   return null;
-// }
-
-const AppRoutes = createBrowserRouter([
-  {
-    id: "root",
-    path: "/",
-    Component: Initialaa,
-    children: [
-      {
-        index: true,
-        Component: Initialaa,
-      },
-    ],
-  },
-  {
-    id: "Login",
-    path: "/login",
-    Component: LoginPage,
-  },
-  {
-    id: "Users",
-    path: "/users",
-    Component: UsersPage,
-  },
-  {
-    id: "Cadastro",
-    path: "cadastro",
-    Component: CadastroPage,
-  },
-]);
 
 export default AppRoutes;
