@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./login.scss";
 import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Popup from "../../components/popup";
 import Cookies from "js-cookie";
 
@@ -86,11 +86,11 @@ const Login = () => {
           });
 
           const token = response.data.token;
-          Cookies.set("jwtToken", token);
+          await Cookies.set("jwtToken", token);
 
           // Realiza o redirecionamento para outra página após meio segundo
           setTimeout(function () {
-            navigate('/');
+            navigate("/");
           }, 500);
         } else if (response.data.status === "passErr") {
           setPopupContent("Senha incorreta!");
