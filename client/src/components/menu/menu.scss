@@ -89,7 +89,7 @@
       display: none;
     }
 
-    .btn-fecha-menu a {
+    .btn-fecha-menu .nav-link {
       margin-right: 10px;
       cursor: pointer;
       font-size: 2rem;
@@ -100,7 +100,7 @@
       transition: background-color 0.7s;
     }
 
-    .btn-fecha-menu a:hover {
+    .btn-fecha-menu .nav-link:hover {
       background-color: var(--cor-destaque);
       transition: background-color 0.5s;
     }
