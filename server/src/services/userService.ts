@@ -1,11 +1,13 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
-import bcrypt = require("bcrypt");
+import bcrypt  from "bcrypt";
+import jwt from "jsonwebtoken"
 
 interface LoginResponse {
   result: RowDataPacket[];
   status: string;
+  token: string;
 }
 
 export const getAllUsers = () => {
@@ -114,6 +116,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
+            token: null
           };
           resolve(loginResponse);
           return;
@@ -126,10 +129,21 @@ export const loginUser = (
         );
 
         if (passwordsMatch) {
+          // Senha correta - gera um token JWT
+          const payload = {
+            userId: result.idUsuario, // Id do usuário ou outro identificador único
+            username: result.username,
+          };
+
+          const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: '1h', // Tempo de expiração do token (opcional)
+          });
+
           const status = "Ok";
           const loginResponse: LoginResponse = {
             result: result as RowDataPacket[],
             status,
+            token, // Inclui o token na resposta
           };
           resolve(loginResponse);
         } else {
@@ -138,6 +152,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
+            token: null
           };
           resolve(loginResponse);
         }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './login.scss';
+import React, { useState } from "react";
+import axios from "axios";
+import "./login.scss";
 import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
-import Popup from '../../components/popup';
+import { redirect, useNavigate } from "react-router-dom";
+import Popup from "../../components/popup";
+import Cookies from "js-cookie";
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -12,19 +13,18 @@ interface FormDataLogin {
 
 const Login = () => {
   const [formDataLogin, setFormDataLogin] = useState<FormDataLogin>({
-    usernameLogin: '',
-    passwordLogin: '',
+    usernameLogin: "",
+    passwordLogin: "",
   });
   const [showPopup, setShowPopup] = useState(false);
-  const [popupContent, setPopupContent] = useState('');
+  const [popupContent, setPopupContent] = useState("");
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
-
 
   const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (e.target.value !== "") {
-      e.target.classList.remove('error');
+      e.target.classList.remove("error");
     }
 
     setFormDataLogin((prevData) => ({
@@ -37,7 +37,7 @@ const Login = () => {
     let retorno = true;
     const form = document.getElementById("login") as HTMLFormElement;
 
-    const inputs = form?.querySelectorAll('input');
+    const inputs = form?.querySelectorAll("input");
 
     inputs?.forEach((input: HTMLInputElement) => {
       if (input.value === "") {
@@ -45,10 +45,10 @@ const Login = () => {
       }
 
       if (input.classList.contains("error")) {
-        retorno = false
+        retorno = false;
       }
-    })
-    return retorno
+    });
+    return retorno;
   };
 
   const closePopup = () => {
@@ -62,7 +62,9 @@ const Login = () => {
           <h2>{popupContent}</h2>
         </div>
         <div className="div-botoes">
-          <button onClick={closePopup} className='cancel'>Fechar</button>
+          <button onClick={closePopup} className="cancel">
+            Fechar
+          </button>
         </div>
       </>
     );
@@ -76,33 +78,35 @@ const Login = () => {
       try {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
-        if (response.data.status === 'OK') {
+        if (response.data.status === "OK") {
           // Limpa o formulário após o envio
           setFormDataLogin({
-            usernameLogin: '',
-            passwordLogin: '',
+            usernameLogin: "",
+            passwordLogin: "",
           });
 
-          // Realiza o redirecionamento para outra página
-          navigate('/users');
-        }
-        else if (response.data.status === 'passErr') {
-          setPopupContent('Senha incorreta!');
+          const token = response.data.token;
+          Cookies.set("jwtToken", token);
+
+          // Realiza o redirecionamento para outra página após meio segundo
+          setTimeout(function () {
+            navigate('/');
+          }, 500);
+        } else if (response.data.status === "passErr") {
+          setPopupContent("Senha incorreta!");
+          setShowPopup(true);
+        } else if (response.data.status === "userErr") {
+          setPopupContent("Usuário inválido!");
           setShowPopup(true);
         }
-        else if (response.data.status === 'userErr') {
-          setPopupContent('Usuário inválido!');
-          setShowPopup(true);
-        }
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
     }
   };
 
   return (
-    <section id='login'>
+    <section id="login">
       <div className="container-login">
         <div className="img-login half-login">
           <BsPersonCircle />
@@ -111,8 +115,8 @@ const Login = () => {
           <div className="titulo">
             <h1>Login</h1>
           </div>
-          <form id='formLogin'>
-            <div className='itens-form'>
+          <form id="formLogin">
+            <div className="itens-form">
               <label htmlFor="usernameLogin">Usuário:</label>
               <input
                 type="text"
@@ -122,7 +126,7 @@ const Login = () => {
                 onChange={handleChangeLogin}
               />
             </div>
-            <div className='itens-form'>
+            <div className="itens-form">
               <label htmlFor="passwordLogin">Senha:</label>
               <input
                 type="password"
@@ -130,20 +134,24 @@ const Login = () => {
                 name="passwordLogin"
                 value={formDataLogin.passwordLogin}
                 onChange={handleChangeLogin}
-                className='senha'
+                className="senha"
               />
             </div>
-            <button type="button" className='btn-enviar' onClick={handleSubmitLogin}>Login</button>
+            <button
+              type="button"
+              className="btn-enviar"
+              onClick={handleSubmitLogin}
+            >
+              Login
+            </button>
           </form>
           <div className="esqueceu-senha">
             <button>Esqueceu usuário/senha</button>
           </div>
         </div>
       </div>
-      {showPopup && (
-        <Popup renderContent={renderHtmlPopup} />
-      )}
+      {showPopup && <Popup renderContent={renderHtmlPopup} />}
     </section>
-  )
-}
-export default Login
+  );
+};
+export default Login;

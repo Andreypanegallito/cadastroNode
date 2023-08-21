@@ -1,17 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import './initial.scss'
+import Cookies from 'js-cookie';
 
 const Initial = () => {
+  const navigate = useNavigate();
+  const deslogar = () => {
+    Cookies.remove('jwtToken');
+
+    navigate('/login');
+  };
   return (
     <section id='initial'>
       <div className="itens">
-        <div className="item">
-          <div className="item-title">
-            <Link to="/login" className='btn-link'>Login</Link>
-          </div>
-        </div>
         <div className="item">
           <div className="item-title">
             <Link to="/users" className='btn-link'>Usuários</Link>
@@ -27,10 +29,14 @@ const Initial = () => {
             <Link to="/contato" className='btn-link'>Contato</Link>
           </div>
         </div>
+        <div className="item">
+          <div className="item-title">
+            <button onClick={deslogar} className='btn-link'>Deslogar</button>
+          </div>
+        </div>
       </div>
     </section>
-  )
+  );
 };
-
 
 export default Initial;

@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 
 import './menu.scss';
 import { FaBars } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlinePoweroff } from 'react-icons/ai';
 import { LinksMenu } from '../../utils/menu';
+import Cookies from 'js-cookie';
 
 
 const Menu = ({ links }: LinksMenu) => {
+  const navigate = useNavigate();
   useEffect(() => {
     function handleScroll() {
       const elementos = document.querySelectorAll('.initial');
@@ -55,7 +57,13 @@ const Menu = ({ links }: LinksMenu) => {
     }
   }
 
+  const deslogar = () => {
+    Cookies.remove('jwtToken');
 
+    ativaDesativaMenu();
+
+    navigate('/login');
+  };
   return (
     <header>
       <div id='btn-menu' className="btn-menu" onClick={ativaDesativaMenu}>
@@ -64,11 +72,16 @@ const Menu = ({ links }: LinksMenu) => {
       <nav className="nav">
         <ul className="nav-list">
           <li className="nav-item btn-fecha-menu">
-            <a>
+            <a className='nav-link'>
               <AiOutlineClose color='#fff' onClick={ativaDesativaMenu} />
             </a>
           </li>
           {geraLinksMenu()}
+          <li className="nav-item btn-fecha-menu">
+            <button className='nav-link'>
+              <AiOutlinePoweroff color='#fff' onClick={deslogar} />
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
