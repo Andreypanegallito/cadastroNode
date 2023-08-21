@@ -62,7 +62,9 @@ const Menu = ({ links }: LinksMenu) => {
 
     ativaDesativaMenu();
 
-    navigate('/login');
+    setTimeout(function () {
+      navigate("/login");
+    }, 500);
   };
   return (
     <header>
