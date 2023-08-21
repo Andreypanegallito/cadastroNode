@@ -5,6 +5,7 @@ import Users from "../../pages/users/index";
 import Cadastro from "../../pages/cadastro/index";
 import Login from "../../pages/login/index";
 import Cookies from "js-cookie";
+import PageNotFound from "../../pages/pageNotFound";
 
 const token = Cookies.get("jwtToken");
 
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path='/cadastro' element={
           token !== undefined ? <Cadastro /> : <Navigate to="/login" />
         } />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

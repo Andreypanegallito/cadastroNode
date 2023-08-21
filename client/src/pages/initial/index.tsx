@@ -36,7 +36,7 @@ const Initial = () => {
         </div>
         <div className="item">
           <div className="item-title">
-            <button onClick={deslogar}>Deslogar</button>
+            <button onClick={deslogar} className='btn-link'>Deslogar</button>
           </div>
         </div>
       </div>
