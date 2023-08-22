@@ -89,9 +89,9 @@ const Login = () => {
           Cookies.set("jwtToken", token);
 
           // Realiza o redirecionamento para outra página após meio segundo
-          setTimeout(function () {
-            navigate("/", { replace: true });
-          }, 500);
+          if (Cookies.get("jwtToken") !== undefined) {
+            await navigate("/", { replace: true });
+          }
         } else if (response.data.status === "passErr") {
           setPopupContent("Senha incorreta!");
           setShowPopup(true);

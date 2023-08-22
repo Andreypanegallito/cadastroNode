@@ -9,6 +9,9 @@ import {
   deleteUser,
 } from "./services/userService";
 import { User } from "./utils/user";
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 const app = express();
 app.use(express.json());
@@ -40,12 +43,17 @@ app.post("/login", async (req: Request, res: Response) => {
   try {
     const { usernameLogin, passwordLogin } = req.body;
     const retorno = await loginUser(usernameLogin, passwordLogin);
-    if (retorno.status === "Ok") {
-      const user = retorno.result;
-      const token = retorno.token;
-      res.json({ status: "OK", user, token });
+    const userName = retorno.result[0].username;
+    const password = retorno.result[0].password;
+    if (userName === usernameLogin && password === passwordLogin) {
+      // Crie um token
+      const token = jwt.sign({ userName }, JWT_SECRET, { expiresIn: '1h' });
+
+      // Retorne o token para o usuário
+      res.json({ token });
     } else {
-      res.json({ status: retorno.status });
+      // Retorne um erro
+      res.status(401).json({ error: 'Unauthorized' });
     }
   } catch (error) {}
 });
