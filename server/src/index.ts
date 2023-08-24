@@ -110,6 +110,22 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/resetePassword", async (req: Request, res: Response) => {
+  try {
+    const { idUsuario } = req.body;
+
+    const retorno = "Ok";
+
+    if( retorno == "Ok" ) {
+      res.json({ status: "Ok", message: "Alterado a senha com sucesso"});
+    }
+  }
+  catch(error) {
+    console.error("Erro ao alterar o usuário:", error);
+    res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log("Servidor da API iniciado na porta", process.env.PORT);
 });

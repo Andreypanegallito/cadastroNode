@@ -17,3 +17,10 @@ export interface UpdateUser {
   ativo?: boolean;
   podeEditar?: boolean;
 }
+
+
+export interface ResetPasswordUser {
+  idUsuario: number;
+  username: string;
+  password: string;
+}
