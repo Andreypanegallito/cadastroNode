@@ -1,11 +1,11 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
-import bcrypt  from "bcrypt";
-import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 interface LoginResponse {
-  result: RowDataPacket[];
+  result: RowDataPacket;
   status: string;
   token: string;
 }
@@ -69,8 +69,15 @@ export const createUser = (user: User) => {
 export const updateUser = (user: User) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?",
-      [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario],
+      "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ?, podeEditar = ? WHERE idUsuario = ?",
+      [
+        user.nome,
+        user.sobrenome,
+        user.email,
+        user.ativo,
+        user.podeEditar,
+        user.idUsuario,
+      ],
       (error, result) => {
         if (error) {
           reject(error);
@@ -116,7 +123,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
-            token: null
+            token: null,
           };
           resolve(loginResponse);
           return;
@@ -136,12 +143,12 @@ export const loginUser = (
           };
 
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: '1h', // Tempo de expiração do token (opcional)
+            expiresIn: "1h", // Tempo de expiração do token (opcional)
           });
 
           const status = "Ok";
           const loginResponse: LoginResponse = {
-            result: result as RowDataPacket[],
+            result: result as RowDataPacket,
             status,
             token, // Inclui o token na resposta
           };
@@ -152,7 +159,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
-            token: null
+            token: null,
           };
           resolve(loginResponse);
         }

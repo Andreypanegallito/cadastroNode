@@ -9,9 +9,8 @@ import {
   deleteUser,
 } from "./services/userService";
 import { User } from "./utils/user";
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
-
 
 const app = express();
 app.use(express.json());
@@ -43,17 +42,17 @@ app.post("/login", async (req: Request, res: Response) => {
   try {
     const { usernameLogin, passwordLogin } = req.body;
     const retorno = await loginUser(usernameLogin, passwordLogin);
-    const userName = retorno.result[0].username;
-    const password = retorno.result[0].password;
-    if (userName === usernameLogin && password === passwordLogin) {
+    const userName = retorno.result.username;
+    const password = retorno.result.password;
+    if (retorno.status === "Ok") {
       // Crie um token
-      const token = jwt.sign({ userName }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ userName }, JWT_SECRET, { expiresIn: "1h" });
 
       // Retorne o token para o usuário
-      res.json({ token });
+      res.json({ status: "Ok", token: token });
     } else {
       // Retorne um erro
-      res.status(401).json({ error: 'Unauthorized' });
+      res.status(401).json({ error: "Unauthorized" });
     }
   } catch (error) {}
 });
@@ -76,7 +75,7 @@ app.post("/createUser", async (req: Request, res: Response) => {
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/updateUser", async (req: Request, res: Response) => {
   try {
-    const { idUsuario, nome, sobrenome, email, ativo } = req.body;
+    const { idUsuario, nome, sobrenome, email, ativo, podeEditar } = req.body;
     const newUpdateUser = new User(
       nome,
       sobrenome,
@@ -84,6 +83,7 @@ app.post("/updateUser", async (req: Request, res: Response) => {
       email,
       undefined,
       ativo,
+      podeEditar,
       idUsuario
     ); //{ name, email, password };
     const retorno = await updateUser(newUpdateUser);

@@ -55,7 +55,14 @@ const createUser = (user) => {
 exports.createUser = createUser;
 const updateUser = (user) => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?", [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario], (error, result) => {
+        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ?, podeEditar = ? WHERE idUsuario = ?", [
+            user.nome,
+            user.sobrenome,
+            user.email,
+            user.ativo,
+            user.podeEditar,
+            user.idUsuario,
+        ], (error, result) => {
             if (error) {
                 reject(error);
             }
@@ -94,7 +101,7 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
-                        token: null
+                        token: null,
                     };
                     resolve(loginResponse);
                     return;
@@ -108,7 +115,7 @@ const loginUser = (userName, password) => {
                         username: result.username,
                     };
                     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
-                        expiresIn: '1h', // Tempo de expiração do token (opcional)
+                        expiresIn: "1h", // Tempo de expiração do token (opcional)
                     });
                     const status = "Ok";
                     const loginResponse = {
@@ -124,7 +131,7 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
-                        token: null
+                        token: null,
                     };
                     resolve(loginResponse);
                 }

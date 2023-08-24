@@ -5,14 +5,15 @@ export interface User {
   username: string;
   email: string;
   data_criacao: Date;
-  ativo: boolean; 
+  ativo: boolean;
+  podeEditar: boolean;
 }
-
 
 export interface UpdateUser {
   idUsuario: number;
   nome?: string;
   sobrenome?: string;
   email?: string;
-  ativo?: boolean; 
+  ativo?: boolean;
+  podeEditar?: boolean;
 }

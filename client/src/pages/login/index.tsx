@@ -78,7 +78,7 @@ const Login = () => {
       try {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
-        if (response.data.status === "OK") {
+        if (response.data.status === "Ok") {
           // Limpa o formulário após o envio
           setFormDataLogin({
             usernameLogin: "",
