@@ -52,7 +52,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const deleteUser = async (idUser: number) => {
     try {
       alert(idUser);
-      const response = await axios.post(`${apiUrl}/deleteUser`,{ idUsuario: idUser });
+      const response = await axios.post(`${apiUrl}/deleteUser`, { idUsuario: idUser });
 
       if (response.data.status === 'Ok') { }
       closePopup();
@@ -66,9 +66,9 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const renderTableUsers = () => {
     return (
       users.length > 0 ? (
-        users.map(user => (
-          <tr key={user.idUsuario} className={user.idUsuario % 2 === 0 ? 'even' : 'odd'}>
-            <td className="id">{user.idUsuario}</td>
+        users.map((user, index) => (
+          <tr key={index} className={index % 2 === 0 ? 'even' : 'odd'}>
+            <td className="id">{index + 1}</td>
             <td className="name">{user.nome} {user.sobrenome}</td>
             <td className='email'>{user.email}</td>
             <td className='data_criacao'>{user.data_criacao.toLocaleString()}</td>
@@ -78,8 +78,8 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
               </span>
             </td>
             <td className='opcoes'>
-              <button onClick={() => openPopup(user, "edit")}><FaUserEdit /></button>
-              <button onClick={() => openPopup(user, "delete")}><RiDeleteBin6Line /> </button>
+              <button type='button' title='Editar usuário' onClick={() => openPopup(user, "edit")}><FaUserEdit /></button>
+              <button type='button' title='Excluir usuário' onClick={() => openPopup(user, "delete")}><RiDeleteBin6Line /> </button>
             </td>
           </tr >
         ))
