@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./login.scss";
-import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../components/popup";
 import Cookies from "js-cookie";

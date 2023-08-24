@@ -1,20 +1,18 @@
-import { createBrowserRouter, redirect, Route } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import Initial from "../../pages/initial/index";
 import LoginPage from "../../pages/login/index";
 import UsersPage from "../../pages/users/index";
-// import { fakeAuthProvider } from "./auth";
-import type { LoaderFunctionArgs } from "react-router-dom";
+import CadastroPage from "../../pages/cadastro/index";
+import Cookies from "js-cookie";
+import PageNotFound from "../../pages/pageNotFound";
 
-function protectedLoader({ request }: LoaderFunctionArgs) {
-  console.log(request);
-  // If the user is not logged in and tries to access `/protected`, we redirect
-  // them to `/login` with a `from` parameter that allows login to redirect back
-  // to this page upon successful authentication
-  // if (!fakeAuthProvider.isAuthenticated) {
-  //   let params = new URLSearchParams();
-  //   params.set("from", new URL(request.url).pathname);
-  //   return redirect("/login");
-  // }
+function protectedLoader() {
+  const token = Cookies.get("jwtToken");
+
+  if (token === undefined) {
+    return redirect("/login");
+  }
+
   return null;
 }
 
@@ -22,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     Component: Initial,
+    loader: protectedLoader,
   },
   {
     path: "/login",
@@ -32,13 +31,16 @@ const router = createBrowserRouter([
     Component: UsersPage,
     loader: protectedLoader,
   },
-  // {
-  //   path: "/logout",
-  //   async action() {
-  //     await fakeAuthProvider.signout();
-  //     return redirect("/");
-  //   },
-  // },
+  {
+    path: "/cadastro",
+    Component: CadastroPage,
+    loader: protectedLoader,
+  },
+  {
+    path: "*",
+    Component: PageNotFound,
+    loader: protectedLoader
+  }
 ]);
 
 export default router;
