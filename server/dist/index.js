@@ -38,13 +38,13 @@ app.post("/login", async (req, res) => {
     try {
         const { usernameLogin, passwordLogin } = req.body;
         const retorno = await (0, userService_1.loginUser)(usernameLogin, passwordLogin);
-        const userName = retorno.result[0].username;
-        const password = retorno.result[0].password;
-        if (userName === usernameLogin && password === passwordLogin) {
+        const userName = retorno.result.username;
+        const password = retorno.result.password;
+        if (retorno.status === "Ok") {
             // Crie um token
             const token = jwt.sign({ userName }, JWT_SECRET, { expiresIn: "1h" });
             // Retorne o token para o usuário
-            res.json({ token });
+            res.json({ status: "Ok", token: token });
         }
         else {
             // Retorne um erro
