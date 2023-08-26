@@ -64,7 +64,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
 
   const resetPassUser = async (user: UpdateUser) => {
     try {
-      const response = await axios.post(`${apiUrl}/resetePassword`);
+      const response = await axios.post(`${apiUrl}/resetePassword`, user);
 
       if (response.data.status === "Ok") {
         closePopup();

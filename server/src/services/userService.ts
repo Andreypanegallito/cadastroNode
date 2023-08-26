@@ -105,6 +105,28 @@ export const deleteUser = (idUsuario: number) => {
   });
 };
 
+export const resetPasswordUser = (idUsuario: number, userPassword: string) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(userPassword, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+      const values = [hashedPassword, idUsuario];
+
+      connection.query(sqlQuery, values, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      });
+    });
+  });
+};
+
 export const loginUser = (
   userName: string,
   password: string

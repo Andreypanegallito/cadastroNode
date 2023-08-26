@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { useState } from "react";
 import { UpdateUser, User } from "../../../../utils/user";
 import Popup from "../../../../components/popup";
 import UserResetPassPopup from "./userResetPassPopup";
