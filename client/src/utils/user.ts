@@ -13,14 +13,15 @@ export interface UpdateUser {
   idUsuario: number;
   nome?: string;
   sobrenome?: string;
+  username?: string;
   email?: string;
+  password?: string;
   ativo?: boolean;
   podeEditar?: boolean;
 }
 
-
 export interface ResetPasswordUser {
   idUsuario: number;
   username: string;
-  password: string;
+  password?: string;
 }

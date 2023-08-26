@@ -7,7 +7,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserPopup from "../userEditPopup";
 import UserDeletePopup from "../userDeletePopup";
-import UserResetPassPopup from "../userResetPassPopup";
+import UserResetPassPopup from "../userEditPopup/userResetPassPopup";
 
 interface UserTableProps {
   users: User[];
@@ -37,7 +37,16 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
     setIsPopupDeleteOpen(false);
   };
 
-  const saveUser = async (user: UpdateUser) => {
+  const saveUser = async (type: string, user: UpdateUser) => {
+    if (type === "updateUser") {
+      updateUser(user);
+    }
+    else if (type === "resetPass") {
+      resetPassUser(user);
+    }
+  };
+
+  const updateUser = async (user: UpdateUser) => {
     try {
       const response = await axios.post(`${apiUrl}/updateUser`, user);
 
@@ -50,6 +59,21 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
       alert(
         "Ops... Algo deu errado ao efetuar a alteração do usuário. Tente novamente"
       );
+    }
+  };
+
+  const resetPassUser = async (user: UpdateUser) => {
+    try {
+      const response = await axios.post(`${apiUrl}/resetePassword`);
+
+      if (response.data.status === "Ok") {
+        closePopup();
+        onUserUpdated();
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert("Não foi possível resetar a senha");
     }
   };
 
@@ -69,21 +93,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
       alert(
         "Ops... Algo deu errado ao tentar excluir o cadastro de usuário. Tente novamente"
       );
-    }
-  };
-
-  const resetPassUser = async (user: ResetPasswordUser) => {
-    try {
-      const response = await axios.post(`${apiUrl}/resetePassword`);
-
-      if (response.data.status === "Ok") {
-        closePopup();
-        onUserUpdated();
-      }
-    } catch (error) {
-      console.error(error);
-
-      alert("Não foi possível resetar a senha");
     }
   };
 
@@ -150,13 +159,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
         <UserDeletePopup
           user={selectedUser}
           onSave={deleteUser}
-          onClose={closePopup}
-        />
-      )}
-      {isPopupDeleteOpen && selectedResetPassUser && (
-        <UserResetPassPopup
-          user={selectedResetPassUser}
-          onSave={resetPassUser}
           onClose={closePopup}
         />
       )}
