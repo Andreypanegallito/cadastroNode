@@ -7,7 +7,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserPopup from "../userEditPopup";
 import UserDeletePopup from "../userDeletePopup";
-import jwt_decode, { JwtPayload } from "jwt-decode";
+import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 
 interface UserTableProps {
@@ -175,7 +175,12 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
         <tbody>{renderTableUsers()}</tbody>
       </table>
       {isPopupEditOpen && selectedUser && (
-        <UserPopup user={selectedUser} onSave={saveUser} onClose={closePopup} />
+        <UserPopup
+          user={selectedUser}
+          onSave={saveUser}
+          onClose={closePopup}
+          isAdmin={userIsAdmin}
+        />
       )}
       {isPopupDeleteOpen && selectedUser && (
         <UserDeletePopup

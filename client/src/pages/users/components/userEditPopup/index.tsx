@@ -10,11 +10,13 @@ interface UserEditPopupProps {
   user: User;
   onClose: () => void;
   onSave: (type: string, updatedUser: UpdateUser) => void;
+  isAdmin: boolean;
 }
 const UserEditPopup: React.FC<UserEditPopupProps> = ({
   user,
   onClose,
   onSave,
+  isAdmin = false,
 }) => {
   const [divDadosActive, setDivDadosActive] = useState(true);
   const [divSenhaActive, setDivSenhaActive] = useState(false);
@@ -48,13 +50,15 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
           >
             <button onClick={handleActiveDivDados}>Dados</button>
           </div>
-          <div
-            className={`div-btn-select ${
-              divSenhaActive === true ? "active" : ""
-            }`}
-          >
-            <button onClick={handleActiveDivSenha}>Senha</button>
-          </div>
+          {isAdmin && (
+            <div
+              className={`div-btn-select ${
+                divSenhaActive === true ? "active" : ""
+              }`}
+            >
+              <button onClick={handleActiveDivSenha}>Senha</button>
+            </div>
+          )}
         </div>
         {divDadosActive && (
           <UserDadosPopup
@@ -63,7 +67,7 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
             onClose={onClose}
           />
         )}
-        {divSenhaActive && (
+        {isAdmin && divSenhaActive && (
           <UserResetPassPopup
             user={user}
             onHandleResetPassword={handleResetPassword}
