@@ -4,6 +4,8 @@ import Popup from "../../../../components/popup";
 import UserResetPassPopup from "./userResetPassPopup";
 import UserDadosPopup from "./userDadosPopup";
 
+import './userEditPopup.scss';
+
 interface UserEditPopupProps {
   user: User;
   onClose: () => void;
@@ -39,16 +41,23 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
       <>
         <h2>Editar usuário</h2>
         <div className="div-btns-select">
-          <button onClick={handleActiveDivDados}>Dados</button>
-          <button onClick={handleActiveDivSenha}>Senha</button>
-        </div>
+          <div className={`div-btn-select ${divDadosActive === true ? 'active' : ''}`}>
+            <button onClick={handleActiveDivDados}>Dados</button>
+          </div>
+          <div className={`div-btn-select ${divSenhaActive === true ? 'active' : ''}`}>
+            <button onClick={handleActiveDivSenha}>Senha</button>
+          </div>
+        </div >
         {divDadosActive && (
           <UserDadosPopup user={user} onHandleSaveUser={handleSave} onClose={onClose} />
-        )}
+        )
+        }
 
-        {divSenhaActive && (
-          <UserResetPassPopup user={user} onHandleResetPassword={handleResetPassword} onClose={onClose} />
-        )}
+        {
+          divSenhaActive && (
+            <UserResetPassPopup user={user} onHandleResetPassword={handleResetPassword} onClose={onClose} />
+          )
+        }
       </>
     );
   };
