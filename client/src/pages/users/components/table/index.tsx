@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { UpdateUser, User, ResetPasswordUser } from "../../../../utils/user";
+import React, { useEffect, useState } from "react";
+import { UpdateUser, User } from "../../../../utils/user";
 
 import "./table.scss";
 import axios from "axios";
@@ -7,7 +7,8 @@ import { FaUserEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserPopup from "../userEditPopup";
 import UserDeletePopup from "../userDeletePopup";
-import UserResetPassPopup from "../userEditPopup/userResetPassPopup";
+import jwt_decode, { JwtPayload } from "jwt-decode";
+import Cookies from "js-cookie";
 
 interface UserTableProps {
   users: User[];
@@ -18,9 +19,26 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
   const [isPopupDeleteOpen, setIsPopupDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [selectedResetPassUser, setSelectedResetPassUser] =
-    useState<ResetPasswordUser | null>(null);
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
+  const [userCanEdit, setUserCanEdit] = useState(false);
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
+
+  useEffect(() => {
+    verifyPermissionLevel();
+  }, []);
+
+  const verifyPermissionLevel = async () => {
+    const token = Cookies.get("jwtToken") || "undefined";
+
+    // Decodifique o token para acessar as informações
+    const decodedToken: any = jwt_decode(token); // Certifique-se de usar uma biblioteca para decodificação JWT, como jwt-decode
+    const varUserCanEdit = decodedToken.userCanEdit === 1;
+    const varUserIsAdmin = decodedToken.isAdmin === 1;
+
+    console.log(decodedToken);
+    await setUserCanEdit(varUserCanEdit);
+    await setUserIsAdmin(varUserIsAdmin);
+  };
 
   const openPopup = (user: User, type: string) => {
     setSelectedUser(user);
@@ -40,8 +58,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
   const saveUser = async (type: string, user: UpdateUser) => {
     if (type === "updateUser") {
       updateUser(user);
-    }
-    else if (type === "resetPass") {
+    } else if (type === "resetPass") {
       resetPassUser(user);
     }
   };
@@ -111,27 +128,32 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
               {user.ativo ? "Ativo" : "Inativo"}
             </span>
           </td>
-          <td className="opcoes">
-            <button
-              type="button"
-              title="Editar usuário"
-              onClick={() => openPopup(user, "edit")}
-            >
-              <FaUserEdit />
-            </button>
-            <button
-              type="button"
-              title="Excluir usuário"
-              onClick={() => openPopup(user, "delete")}
-            >
-              <RiDeleteBin6Line />{" "}
-            </button>
-          </td>
+          {(userCanEdit === true || userIsAdmin === true) && (
+            <td className="opcoes">
+              <button
+                type="button"
+                title="Editar usuário"
+                onClick={() => openPopup(user, "edit")}
+              >
+                <FaUserEdit />
+              </button>
+              <button
+                type="button"
+                title="Excluir usuário"
+                onClick={() => openPopup(user, "delete")}
+              >
+                <RiDeleteBin6Line />{" "}
+              </button>
+            </td>
+          )}
         </tr>
       ))
     ) : (
       <tr key="1">
-        <td colSpan={6} className="noUsers">
+        <td
+          colSpan={userCanEdit === true || userIsAdmin === true ? 6 : 5}
+          className="noUsers"
+        >
           Não foi encontrado usuários cadastrados
         </td>
       </tr>
@@ -147,7 +169,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
             <th>Email</th>
             <th>Data de criação</th>
             <th>Ativo</th>
-            <th>Opções</th>
+            {(userCanEdit === true || userIsAdmin === true) && <th>Opções</th>}
           </tr>
         </thead>
         <tbody>{renderTableUsers()}</tbody>

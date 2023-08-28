@@ -4,7 +4,7 @@ import Popup from "../../../../components/popup";
 import UserResetPassPopup from "./userResetPassPopup";
 import UserDadosPopup from "./userDadosPopup";
 
-import './userEditPopup.scss';
+import "./userEditPopup.scss";
 
 interface UserEditPopupProps {
   user: User;
@@ -22,18 +22,18 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
   const handleActiveDivDados = () => {
     setDivSenhaActive(false);
     setDivDadosActive(true);
-  }
+  };
   const handleActiveDivSenha = () => {
     setDivDadosActive(false);
     setDivSenhaActive(true);
-  }
+  };
 
   const handleSave = async (user: UpdateUser) => {
-    onSave('updateUser', user);
+    onSave("updateUser", user);
   };
 
   const handleResetPassword = async (user: UpdateUser) => {
-    onSave('resetPass', user);
+    onSave("resetPass", user);
   };
 
   const renderHtmlPopup = () => {
@@ -41,23 +41,35 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
       <>
         <h2>Editar usuário</h2>
         <div className="div-btns-select">
-          <div className={`div-btn-select ${divDadosActive === true ? 'active' : ''}`}>
+          <div
+            className={`div-btn-select ${
+              divDadosActive === true ? "active" : ""
+            }`}
+          >
             <button onClick={handleActiveDivDados}>Dados</button>
           </div>
-          <div className={`div-btn-select ${divSenhaActive === true ? 'active' : ''}`}>
+          <div
+            className={`div-btn-select ${
+              divSenhaActive === true ? "active" : ""
+            }`}
+          >
             <button onClick={handleActiveDivSenha}>Senha</button>
           </div>
-        </div >
+        </div>
         {divDadosActive && (
-          <UserDadosPopup user={user} onHandleSaveUser={handleSave} onClose={onClose} />
-        )
-        }
-
-        {
-          divSenhaActive && (
-            <UserResetPassPopup user={user} onHandleResetPassword={handleResetPassword} onClose={onClose} />
-          )
-        }
+          <UserDadosPopup
+            user={user}
+            onHandleSaveUser={handleSave}
+            onClose={onClose}
+          />
+        )}
+        {divSenhaActive && (
+          <UserResetPassPopup
+            user={user}
+            onHandleResetPassword={handleResetPassword}
+            onClose={onClose}
+          />
+        )}
       </>
     );
   };

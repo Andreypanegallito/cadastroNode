@@ -45,9 +45,11 @@ app.post("/login", async (req: Request, res: Response) => {
     const retorno = await loginUser(usernameLogin, passwordLogin);
     const userName = retorno.result.username;
     const password = retorno.result.password;
+    const isAdmin = retorno.result.isAdmin;
+    const userCanEdit = retorno.result.podeEditar;
     if (retorno.status === "Ok") {
       // Crie um token
-      const token = jwt.sign({ userName }, JWT_SECRET, { expiresIn: "1h" });
+      const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, { expiresIn: "1h" });
 
       // Retorne o token para o usuário
       res.json({ status: "Ok", token: token });

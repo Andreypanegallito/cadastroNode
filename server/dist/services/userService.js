@@ -134,6 +134,8 @@ const loginUser = (userName, password) => {
                     const payload = {
                         userId: result.idUsuario,
                         username: result.username,
+                        isAdmin: result.isAdmin,
+                        podeEditar: result.podeEditar
                     };
                     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
                         expiresIn: "1h", // Tempo de expiração do token (opcional)

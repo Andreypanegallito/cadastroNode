@@ -162,6 +162,8 @@ export const loginUser = (
           const payload = {
             userId: result.idUsuario, // Id do usuário ou outro identificador único
             username: result.username,
+            isAdmin: result.isAdmin,
+            podeEditar: result.podeEditar
           };
 
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
