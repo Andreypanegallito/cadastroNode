@@ -139,6 +139,7 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
               <button
                 type="button"
                 title="Excluir usuário"
+                className="delete"
                 onClick={() => openPopup(user, "delete")}
               >
                 <RiDeleteBin6Line />{" "}

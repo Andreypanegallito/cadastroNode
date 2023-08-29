@@ -28,7 +28,6 @@
 
       input {
         width: 100%;
-        /* padding: 5px; */
         margin-bottom: 10px;
         height: calc(2.25rem + 2px);
         padding: 0.375rem 0.75rem;
@@ -99,15 +98,27 @@
         color: #fff;
       }
 
+      button.save:hover {
+        background-color: #076907;
+      }
+
       button.delete {
         background-color: #ff0000;
         color: #fff;
         width: 130px;
       }
 
+      button.delete:hover {
+        background-color: #a70404;
+      }
+
       button.cancel {
         background-color: #6c757d;
         color: #fff;
+      }
+
+      button.cancel:hover {
+        background-color: #585c5f;
       }
     }
   }

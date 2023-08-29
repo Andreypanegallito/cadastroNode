@@ -1,6 +1,7 @@
 #tableUsers {
   width: 100%;
   border-collapse: collapse;
+  margin: auto;
 
   thead {
     tr {
@@ -80,6 +81,20 @@
           cursor: pointer;
           transform: scale(1.4);
           transition: 0.3s;
+        }
+
+        button.delete {
+          transition: background-color 0.5s, scale(1.4);
+          background-color: transparent;
+          border-radius: 50%;
+        }
+
+        button.delete:hover {
+          transition: background-color 0.5s, scale(1.4) 0.3s;
+          background-color: red;
+          color: #fff;
+          width: 25px;
+          height: 25px;
         }
       }
 
