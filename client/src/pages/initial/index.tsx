@@ -15,24 +15,22 @@ const Initial = () => {
     <section id='initial'>
       <div className="itens">
         <div className="item">
-          <div className="item-title">
-            <Link to="/users" className='btn-link'>Usuários</Link>
-          </div>
+          <button className='btn-link'>
+            <Link to="/users" >Usuários</Link>
+          </button>
         </div>
         <div className="item">
-          <div className="item-title">
-            <Link to="/cadastro" className='btn-link'>Cadastro</Link>
-          </div>
+          <button className='btn-link'>
+            <Link to="/cadastro">Cadastro</Link>
+          </button>
         </div>
         <div className="item">
-          <div className="item-title">
-            <Link to="/contato" className='btn-link'>Contato</Link>
-          </div>
+          <button className='btn-link'>
+            <Link to="/contato">Contato</Link>
+          </button>
         </div>
         <div className="item">
-          <div className="item-title">
-            <button onClick={deslogar} className='btn-link'>Deslogar</button>
-          </div>
+          <button onClick={deslogar} className='btn-link'>Deslogar</button>
         </div>
       </div>
     </section>

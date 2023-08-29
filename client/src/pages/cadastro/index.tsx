@@ -9,7 +9,6 @@ const Cadastro = () => {
   const linksMenu = [
     { url: '/', text: 'Página Inicial' },
     { url: '/users', text: 'Usuários' },
-    { url: '/login', text: 'Login' },
     { url: '/contato', text: 'Contato' },
   ];
 
