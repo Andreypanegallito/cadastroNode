@@ -62,6 +62,11 @@
       }
     }
 
+    .item-popup.disabled {
+      background-color: #ccc;
+    color: #666;
+    }
+
     .div-check {
       display: flex;
       align-items: center;

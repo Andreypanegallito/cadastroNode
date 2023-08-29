@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { UpdateUser } from "../../../../../utils/user";
 
 interface UserDadosPopupProps {
@@ -17,6 +17,14 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
   const [email, setEmail] = useState(user.email);
   const [userActive, setUserActive] = useState(user.ativo);
   const [userPodeEditar, setUserPodeEditar] = useState(user.podeEditar);
+  const [ckbCanEditDisabled, setCkbCanEditDisabled] = useState(false);
+
+  useEffect(() => {
+    if (!userActive) {
+      setUserPodeEditar(false);
+      setCkbCanEditDisabled(true);
+    }
+  }, []);
 
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setNome(e.target.value);
@@ -32,6 +40,14 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
 
   const handleActiveChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setUserActive(e.target.checked);
+
+    if (e.target.checked === false) {
+      setUserPodeEditar(false);
+      setCkbCanEditDisabled(true);
+    } else {
+      setUserPodeEditar(false);
+      setCkbCanEditDisabled(false);
+    }
   };
 
   const handlePodeEditarChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -59,28 +75,31 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
       </div>
       <div className="item-popup">
         <label>Sobrenome:</label>
-        <input
-          type="text"
-          value={sobreNome}
-          onChange={handleSobreNameChange}
-        />
+        <input type="text" value={sobreNome} onChange={handleSobreNameChange} />
       </div>
       <div className="item-popup">
         <label>Email:</label>
         <input type="email" value={email} onChange={handleEmailChange} />
       </div>
-      <div className="item-popup div-check">
+      <div className="item-popup div-check ">
         <label>Ativo:</label>
         <input
+          id="ckbActive"
           type="checkbox"
           checked={userActive}
           onChange={handleActiveChange}
         />
       </div>
-      <div className="item-popup div-check">
+      <div
+        className={`item-popup div-check div-edit ${
+          ckbCanEditDisabled === true ? "disabled" : ""
+        }`}
+      >
         <label>Pode editar usuários:</label>
         <input
+          id="ckbCanEdit"
           type="checkbox"
+          disabled={ckbCanEditDisabled}
           checked={userPodeEditar}
           onChange={handlePodeEditarChange}
         />
