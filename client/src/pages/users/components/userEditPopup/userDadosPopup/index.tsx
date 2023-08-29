@@ -52,7 +52,7 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
   };
 
   return (
-    <>
+    <div id="dados">
       <div className="item-popup">
         <label>Nome:</label>
         <input type="text" value={nome} onChange={handleNameChange} />
@@ -69,7 +69,7 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
         <label>Email:</label>
         <input type="email" value={email} onChange={handleEmailChange} />
       </div>
-      <div className="item-popup div-active">
+      <div className="item-popup div-check">
         <label>Ativo:</label>
         <input
           type="checkbox"
@@ -77,7 +77,7 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
           onChange={handleActiveChange}
         />
       </div>
-      <div className="item-popup div-active">
+      <div className="item-popup div-check">
         <label>Pode editar usuários:</label>
         <input
           type="checkbox"
@@ -93,7 +93,7 @@ const UserDadosPopup: React.FC<UserDadosPopupProps> = ({
           Cancel
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -35,7 +35,6 @@ function UserTable({ users, onUserUpdated }: UserTableProps) {
     const varUserCanEdit = decodedToken.userCanEdit === 1;
     const varUserIsAdmin = decodedToken.isAdmin === 1;
 
-    console.log(decodedToken);
     await setUserCanEdit(varUserCanEdit);
     await setUserIsAdmin(varUserIsAdmin);
   };

@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, useState } from "react";
 import { UpdateUser } from "../../../../../utils/user";
+import "./userResetPassPopup.scss"
 
 interface UserResetPassPopupProps {
   user: UpdateUser;
@@ -39,7 +40,7 @@ const UserResetPassPopup: React.FC<UserResetPassPopupProps> = ({
   };
 
   return (
-    <>
+    <div id="resetPass">
       <div className="item-popup">
         <label>Usuário:</label>
         <input type="text" value={userName} disabled />
@@ -69,7 +70,7 @@ const UserResetPassPopup: React.FC<UserResetPassPopupProps> = ({
           Cancel
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

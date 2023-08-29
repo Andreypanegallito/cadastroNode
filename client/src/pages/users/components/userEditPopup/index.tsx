@@ -44,17 +44,15 @@ const UserEditPopup: React.FC<UserEditPopupProps> = ({
         <h2>Editar usuário</h2>
         <div className="div-btns-select">
           <div
-            className={`div-btn-select ${
-              divDadosActive === true ? "active" : ""
-            }`}
+            className={`div-btn-select ${divDadosActive === true ? "active" : ""
+              }`}
           >
             <button onClick={handleActiveDivDados}>Dados</button>
           </div>
           {isAdmin && (
             <div
-              className={`div-btn-select ${
-                divSenhaActive === true ? "active" : ""
-              }`}
+              className={`div-btn-select ${divSenhaActive === true ? "active" : ""
+                }`}
             >
               <button onClick={handleActiveDivSenha}>Senha</button>
             </div>
