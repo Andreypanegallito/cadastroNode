@@ -10,10 +10,7 @@ const Contato = () => {
       <div className="container">
         <div className="columns is-centered">
           <div className="column is-half">
-            <h1 className="title has-text-centered">
-              Formulário de Contato - Canal TI
-            </h1>
-
+            <h1 className="title has-text-centered">Formulário de Contato</h1>
             <FormContato />
           </div>
         </div>

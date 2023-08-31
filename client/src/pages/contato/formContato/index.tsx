@@ -18,7 +18,7 @@ const FormContato = () => {
       </div>
 
       <div className="field">
-        <label className="label">Email *</label>
+        <label className="label">Email</label>
         <div className="control">
           <input
             name="email"
@@ -34,16 +34,17 @@ const FormContato = () => {
         <div className="control">
           <div className="select is-fullwidth">
             <select name="assunto">
-              <option>Reportar erro</option>
-              <option>Anúncios</option>
-              <option>Outro</option>
+              <option>Contato de trabalho</option>
+              <option>Sites e sistemas</option>
+              <option>Dicas</option>
+              <option>Diveros</option>
             </select>
           </div>
         </div>
       </div>
 
       <div className="field">
-        <label className="label">Mensagem *</label>
+        <label className="label">Mensagem</label>
         <div className="control">
           <textarea
             name="mensagem"
@@ -56,7 +57,9 @@ const FormContato = () => {
 
       <div className="field is-grouped">
         <div className="control">
-          <button className="button is-link is-medium">Enviar</button>
+          <button className="button is-link is-medium" type="submit">
+            Enviar
+          </button>
         </div>
       </div>
     </form>
