@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.resetPasswordUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios", (error, results) => {
+        db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios", (error, results) => {
             if (error) {
                 reject(error);
             }
@@ -55,7 +55,14 @@ const createUser = (user) => {
 exports.createUser = createUser;
 const updateUser = (user) => {
     return new Promise((resolve, reject) => {
-        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?", [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario], (error, result) => {
+        db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ?, podeEditar = ? WHERE idUsuario = ?", [
+            user.nome,
+            user.sobrenome,
+            user.email,
+            user.ativo,
+            user.podeEditar,
+            user.idUsuario,
+        ], (error, result) => {
             if (error) {
                 reject(error);
             }
@@ -79,6 +86,27 @@ const deleteUser = (idUsuario) => {
     });
 };
 exports.deleteUser = deleteUser;
+const resetPasswordUser = (idUsuario, userPassword) => {
+    return new Promise((resolve, reject) => {
+        bcrypt_1.default.hash(userPassword, 10, (err, hashedPassword) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+            const values = [hashedPassword, idUsuario];
+            db_1.default.query(sqlQuery, values, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve("Ok");
+                }
+            });
+        });
+    });
+};
+exports.resetPasswordUser = resetPasswordUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM usuarios WHERE username = ?`;
@@ -94,7 +122,7 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
-                        token: null
+                        token: null,
                     };
                     resolve(loginResponse);
                     return;
@@ -106,9 +134,11 @@ const loginUser = (userName, password) => {
                     const payload = {
                         userId: result.idUsuario,
                         username: result.username,
+                        isAdmin: result.isAdmin,
+                        podeEditar: result.podeEditar
                     };
                     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
-                        expiresIn: '1h', // Tempo de expiração do token (opcional)
+                        expiresIn: "1h", // Tempo de expiração do token (opcional)
                     });
                     const status = "Ok";
                     const loginResponse = {
@@ -124,7 +154,7 @@ const loginUser = (userName, password) => {
                     const loginResponse = {
                         result: null,
                         status,
-                        token: null
+                        token: null,
                     };
                     resolve(loginResponse);
                 }

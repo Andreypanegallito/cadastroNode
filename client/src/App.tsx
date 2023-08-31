@@ -1,15 +1,12 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
-import logo from "./assets/img/logo.svg";
 import "./assets/styles/App.css";
-import AppRoutes from "./components/routes";
+import router from "./components/routes";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes /> {/* Use o componente AppRoutes */}
-    </BrowserRouter>
+    <RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
   );
 }
 

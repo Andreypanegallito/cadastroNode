@@ -7,8 +7,11 @@ import {
   getAllUsers,
   updateUser,
   deleteUser,
+  resetPasswordUser,
 } from "./services/userService";
 import { User } from "./utils/user";
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 app.use(express.json());
@@ -40,12 +43,19 @@ app.post("/login", async (req: Request, res: Response) => {
   try {
     const { usernameLogin, passwordLogin } = req.body;
     const retorno = await loginUser(usernameLogin, passwordLogin);
+    const userName = retorno.result.username;
+    const password = retorno.result.password;
+    const isAdmin = retorno.result.isAdmin;
+    const userCanEdit = retorno.result.podeEditar;
     if (retorno.status === "Ok") {
-      const user = retorno.result;
-      const token = retorno.token;
-      res.json({ status: "OK", user, token });
+      // Crie um token
+      const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, { expiresIn: "1h" });
+
+      // Retorne o token para o usuário
+      res.json({ status: "Ok", token: token });
     } else {
-      res.json({ status: retorno.status });
+      // Retorne um erro
+      res.status(401).json({ error: "Unauthorized" });
     }
   } catch (error) {}
 });
@@ -68,7 +78,7 @@ app.post("/createUser", async (req: Request, res: Response) => {
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/updateUser", async (req: Request, res: Response) => {
   try {
-    const { idUsuario, nome, sobrenome, email, ativo } = req.body;
+    const { idUsuario, nome, sobrenome, email, ativo, podeEditar } = req.body;
     const newUpdateUser = new User(
       nome,
       sobrenome,
@@ -76,6 +86,7 @@ app.post("/updateUser", async (req: Request, res: Response) => {
       email,
       undefined,
       ativo,
+      podeEditar,
       idUsuario
     ); //{ name, email, password };
     const retorno = await updateUser(newUpdateUser);
@@ -95,6 +106,21 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
     const retorno = await deleteUser(idUsuario);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário deletado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao alterar o usuário:", error);
+    res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
+app.post("/resetePassword", async (req: Request, res: Response) => {
+  try {
+    const { idUsuario, userPassword } = req.body;
+
+    const retorno = await resetPasswordUser(idUsuario, userPassword);
+
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Alterado a senha com sucesso" });
     }
   } catch (error) {
     console.error("Erro ao alterar o usuário:", error);

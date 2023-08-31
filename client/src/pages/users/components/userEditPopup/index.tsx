@@ -1,79 +1,82 @@
-import React, { useState } from 'react';
-import { UpdateUser, User } from '../../../../utils/user';
-import Popup from '../../../../components/popup';
+import React, { useState } from "react";
+import { UpdateUser, User } from "../../../../utils/user";
+import Popup from "../../../../components/popup";
+import UserResetPassPopup from "./userResetPassPopup";
+import UserDadosPopup from "./userDadosPopup";
+
+import "./userEditPopup.scss";
 
 interface UserEditPopupProps {
   user: User;
   onClose: () => void;
-  onSave: (updatedUser: UpdateUser) => void;
+  onSave: (type: string, updatedUser: UpdateUser) => void;
+  isAdmin: boolean;
 }
-const UserEditPopup: React.FC<UserEditPopupProps> = ({ user, onClose, onSave }) => {
-  const [idUsuario, setIdUsuario] = useState(user.idUsuario);
-  const [nome, setNome] = useState(user.nome);
-  const [sobreNome, setSobreNome] = useState(user.sobrenome);
-  const [email, setEmail] = useState(user.email);
-  const [userActive, setUserActive] = useState(user.ativo);
+const UserEditPopup: React.FC<UserEditPopupProps> = ({
+  user,
+  onClose,
+  onSave,
+  isAdmin = false,
+}) => {
+  const [divDadosActive, setDivDadosActive] = useState(true);
+  const [divSenhaActive, setDivSenhaActive] = useState(false);
 
-  const handleNameChange = (e: any) => {
-    setNome(e.target.value);
+  const handleActiveDivDados = () => {
+    setDivSenhaActive(false);
+    setDivDadosActive(true);
+  };
+  const handleActiveDivSenha = () => {
+    setDivDadosActive(false);
+    setDivSenhaActive(true);
   };
 
-  const handleSobreNameChange = (e: any) => {
-    setSobreNome(e.target.value);
+  const handleSave = async (user: UpdateUser) => {
+    onSave("updateUser", user);
   };
 
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  const handleActiveChange = (e: any) => {
-    setUserActive(e.target.checked);
-  };
-
-  const handleSave = async () => {
-    const updatedUser = {
-      idUsuario: idUsuario,
-      nome: nome,
-      sobrenome: sobreNome,
-      email: email,
-      ativo: userActive
-    };
-
-    onSave(updatedUser);
+  const handleResetPassword = async (user: UpdateUser) => {
+    onSave("resetPass", user);
   };
 
   const renderHtmlPopup = () => {
     return (
       <>
         <h2>Editar usuário</h2>
-        <div className="item-popup">
-          <label>Nome:</label>
-          <input type="text" value={nome} onChange={handleNameChange} />
+        <div className="div-btns-select">
+          <div
+            className={`div-btn-select ${divDadosActive === true ? "active" : ""
+              }`}
+          >
+            <button onClick={handleActiveDivDados}>Dados</button>
+          </div>
+          {isAdmin && (
+            <div
+              className={`div-btn-select ${divSenhaActive === true ? "active" : ""
+                }`}
+            >
+              <button onClick={handleActiveDivSenha}>Senha</button>
+            </div>
+          )}
         </div>
-        <div className="item-popup">
-          <label>Sobrenome:</label>
-          <input type="text" value={sobreNome} onChange={handleSobreNameChange} />
-        </div>
-        <div className="item-popup">
-          <label>Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} />
-        </div>
-        <div className="item-popup div-active">
-          <label>Ativo:</label>
-          <input type="checkbox" checked={userActive} onChange={handleActiveChange} />
-        </div>
-        <div className="div-botoes">
-          <button onClick={handleSave} className='save'>Save</button>
-          <button onClick={onClose} className='cancel'>Cancel</button>
-        </div>
+        {divDadosActive && (
+          <UserDadosPopup
+            user={user}
+            onHandleSaveUser={handleSave}
+            onClose={onClose}
+          />
+        )}
+        {isAdmin && divSenhaActive && (
+          <UserResetPassPopup
+            user={user}
+            onHandleResetPassword={handleResetPassword}
+            onClose={onClose}
+          />
+        )}
       </>
-    )
-  }
+    );
+  };
 
-  return (
-    <Popup renderContent={renderHtmlPopup} />
-  )
+  return <Popup renderContent={renderHtmlPopup} />;
 };
-
 
 export default UserEditPopup;

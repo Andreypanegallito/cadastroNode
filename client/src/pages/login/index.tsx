@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./login.scss";
-import { BsPersonSquare, BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../components/popup";
 import Cookies from "js-cookie";
@@ -78,7 +78,7 @@ const Login = () => {
       try {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
-        if (response.data.status === "OK") {
+        if (response.data.status === "Ok") {
           // Limpa o formulário após o envio
           setFormDataLogin({
             usernameLogin: "",
@@ -89,9 +89,9 @@ const Login = () => {
           Cookies.set("jwtToken", token);
 
           // Realiza o redirecionamento para outra página após meio segundo
-          setTimeout(function () {
-            navigate("/", { replace: true });
-          }, 500);
+          if (Cookies.get("jwtToken") !== undefined) {
+            await navigate("/", { replace: true });
+          }
         } else if (response.data.status === "passErr") {
           setPopupContent("Senha incorreta!");
           setShowPopup(true);

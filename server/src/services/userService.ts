@@ -1,11 +1,11 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
 import { User } from "../utils/user";
-import bcrypt  from "bcrypt";
-import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 interface LoginResponse {
-  result: RowDataPacket[];
+  result: RowDataPacket;
   status: string;
   token: string;
 }
@@ -13,7 +13,7 @@ interface LoginResponse {
 export const getAllUsers = () => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo FROM usuarios",
+      "SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios",
       (error, results) => {
         if (error) {
           reject(error);
@@ -69,8 +69,15 @@ export const createUser = (user: User) => {
 export const updateUser = (user: User) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ? WHERE idUsuario = ?",
-      [user.nome, user.sobrenome, user.email, user.ativo, user.idUsuario],
+      "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ?, podeEditar = ? WHERE idUsuario = ?",
+      [
+        user.nome,
+        user.sobrenome,
+        user.email,
+        user.ativo,
+        user.podeEditar,
+        user.idUsuario,
+      ],
       (error, result) => {
         if (error) {
           reject(error);
@@ -98,6 +105,28 @@ export const deleteUser = (idUsuario: number) => {
   });
 };
 
+export const resetPasswordUser = (idUsuario: number, userPassword: string) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(userPassword, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+      const values = [hashedPassword, idUsuario];
+
+      connection.query(sqlQuery, values, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      });
+    });
+  });
+};
+
 export const loginUser = (
   userName: string,
   password: string
@@ -116,7 +145,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
-            token: null
+            token: null,
           };
           resolve(loginResponse);
           return;
@@ -133,15 +162,17 @@ export const loginUser = (
           const payload = {
             userId: result.idUsuario, // Id do usuário ou outro identificador único
             username: result.username,
+            isAdmin: result.isAdmin,
+            podeEditar: result.podeEditar
           };
 
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: '1h', // Tempo de expiração do token (opcional)
+            expiresIn: "1h", // Tempo de expiração do token (opcional)
           });
 
           const status = "Ok";
           const loginResponse: LoginResponse = {
-            result: result as RowDataPacket[],
+            result: result as RowDataPacket,
             status,
             token, // Inclui o token na resposta
           };
@@ -152,7 +183,7 @@ export const loginUser = (
           const loginResponse: LoginResponse = {
             result: null,
             status,
-            token: null
+            token: null,
           };
           resolve(loginResponse);
         }
