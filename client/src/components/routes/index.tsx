@@ -3,6 +3,7 @@ import Initial from "../../pages/initial/index";
 import LoginPage from "../../pages/login/index";
 import UsersPage from "../../pages/users/index";
 import CadastroPage from "../../pages/cadastro/index";
+import ContatoPage from "../../pages/contato/index";
 import Cookies from "js-cookie";
 import PageNotFound from "../../pages/pageNotFound";
 
@@ -37,10 +38,15 @@ const router = createBrowserRouter([
     loader: protectedLoader,
   },
   {
+    path: "/contato",
+    Component: ContatoPage,
+    loader: protectedLoader,
+  },
+  {
     path: "*",
     Component: PageNotFound,
-    loader: protectedLoader
-  }
+    loader: protectedLoader,
+  },
 ]);
 
 export default router;
