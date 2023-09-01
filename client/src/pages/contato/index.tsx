@@ -6,13 +6,12 @@ import FormContato from "./formContato";
 const Contato = () => {
   return (
     <section id="contact">
-      Contatoa
       <div className="container">
-        <div className="columns is-centered">
-          <div className="column is-half">
-            <h1 className="title has-text-centered">Formulário de Contato</h1>
-            <FormContato />
-          </div>
+        <div className="titulo">
+          <h1 className="title has-text-centered">Formulário de Contato</h1>
+        </div>
+        <div className="divFormContato">
+          <FormContato />
         </div>
       </div>
     </section>
