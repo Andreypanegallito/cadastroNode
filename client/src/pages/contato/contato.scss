@@ -1,0 +1,16 @@
+#contact {
+  .divFormContato {
+    height: 75%;
+    width: 85%;
+    min-height: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 15px auto;
+  }
+}

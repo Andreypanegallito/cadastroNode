@@ -5,7 +5,7 @@ import FormContato from "./formContato";
 
 const Contato = () => {
   return (
-    <section id="contact">
+    <section id="contact" className="backColor">
       <div className="container">
         <div className="titulo">
           <h1 className="title has-text-centered">Formulário de Contato</h1>
