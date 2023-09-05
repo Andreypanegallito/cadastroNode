@@ -13,4 +13,32 @@
     align-content: center;
     margin: 15px auto;
   }
+
+  .redes-sociais {
+    width: 100%;
+    margin: 5px 0 10px 0;
+    display: flex;
+    justify-content: center;
+
+    a {
+      color: #000;
+      margin: 0 10px;
+
+      svg {
+        width: 2em;
+        height: 2em;
+      }
+    }
+
+    a.instagram {
+    }
+
+    a.linkedin {
+      color: #0e76a8;
+    }
+    
+    a.github {
+      color: #6e5494;
+    }
+  }
 }
