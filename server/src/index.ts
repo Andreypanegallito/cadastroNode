@@ -10,6 +10,7 @@ import {
   resetPasswordUser,
 } from "./services/userService";
 import { User } from "./utils/user";
+import { sendEmail } from "./services/emailService";
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -49,7 +50,9 @@ app.post("/login", async (req: Request, res: Response) => {
     const userCanEdit = retorno.result.podeEditar;
     if (retorno.status === "Ok") {
       // Crie um token
-      const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, { expiresIn: "1h" });
+      const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, {
+        expiresIn: "1h",
+      });
 
       // Retorne o token para o usuário
       res.json({ status: "Ok", token: token });
@@ -125,6 +128,19 @@ app.post("/resetePassword", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao alterar o usuário:", error);
     res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
+app.post("/sendEmail", async (req: Request, res: Response) => {
+  try {
+    const { nome, assunto, email } = req.body;
+    const retorno = await sendEmail(nome);
+    if (retorno === "Ok") {
+      res.json({ status: "success" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao enviar o email" });
   }
 });
 
