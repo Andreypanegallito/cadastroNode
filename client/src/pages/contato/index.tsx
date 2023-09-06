@@ -1,9 +1,32 @@
 import React from "react";
+import axios from "axios";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import "./contato.scss";
 import FormContato from "./formContato";
+import { Email } from "../../utils/email";
+
 
 const Contato = () => {
+  const apiUrl = process.env.REACT_APP_API_NODE_URL;
+
+
+  const onSubmitForm = async (emailProps: Email) => {
+
+    console.log(emailProps);
+
+    try {
+      const response = await axios.post(`${apiUrl}/sendEmail`, emailProps);
+
+      if (response.data.status === "Ok") {
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert("Não foi possível resetar a senha");
+    }
+
+  };
+
   return (
     <section id="contact" className="backColor">
       <div className="container">
@@ -11,7 +34,7 @@ const Contato = () => {
           <h1 className="title has-text-centered">Formulário de Contato</h1>
         </div>
         <div className="divFormContato">
-          <FormContato />
+          <FormContato onSave={onSubmitForm} />
           <div className="redes-sociais">
             <a
               href="https://www.instagram.com/andrey_panegalli"

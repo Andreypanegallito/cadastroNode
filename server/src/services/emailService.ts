@@ -1,3 +1,5 @@
+import { Email } from "../utils/email";
+
 // Importe a API do Mailjet
 const Mailjet = require("node-mailjet");
 const API_KEY = process.env.EMAIL_API_KEY;
@@ -14,18 +16,24 @@ const client = new Mailjet({
   apiSecret: API_KEY_SECRET,
 });
 
-export const sendEmail = (nome: string) => {
+export const sendEmail = (emailProps: Email) => {
   const request = client.post("send", { version: "v3.1" });
 
+  console.log(emailProps);
+  const nome = emailProps.nome;
+  const email = emailProps.email;
+  const assunto = emailProps.assunto;
+  const mensagem = emailProps.mensagem;
+
   // Crie um objeto e-mail
-  const email = {
+  const emailObject = {
     From: {
-      Email: "your@email.com",
-      Name: "Your Name",
+      Email: "andrey.panegalli@gmail.com",
+      Name: "Andrey Panegalli",
     },
     To: [
       {
-        Email: "recipient@email.com",
+        Email: "andreigd20@gmail.com",
         Name: "Recipient Name",
       },
     ],
@@ -35,7 +43,7 @@ export const sendEmail = (nome: string) => {
   };
 
   request
-    .request(email)
+    .request(emailObject)
     .then((response) => {
       console.log(response.body);
       return response.statusCode;
@@ -44,6 +52,4 @@ export const sendEmail = (nome: string) => {
       console.log(err.statusCode);
       return err.statusCode;
     });
-
-  return 500;
 };

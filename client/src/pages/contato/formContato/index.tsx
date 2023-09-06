@@ -1,20 +1,28 @@
 import React, { ChangeEventHandler, useState } from "react";
 
 import "./formContato.scss";
+import { Email } from "../../../utils/email";
 
-const FormContato = () => {
+interface formContatoProps {
+  onSave: (objectEmail: Email) => void;
+}
+
+const FormContato: React.FC<formContatoProps> = ({ onSave }) => {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
   const [assunto, setAssunto] = useState("Contato de trabalho");
   const [mensagem, setMensagem] = useState("");
 
-  const aaa = () => {
-    console.log(nome);
-    console.log(sobrenome);
-    console.log(email);
-    console.log(assunto);
-    console.log(mensagem);
+  const handleSave = () => {
+    const emailProps = {
+      nome: `${nome} ${sobrenome}`,
+      email: email,
+      assunto: assunto,
+      mensagem: mensagem
+    };
+
+    onSave(emailProps);
   };
 
   const handleChangeNome: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -85,7 +93,7 @@ const FormContato = () => {
           onChange={handleChangeMensagem}
         ></textarea>
       </div>
-      <button type="button" className='btn-enviar' onClick={aaa} >Enviar</button>
+      <button type="button" className='btn-enviar' onClick={handleSave} >Enviar</button>
     </form>
   );
 };
