@@ -1,42 +1,49 @@
 // Importe a API do Mailjet
-const Mailjet = require("mailjet");
+const Mailjet = require("node-mailjet");
+const API_KEY = process.env.EMAIL_API_KEY;
+const API_KEY_SECRET = process.env.EMAIL_KEY_SECRET;
+
+console.log(API_KEY);
+console.log(typeof API_KEY);
+console.log(API_KEY_SECRET);
+console.log(typeof API_KEY_SECRET);
 
 // Crie uma instância da API
 const client = new Mailjet({
-  apiKey: "YOUR_API_KEY",
-  apiSecret: "YOUR_API_SECRET",
+  apiKey: API_KEY,
+  apiSecret: API_KEY_SECRET,
 });
 
 export const sendEmail = (nome: string) => {
+  const request = client.post("send", { version: "v3.1" });
+
   // Crie um objeto e-mail
   const email = {
-    from: {
-      name: "Your Name",
-      email: "your@email.com",
+    From: {
+      Email: "your@email.com",
+      Name: "Your Name",
     },
-    to: [
+    To: [
       {
-        name: "Recipient Name",
-        email: "recipient@email.com",
+        Email: "recipient@email.com",
+        Name: "Recipient Name",
       },
     ],
-    subject: "This is a test email",
-    text: "This is the body of the email",
+    Subject: "This is a test email",
+    TextPart: "This is the body of the email",
+    HTMLPart: "<h3>This is the HTML body of the email</h3>",
   };
 
-  // Envie o e-mail
-  client
-    .sendEmail({
-      body: email,
-    })
+  request
+    .request(email)
     .then((response) => {
-      console.log("E-mail enviado!");
-      return "Ok";
+      console.log(response.body);
+      return response.statusCode;
     })
-    .catch((error) => {
-      console.log(error);
-      return error;
+    .catch((err) => {
+      console.log(err.statusCode);
+      return err.statusCode;
     });
 
-  return "Error";
+  return 500;
 };

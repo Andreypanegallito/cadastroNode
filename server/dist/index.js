@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const userService_1 = require("./services/userService");
 const user_1 = require("./utils/user");
+const emailService_1 = require("./services/emailService");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 const app = (0, express_1.default)();
@@ -44,7 +45,9 @@ app.post("/login", async (req, res) => {
         const userCanEdit = retorno.result.podeEditar;
         if (retorno.status === "Ok") {
             // Crie um token
-            const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, { expiresIn: "1h" });
+            const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, {
+                expiresIn: "1h",
+            });
             // Retorne o token para o usuário
             res.json({ status: "Ok", token: token });
         }
@@ -109,6 +112,19 @@ app.post("/resetePassword", async (req, res) => {
     catch (error) {
         console.error("Erro ao alterar o usuário:", error);
         res.status(500).json({ error: "Erro ao deletar o usuário" });
+    }
+});
+app.post("/sendEmail", async (req, res) => {
+    try {
+        const { nome, assunto, email } = req.body;
+        const retorno = await (0, emailService_1.sendEmail)(nome);
+        if (retorno === 200) {
+            res.json({ status: "success" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao enviar o email" });
     }
 });
 app.listen(process.env.PORT, () => {

@@ -1,8 +1,37 @@
-import React from "react";
+import React, { ChangeEventHandler, useState } from "react";
 
 import "./formContato.scss";
 
 const FormContato = () => {
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [email, setEmail] = useState("");
+  const [assunto, setAssunto] = useState("Contato de trabalho");
+  const [mensagem, setMensagem] = useState("");
+
+  const aaa = () => {
+    console.log(nome);
+    console.log(sobrenome);
+    console.log(email);
+    console.log(assunto);
+    console.log(mensagem);
+  };
+
+  const handleChangeNome: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setNome(e.target.value);
+  };
+  const handleChangeSobrenome: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSobrenome(e.target.value);
+  };
+  const handleChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleChangeAssunto: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    setAssunto(e.target.value);
+  };
+  const handleChangeMensagem: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    setMensagem(e.target.value);
+  };
   return (
     <form id="formContato">
       <div className='itens-form half'>
@@ -11,8 +40,8 @@ const FormContato = () => {
           type="text"
           id="nome"
           name="nome"
-        // value={formData.nome}
-        // onChange={handleChange}
+          value={nome}
+          onChange={handleChangeNome}
         />
       </div>
       <div className='itens-form half'>
@@ -21,8 +50,8 @@ const FormContato = () => {
           type="text"
           id="sobrenome"
           name="sobrenome"
-        // value={formData.sobrenome}
-        // onChange={handleChange}
+          value={sobrenome}
+          onChange={handleChangeSobrenome}
         />
       </div>
       <div className='itens-form half'>
@@ -31,17 +60,17 @@ const FormContato = () => {
           type="email"
           id="email"
           name="email"
-        // value={formData.email}
-        // onChange={handleChange}
+          value={email}
+          onChange={handleChangeEmail}
         />
       </div>
       <div className='itens-form half'>
         <label htmlFor="assunto">Assunto:</label>
-        <select name="assunto" id="assunto">
-          <option>Contato de trabalho</option>
-          <option>Sites e sistemas</option>
-          <option>Dicas</option>
-          <option>Diveros</option>
+        <select name="assunto" id="assunto" onChange={handleChangeAssunto}>
+          <option value={"Contato de trabalho"}>Contato de trabalho</option>
+          <option value={"Sites e sistemas"}>Sites e sistemas</option>
+          <option value={"Dicas"}>Dicas</option>
+          <option value={"Diveros"}>Diveros</option>
         </select>
       </div>
       <div className='itens-form'>
@@ -52,9 +81,11 @@ const FormContato = () => {
           className="textarea"
           placeholder="Deixe sua mensagem"
           maxLength={2000}
+          value={mensagem}
+          onChange={handleChangeMensagem}
         ></textarea>
       </div>
-      <button type="submit" className='btn-enviar' >Enviar</button>
+      <button type="button" className='btn-enviar' onClick={aaa} >Enviar</button>
     </form>
   );
 };
