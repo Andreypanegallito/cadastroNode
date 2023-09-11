@@ -4,8 +4,7 @@ import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import "./contato.scss";
 import FormContato from "./formContato";
 import { Email } from "../../utils/email";
-import Popup from "../../components/popup";
-
+import LoadingPopup from "../../components/loadingPopup";
 
 const Contato = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -24,14 +23,10 @@ const Contato = () => {
       }
     } catch (error) {
       console.error(error);
+      setIsPopupOpen(false);
 
       alert("Não foi possível resetar a senha");
     }
-
-  };
-
-  const renderHtmlPopup = () => {
-    return <div className="loading">Aguarde, carregando...</div>
   };
 
   return (
@@ -70,9 +65,7 @@ const Contato = () => {
           </div>
         </div>
       </div>
-      {isPopupOpen && (
-        <Popup renderContent={renderHtmlPopup} />
-      )}
+      {isPopupOpen && <LoadingPopup />}
     </section>
   );
 };
