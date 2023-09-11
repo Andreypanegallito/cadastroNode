@@ -20,7 +20,6 @@ const Contato = () => {
 
       console.log(response);
       if (response.data.status === "Ok") {
-        alert("A")
         setIsPopupOpen(false);
       }
     } catch (error) {
@@ -32,7 +31,7 @@ const Contato = () => {
   };
 
   const renderHtmlPopup = () => {
-    return <>aaa</>
+    return <div className="loading">Aguarde, carregando...</div>
   };
 
   return (
