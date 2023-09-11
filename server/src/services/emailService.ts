@@ -11,21 +11,6 @@ const EMAIL_ISSECURE: boolean = process.env.EMAIL_ISSECURE === "true";
 const EMAIL_AUTH_USER = process.env.EMAIL_AUTH_USER;
 const EMAIL_AUTH_PASS = process.env.EMAIL_AUTH_PASS;
 
-console.log(API_KEY);
-console.log(typeof API_KEY);
-console.log(API_KEY_SECRET);
-console.log(typeof API_KEY_SECRET);
-console.log(EMAIL_HOST);
-console.log(typeof EMAIL_HOST);
-console.log(EMAIL_PORT);
-console.log(typeof EMAIL_PORT);
-console.log(EMAIL_ISSECURE);
-console.log(typeof EMAIL_ISSECURE);
-console.log(EMAIL_AUTH_USER);
-console.log(typeof EMAIL_AUTH_USER);
-console.log(EMAIL_AUTH_PASS);
-console.log(typeof EMAIL_AUTH_PASS);
-
 const transport = new nodeMailer.createTransport({
   host: EMAIL_HOST,
   port: EMAIL_PORT,
@@ -36,7 +21,7 @@ const transport = new nodeMailer.createTransport({
   },
 });
 
-export const sendEmail = (emailProps: Email) => {
+export const sendEmail = async (emailProps: Email): Promise<string> => {
   console.log(emailProps);
   const nome = emailProps.nome;
   const email = emailProps.email;
@@ -52,7 +37,7 @@ export const sendEmail = (emailProps: Email) => {
     text: "Teste de envio de e-mail",
   };
 
-  transport
+  const retorno = await transport
     .sendMail(emailObject)
     .then(() => {
       console.log("deu boa");
@@ -62,4 +47,6 @@ export const sendEmail = (emailProps: Email) => {
       console.log("erro ao enviaro e-mail", err);
       return "erro";
     });
+
+  return retorno;
 };
