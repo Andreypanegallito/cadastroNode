@@ -41,7 +41,7 @@ export const sendEmail = async (emailProps: Email): Promise<string> => {
     .sendMail(emailObject)
     .then(() => {
       console.log("deu boa");
-      return "ok";
+      return "Ok";
     })
     .catch((err) => {
       console.log("erro ao enviaro e-mail", err);

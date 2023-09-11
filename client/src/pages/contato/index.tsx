@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import "./contato.scss";
 import FormContato from "./formContato";
 import { Email } from "../../utils/email";
+import Popup from "../../components/popup";
 
 
 const Contato = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
-
   const onSubmitForm = async (emailProps: Email) => {
-
     console.log(emailProps);
 
     try {
+      setIsPopupOpen(true);
       const response = await axios.post(`${apiUrl}/sendEmail`, emailProps);
 
+      console.log(response);
       if (response.data.status === "Ok") {
+        alert("A")
+        setIsPopupOpen(false);
       }
     } catch (error) {
       console.error(error);
@@ -25,6 +29,10 @@ const Contato = () => {
       alert("Não foi possível resetar a senha");
     }
 
+  };
+
+  const renderHtmlPopup = () => {
+    return <>aaa</>
   };
 
   return (
@@ -63,6 +71,9 @@ const Contato = () => {
           </div>
         </div>
       </div>
+      {isPopupOpen && (
+        <Popup renderContent={renderHtmlPopup} />
+      )}
     </section>
   );
 };

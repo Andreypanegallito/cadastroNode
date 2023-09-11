@@ -6,20 +6,21 @@ const Mailjet = require("node-mailjet");
 const nodeMailer = require("nodemailer");
 const API_KEY = process.env.EMAIL_API_KEY;
 const API_KEY_SECRET = process.env.EMAIL_KEY_SECRET;
-console.log(API_KEY);
-console.log(typeof API_KEY);
-console.log(API_KEY_SECRET);
-console.log(typeof API_KEY_SECRET);
+const EMAIL_HOST = process.env.EMAIL_HOST;
+const EMAIL_PORT = parseInt(process.env.EMAIL_PORT);
+const EMAIL_ISSECURE = process.env.EMAIL_ISSECURE === "true";
+const EMAIL_AUTH_USER = process.env.EMAIL_AUTH_USER;
+const EMAIL_AUTH_PASS = process.env.EMAIL_AUTH_PASS;
 const transport = new nodeMailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    host: EMAIL_HOST,
+    port: EMAIL_PORT,
+    secure: EMAIL_ISSECURE,
     auth: {
-        user: "andrey.panegalli@gmail.com",
-        pass: "sbzryvqeepusodqj",
+        user: EMAIL_AUTH_USER,
+        pass: EMAIL_AUTH_PASS,
     },
 });
-const sendEmail = (emailProps) => {
+const sendEmail = async (emailProps) => {
     console.log(emailProps);
     const nome = emailProps.nome;
     const email = emailProps.email;
@@ -30,11 +31,19 @@ const sendEmail = (emailProps) => {
         from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
         to: "andrey.panegalli@gmail.com",
         subject: "Teste de e-mail da api com envio de email nodemailer",
-        HTMLPart: "<h1>Teste de envio de e-mail </h1>",
-        TextPart: "Teste de envio de e-mail",
+        html: "<h1>Teste de envio de e-mail com a api nodemailer </h1>",
+        text: "Teste de envio de e-mail",
     };
-    transport.sendMail(emailObject).then(() => {
-        console.log(emailObject);
+    const retorno = await transport
+        .sendMail(emailObject)
+        .then(() => {
+        console.log("deu boa");
+        return "Ok";
+    })
+        .catch((err) => {
+        console.log("erro ao enviaro e-mail", err);
+        return "erro";
     });
+    return retorno;
 };
 exports.sendEmail = sendEmail;
