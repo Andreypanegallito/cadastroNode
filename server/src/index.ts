@@ -141,6 +141,7 @@ app.post("/sendEmail", async (req: Request, res: Response) => {
       mensagem: mensagem,
     };
     const retorno = await sendEmail(emailProps);
+    console.log(retorno);
     res.json({ status: "success" });
   } catch (error) {
     console.error(error);

@@ -116,11 +116,15 @@ app.post("/resetePassword", async (req, res) => {
 });
 app.post("/sendEmail", async (req, res) => {
     try {
-        const { nome, assunto, email } = req.body;
-        const retorno = await (0, emailService_1.sendEmail)(nome);
-        if (retorno === 200) {
-            res.json({ status: "success" });
-        }
+        const { nome, email, assunto, mensagem } = req.body;
+        const emailProps = {
+            nome: nome,
+            email: email,
+            assunto: assunto,
+            mensagem: mensagem,
+        };
+        const retorno = await (0, emailService_1.sendEmail)(emailProps);
+        res.json({ status: "success" });
     }
     catch (error) {
         console.error(error);
