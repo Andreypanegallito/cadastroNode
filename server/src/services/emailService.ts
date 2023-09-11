@@ -48,7 +48,7 @@ export const sendEmail = (emailProps: Email) => {
     from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
     to: "andrey.panegalli@gmail.com",
     subject: "Teste de e-mail da api com envio de email nodemailer",
-    html: "<h1>Teste de envio de e-mail </h1>",
+    html: "<h1>Teste de envio de e-mail com a api nodemailer </h1>",
     text: "Teste de envio de e-mail",
   };
 
