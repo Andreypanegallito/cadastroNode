@@ -92,18 +92,16 @@ const Login = () => {
           Cookies.set("jwtToken", token);
           setIsPopupLoadingOpen(false);
 
-          // Realiza o redirecionamento para outra página após meio segundo
+          // Realiza o redirecionamento para outra página 
           if (Cookies.get("jwtToken") !== undefined) {
             await navigate("/", { replace: true });
           }
         } else if (response.data.status === "passErr") {
           setIsPopupLoadingOpen(false);
-          alert("senha");
           setPopupContent("Senha incorreta!");
           setShowPopup(true);
         } else if (response.data.status === "userErr") {
           setIsPopupLoadingOpen(false);
-          alert("usuario");
           setPopupContent("Usuário inválido!");
           setShowPopup(true);
         }

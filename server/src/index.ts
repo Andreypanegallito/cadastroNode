@@ -44,23 +44,31 @@ app.post("/login", async (req: Request, res: Response) => {
   try {
     const { usernameLogin, passwordLogin } = req.body;
     const retorno = await loginUser(usernameLogin, passwordLogin);
-    const userName = retorno.result.username;
-    const password = retorno.result.password;
-    const isAdmin = retorno.result.isAdmin;
-    const userCanEdit = retorno.result.podeEditar;
-    if (retorno.status === "Ok") {
-      // Crie um token
-      const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, {
-        expiresIn: "1h",
-      });
+    if (retorno.result !== null) {
+      const userName = retorno.result.username;
+      const password = retorno.result.password;
+      const isAdmin = retorno.result.isAdmin;
+      const userCanEdit = retorno.result.podeEditar;
+      if (retorno.status === "Ok") {
+        // Crie um token
+        const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, {
+          expiresIn: "1h",
+        });
 
-      // Retorne o token para o usuário
-      res.json({ status: "Ok", token: token });
-    } else {
-      // Retorne um erro
-      res.status(401).json({ error: "Unauthorized" });
+        // Retorne o token para o usuário
+        res.json({ status: "Ok", token: token });
+      } else {
+        // Retorne um erro
+        res.status(401).json({ error: "Unauthorized" });
+      }
+    } else if (retorno.status === "passErr") {
+      res.json({ status: "passErr" });
+    } else if (retorno.status === "userErr") {
+      res.json({ status: "userErr" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // Exemplo de rota para inserir dados no banco de dados
