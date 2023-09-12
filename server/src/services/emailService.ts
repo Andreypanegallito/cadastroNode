@@ -1,10 +1,7 @@
 import { Email } from "../utils/email";
 
 // Importe a API do Mailjet
-const Mailjet = require("node-mailjet");
 const nodeMailer = require("nodemailer");
-const API_KEY = process.env.EMAIL_API_KEY;
-const API_KEY_SECRET = process.env.EMAIL_KEY_SECRET;
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT: number = parseInt(process.env.EMAIL_PORT);
 const EMAIL_ISSECURE: boolean = process.env.EMAIL_ISSECURE === "true";
@@ -21,20 +18,60 @@ const transport = new nodeMailer.createTransport({
   },
 });
 
-export const sendEmail = async (emailProps: Email): Promise<string> => {
+const sendEmailFormContatoGreats = async (emailProps: Email) => {
   console.log(emailProps);
   const nome = emailProps.nome;
   const email = emailProps.email;
   const assunto = emailProps.assunto;
   const mensagem = emailProps.mensagem;
 
+  const mensagemEmail = `<h1>Olá ${nome}</h1>
+    <p>Agradeço o contato. Entrarei em contato o mais breve possível no e-mail que você anexou no formulário.</p>
+    <p>Até mais</p>
+    <p>Atenciosamente,<br />
+    Andrey Panegalli</p>`;
+
+  // Crie um objeto e-mail
+  const emailObject = {
+    from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
+    to: email,
+    subject: "Agradeço o contato, entrarei em contato o mais breve possível",
+    html: mensagemEmail,
+    text: `Olá ${nome}, agradeço o contato. \n\n Entrarei em contato o mais breve possível no e-mail que você anexou no formulário. Até mais\n\n Atte, \n Andrey Panegalli.`,
+  };
+
+  const retorno = await transport
+    .sendMail(emailObject)
+    .then(() => {
+      console.log("deu boa para enviar o e-mail");
+    })
+    .catch((err) => {
+      console.log("erro ao enviaro e-mail", err);
+    });
+};
+
+export const sendEmailFormContato = async (
+  emailProps: Email
+): Promise<string> => {
+  const nome = emailProps.nome;
+  const email = emailProps.email;
+  const assunto = emailProps.assunto;
+  const mensagem = emailProps.mensagem;
+
+  await sendEmailFormContatoGreats(emailProps);
+
+  const mensagemEmail = `<h1>Você tem uma nova mensagem! </h1>
+  <p>${nome} quer conversar sobre o seguinte assunto: ${assunto}</p> 
+  <p>O e-mail para contato é: ${email}.</p>
+  <p>E a mensagem que deixou foi a seguinte: ${mensagem}</p>`;
+
   // Crie um objeto e-mail
   const emailObject = {
     from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
     to: "andrey.panegalli@gmail.com",
-    subject: "Teste de e-mail da api com envio de email nodemailer",
-    html: "<h1>Teste de envio de e-mail com a api nodemailer </h1>",
-    text: "Teste de envio de e-mail",
+    subject: `Entrar em contato com ${nome}`,
+    html: mensagemEmail,
+    text: `Você tem uma nova mensagem! \n ${nome} quer conversar sobre o seguinte assunto: ${assunto} \n\n O e-mail para contato é: ${email}. \n\n E a mensagem foi a seguinte: ${mensagem}`,
   };
 
   const retorno = await transport

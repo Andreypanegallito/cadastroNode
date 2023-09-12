@@ -57,11 +57,8 @@ app.post("/login", async (req, res) => {
                 res.status(401).json({ error: "Unauthorized" });
             }
         }
-        else if (retorno.status === "passErr") {
-            res.json({ status: "passErr" });
-        }
-        else if (retorno.status === "userErr") {
-            res.json({ status: "userErr" });
+        else {
+            res.json({ status: retorno.status });
         }
     }
     catch (error) {
@@ -124,7 +121,7 @@ app.post("/resetePassword", async (req, res) => {
         res.status(500).json({ error: "Erro ao deletar o usuário" });
     }
 });
-app.post("/sendEmail", async (req, res) => {
+app.post("/sendEmailFormContato", async (req, res) => {
     try {
         const { nome, email, assunto, mensagem } = req.body;
         const emailProps = {
@@ -133,7 +130,7 @@ app.post("/sendEmail", async (req, res) => {
             assunto: assunto,
             mensagem: mensagem,
         };
-        const retorno = await (0, emailService_1.sendEmail)(emailProps);
+        const retorno = await (0, emailService_1.sendEmailFormContato)(emailProps);
         if (retorno !== undefined && retorno === "Ok") {
             res.json({ status: "Ok", message: "E-mail enviado com sucesso" });
         }

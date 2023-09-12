@@ -15,7 +15,7 @@ const Contato = () => {
 
     try {
       setIsPopupOpen(true);
-      const response = await axios.post(`${apiUrl}/sendEmail`, emailProps);
+      const response = await axios.post(`${apiUrl}/sendEmailFormContato`, emailProps);
 
       console.log(response);
       if (response.data.status === "Ok") {

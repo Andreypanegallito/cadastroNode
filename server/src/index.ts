@@ -10,7 +10,7 @@ import {
   resetPasswordUser,
 } from "./services/userService";
 import { User } from "./utils/user";
-import { sendEmail } from "./services/emailService";
+import { sendEmailFormContato } from "./services/emailService";
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -61,10 +61,8 @@ app.post("/login", async (req: Request, res: Response) => {
         // Retorne um erro
         res.status(401).json({ error: "Unauthorized" });
       }
-    } else if (retorno.status === "passErr") {
-      res.json({ status: "passErr" });
-    } else if (retorno.status === "userErr") {
-      res.json({ status: "userErr" });
+    } else {
+      res.json({ status: retorno.status });
     }
   } catch (error) {
     console.log(error);
@@ -139,7 +137,7 @@ app.post("/resetePassword", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/sendEmail", async (req: Request, res: Response) => {
+app.post("/sendEmailFormContato", async (req: Request, res: Response) => {
   try {
     const { nome, email, assunto, mensagem } = req.body;
     const emailProps = {
@@ -148,7 +146,7 @@ app.post("/sendEmail", async (req: Request, res: Response) => {
       assunto: assunto,
       mensagem: mensagem,
     };
-    const retorno = await sendEmail(emailProps);
+    const retorno = await sendEmailFormContato(emailProps);
     if (retorno !== undefined && retorno === "Ok") {
       res.json({ status: "Ok", message: "E-mail enviado com sucesso" });
     }
