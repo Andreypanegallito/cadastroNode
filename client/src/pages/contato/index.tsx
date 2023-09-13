@@ -8,18 +8,18 @@ import LoadingPopup from "../../components/loadingPopup";
 
 const Contato = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [shouldClearForm, setShouldClearForm] = useState(false);
+
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const onSubmitForm = async (emailProps: Email) => {
-    console.log(emailProps);
-
     try {
       setIsPopupOpen(true);
       const response = await axios.post(`${apiUrl}/sendEmailFormContato`, emailProps);
 
-      console.log(response);
       if (response.data.status === "Ok") {
         setIsPopupOpen(false);
+        setShouldClearForm(true);
       }
     } catch (error) {
       console.error(error);
@@ -36,7 +36,7 @@ const Contato = () => {
           <h1 className="title has-text-centered">Formulário de Contato</h1>
         </div>
         <div className="divFormContato">
-          <FormContato onSave={onSubmitForm} />
+          <FormContato onSave={onSubmitForm} shouldClearForm={shouldClearForm} setShouldClearForm={setShouldClearForm} />
           <div className="redes-sociais">
             <a
               href="https://www.instagram.com/andrey_panegalli"

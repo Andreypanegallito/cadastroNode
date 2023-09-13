@@ -1,13 +1,15 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 
 import "./formContato.scss";
 import { Email } from "../../../utils/email";
 
 interface formContatoProps {
   onSave: (objectEmail: Email) => void;
+  shouldClearForm: boolean;
+  setShouldClearForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormContato: React.FC<formContatoProps> = ({ onSave }) => {
+const FormContato: React.FC<formContatoProps> = ({ onSave, shouldClearForm, setShouldClearForm }) => {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +17,7 @@ const FormContato: React.FC<formContatoProps> = ({ onSave }) => {
   const [mensagem, setMensagem] = useState("");
 
   const handleSave = () => {
-    const emailProps = {
+    const emailProps: Email = {
       nome: `${nome} ${sobrenome}`,
       email: email,
       assunto: assunto,
@@ -24,6 +26,19 @@ const FormContato: React.FC<formContatoProps> = ({ onSave }) => {
 
     onSave(emailProps);
   };
+
+  // Efeito para limpar os campos quando shouldClearForm mudar para verdadeiro
+  useEffect(() => {
+    if (shouldClearForm) {
+      setNome("");
+      setSobrenome("");
+      setEmail("");
+      setAssunto("Contato de trabalho");
+      setMensagem("");
+      // Redefina o sinalizador para evitar limpar os campos novamente na próxima renderização
+      setShouldClearForm(false);
+    }
+  }, [shouldClearForm]);
 
   const handleChangeNome: ChangeEventHandler<HTMLInputElement> = (e) => {
     setNome(e.target.value);
