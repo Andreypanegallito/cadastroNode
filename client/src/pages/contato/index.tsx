@@ -5,28 +5,55 @@ import "./contato.scss";
 import FormContato from "./formContato";
 import { Email } from "../../utils/email";
 import LoadingPopup from "../../components/loadingPopup";
+import Popup from "../../components/popup";
 
 const Contato = () => {
+  const [isLoadingPopupOpen, setIsLoadingPopupOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [shouldClearForm, setShouldClearForm] = useState(false);
+  const [popupContent, setPopupContent] = useState("");
+
 
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const onSubmitForm = async (emailProps: Email) => {
     try {
-      setIsPopupOpen(true);
+      setIsLoadingPopupOpen(true);
       const response = await axios.post(`${apiUrl}/sendEmailFormContato`, emailProps);
 
       if (response.data.status === "Ok") {
-        setIsPopupOpen(false);
+        setIsLoadingPopupOpen(false);
         setShouldClearForm(true);
+
+        setPopupContent("E-mail enviado com sucesso!");
+        setIsPopupOpen(true);
       }
     } catch (error) {
       console.error(error);
-      setIsPopupOpen(false);
+      setIsLoadingPopupOpen(false);
 
-      alert("Não foi possível resetar a senha");
+      setPopupContent("Ocorreu um erro ao enviar o e-mail, tente novamente.")
+      setIsPopupOpen(true);
     }
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const renderHtmlPopup = () => {
+    return (
+      <>
+        <div className="item-popup message-user">
+          <h2>{popupContent}</h2>
+        </div>
+        <div className="div-botoes">
+          <button onClick={closePopup} className="cancel">
+            Fechar
+          </button>
+        </div>
+      </>
+    );
   };
 
   return (
@@ -65,7 +92,8 @@ const Contato = () => {
           </div>
         </div>
       </div>
-      {isPopupOpen && <LoadingPopup />}
+      {isLoadingPopupOpen && <LoadingPopup />}
+      {isPopupOpen && <Popup renderContent={renderHtmlPopup} />}
     </section>
   );
 };
