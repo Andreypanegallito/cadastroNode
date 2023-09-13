@@ -1,6 +1,5 @@
 import { Email } from "../utils/email";
 
-// Importe a API do Mailjet
 const nodeMailer = require("nodemailer");
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT: number = parseInt(process.env.EMAIL_PORT);
@@ -19,7 +18,6 @@ const transport = new nodeMailer.createTransport({
 });
 
 const sendEmailFormContatoGreats = async (emailProps: Email) => {
-  console.log(emailProps);
   const nome = emailProps.nome;
   const email = emailProps.email;
   const assunto = emailProps.assunto;
@@ -42,11 +40,12 @@ const sendEmailFormContatoGreats = async (emailProps: Email) => {
 
   const retorno = await transport
     .sendMail(emailObject)
-    .then(() => {
-      console.log("deu boa para enviar o e-mail");
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("erro ao enviaro e-mail", err);
+      console.log(
+        "Ocorreu um erro ao enviar o e-mail para o destino preenchido no formulário.",
+        err
+      );
     });
 };
 
@@ -77,11 +76,10 @@ export const sendEmailFormContato = async (
   const retorno = await transport
     .sendMail(emailObject)
     .then(() => {
-      console.log("deu boa");
       return "Ok";
     })
     .catch((err) => {
-      console.log("erro ao enviaro e-mail", err);
+      console.error("erro ao enviaro e-mail", err);
       return "erro";
     });
 

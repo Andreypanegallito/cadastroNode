@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmailFormContato = void 0;
-// Importe a API do Mailjet
 const nodeMailer = require("nodemailer");
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT);
@@ -18,7 +17,6 @@ const transport = new nodeMailer.createTransport({
     },
 });
 const sendEmailFormContatoGreats = async (emailProps) => {
-    console.log(emailProps);
     const nome = emailProps.nome;
     const email = emailProps.email;
     const assunto = emailProps.assunto;
@@ -38,11 +36,9 @@ const sendEmailFormContatoGreats = async (emailProps) => {
     };
     const retorno = await transport
         .sendMail(emailObject)
-        .then(() => {
-        console.log("deu boa para enviar o e-mail");
-    })
+        .then(() => { })
         .catch((err) => {
-        console.log("erro ao enviaro e-mail", err);
+        console.log("Ocorreu um erro ao enviar o e-mail para o destino preenchido no formulário.", err);
     });
 };
 const sendEmailFormContato = async (emailProps) => {
@@ -66,11 +62,10 @@ const sendEmailFormContato = async (emailProps) => {
     const retorno = await transport
         .sendMail(emailObject)
         .then(() => {
-        console.log("deu boa");
         return "Ok";
     })
         .catch((err) => {
-        console.log("erro ao enviaro e-mail", err);
+        console.error("erro ao enviaro e-mail", err);
         return "erro";
     });
     return retorno;
