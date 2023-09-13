@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const userService_1 = require("./services/userService");
 const user_1 = require("./utils/user");
+const emailService_1 = require("./services/emailService");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 const app = (0, express_1.default)();
@@ -38,22 +39,31 @@ app.post("/login", async (req, res) => {
     try {
         const { usernameLogin, passwordLogin } = req.body;
         const retorno = await (0, userService_1.loginUser)(usernameLogin, passwordLogin);
-        const userName = retorno.result.username;
-        const password = retorno.result.password;
-        const isAdmin = retorno.result.isAdmin;
-        const userCanEdit = retorno.result.podeEditar;
-        if (retorno.status === "Ok") {
-            // Crie um token
-            const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, { expiresIn: "1h" });
-            // Retorne o token para o usuário
-            res.json({ status: "Ok", token: token });
+        if (retorno.result !== null) {
+            const userName = retorno.result.username;
+            const password = retorno.result.password;
+            const isAdmin = retorno.result.isAdmin;
+            const userCanEdit = retorno.result.podeEditar;
+            if (retorno.status === "Ok") {
+                // Crie um token
+                const token = jwt.sign({ userName, isAdmin, userCanEdit }, JWT_SECRET, {
+                    expiresIn: "1h",
+                });
+                // Retorne o token para o usuário
+                res.json({ status: "Ok", token: token });
+            }
+            else {
+                // Retorne um erro
+                res.status(401).json({ error: "Unauthorized" });
+            }
         }
         else {
-            // Retorne um erro
-            res.status(401).json({ error: "Unauthorized" });
+            res.json({ status: retorno.status });
         }
     }
-    catch (error) { }
+    catch (error) {
+        console.log(error);
+    }
 });
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/createUser", async (req, res) => {
@@ -109,6 +119,25 @@ app.post("/resetePassword", async (req, res) => {
     catch (error) {
         console.error("Erro ao alterar o usuário:", error);
         res.status(500).json({ error: "Erro ao deletar o usuário" });
+    }
+});
+app.post("/sendEmailFormContato", async (req, res) => {
+    try {
+        const { nome, email, assunto, mensagem } = req.body;
+        const emailProps = {
+            nome: nome,
+            email: email,
+            assunto: assunto,
+            mensagem: mensagem,
+        };
+        const retorno = await (0, emailService_1.sendEmailFormContato)(emailProps);
+        if (retorno !== undefined && retorno === "Ok") {
+            res.json({ status: "Ok", message: "E-mail enviado com sucesso" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao enviar o email" });
     }
 });
 app.listen(process.env.PORT, () => {

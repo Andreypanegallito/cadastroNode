@@ -5,6 +5,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../components/popup";
 import Cookies from "js-cookie";
+import LoadingPopup from "../../components/loadingPopup";
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -18,6 +19,7 @@ const Login = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState("");
+  const [isPopupLoadingOpen, setIsPopupLoadingOpen] = useState(false);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
@@ -76,6 +78,7 @@ const Login = () => {
 
     if (retorno) {
       try {
+        setIsPopupLoadingOpen(true);
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === "Ok") {
@@ -87,19 +90,23 @@ const Login = () => {
 
           const token = response.data.token;
           Cookies.set("jwtToken", token);
+          setIsPopupLoadingOpen(false);
 
-          // Realiza o redirecionamento para outra página após meio segundo
+          // Realiza o redirecionamento para outra página 
           if (Cookies.get("jwtToken") !== undefined) {
             await navigate("/", { replace: true });
           }
         } else if (response.data.status === "passErr") {
+          setIsPopupLoadingOpen(false);
           setPopupContent("Senha incorreta!");
           setShowPopup(true);
         } else if (response.data.status === "userErr") {
+          setIsPopupLoadingOpen(false);
           setPopupContent("Usuário inválido!");
           setShowPopup(true);
         }
       } catch (error) {
+        setIsPopupLoadingOpen(false);
         console.error(error);
       }
     }
@@ -151,6 +158,7 @@ const Login = () => {
         </div>
       </div>
       {showPopup && <Popup renderContent={renderHtmlPopup} />}
+      {isPopupLoadingOpen && <LoadingPopup />}
     </section>
   );
 };

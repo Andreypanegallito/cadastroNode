@@ -43,10 +43,8 @@
         span {
           border-radius: 5px;
           display: flex;
-          /* align-items: center; */
           justify-content: center;
           margin: 5px auto;
-          /* padding: 0px 5px; */
           color: #fff;
           height: 25px;
           width: 60px;
@@ -84,17 +82,14 @@
         }
 
         button.delete {
-          transition: background-color 0.5s, scale(1.4);
+          transition: background-color 0.5s;
           background-color: transparent;
           border-radius: 50%;
         }
 
         button.delete:hover {
-          transition: background-color 0.5s, scale(1.4) 0.3s;
-          background-color: red;
-          color: #fff;
-          width: 25px;
-          height: 25px;
+          transition: background-color 0.5s;
+          color: red;
         }
       }
 
