@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Popup from "../../components/popup";
 import Cookies from "js-cookie";
 import LoadingPopup from "../../components/loadingPopup";
+import ForgotPasswordPopup from "../../components/forgotPassword";
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -18,6 +19,7 @@ const Login = () => {
     passwordLogin: "",
   });
   const [showPopup, setShowPopup] = useState(false);
+  const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const [isPopupLoadingOpen, setIsPopupLoadingOpen] = useState(false);
   const navigate = useNavigate();
@@ -92,7 +94,7 @@ const Login = () => {
           Cookies.set("jwtToken", token);
           setIsPopupLoadingOpen(false);
 
-          // Realiza o redirecionamento para outra página 
+          // Realiza o redirecionamento para outra página
           if (Cookies.get("jwtToken") !== undefined) {
             await navigate("/", { replace: true });
           }
@@ -111,6 +113,8 @@ const Login = () => {
       }
     }
   };
+
+  const handleForgotPassword = () => {};
 
   return (
     <section id="login">
@@ -153,11 +157,14 @@ const Login = () => {
             </button>
           </form>
           <div className="esqueceu-senha">
-            <button>Esqueceu usuário/senha</button>
+            <button type="button" onClick={handleForgotPassword}>
+              Esqueceu usuário/senha
+            </button>
           </div>
         </div>
       </div>
       {showPopup && <Popup renderContent={renderHtmlPopup} />}
+      {showForgotPasswordPopup && <ForgotPasswordPopup />}
       {isPopupLoadingOpen && <LoadingPopup />}
     </section>
   );
