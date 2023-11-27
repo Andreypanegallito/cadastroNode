@@ -106,7 +106,7 @@
 
         .btn-enviar {
           width: 250px;
-          height: 40px;
+          height: 30px;
           margin: auto;
           display: flex;
           justify-content: center;
@@ -134,17 +134,16 @@
 
         button {
           cursor: pointer;
-          // padding: 15px;
           transition: 0.5s;
+          background-color: transparent;
+          color: #808080;
         }
 
         button:hover {
-          background-color: #5c09b5;
-          color: #fff;
-          transform: scale(1.1);
+          color: #000;
           transition: 0.5s;
-          padding: 10px 15px;
-          border-radius: 10px;
+          border-radius: 20px;
+          font-size: 14px;
         }
       }
     }
