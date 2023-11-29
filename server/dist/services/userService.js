@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.resetPasswordUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.forgotPasswordUser = exports.resetPasswordUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -107,6 +107,44 @@ const resetPasswordUser = (idUsuario, userPassword) => {
     });
 };
 exports.resetPasswordUser = resetPasswordUser;
+const forgotPasswordUser = (usernameEmail, typeResetPass) => {
+    return new Promise((resolve, reject) => {
+        let result;
+        let idUsuario;
+        if (typeResetPass === "email") {
+            const sqlQuery = "select * from usuarios where email = ?";
+            const values = [typeResetPass];
+            db_1.default.query(sqlQuery, values, (error, results) => {
+                if (error) {
+                }
+                else {
+                    result = results[0];
+                    if (!result) {
+                        idUsuario = result.idUsuario;
+                    }
+                }
+            });
+        }
+        const randonPassword = generateRandomPassword(10);
+        bcrypt_1.default.hash(randonPassword, 10, (err, hashedPassword) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+            const values = [hashedPassword, idUsuario];
+            db_1.default.query(sqlQuery, values, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve("Ok");
+                }
+            });
+        });
+    });
+};
+exports.forgotPasswordUser = forgotPasswordUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM usuarios WHERE username = ?`;
@@ -135,7 +173,7 @@ const loginUser = (userName, password) => {
                         userId: result.idUsuario,
                         username: result.username,
                         isAdmin: result.isAdmin,
-                        podeEditar: result.podeEditar
+                        podeEditar: result.podeEditar,
                     };
                     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
                         expiresIn: "1h", // Tempo de expiração do token (opcional)

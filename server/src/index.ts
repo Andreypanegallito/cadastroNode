@@ -8,6 +8,7 @@ import {
   updateUser,
   deleteUser,
   resetPasswordUser,
+  forgotPasswordUser,
 } from "./services/userService";
 import { User } from "./utils/user";
 import { sendEmailFormContato } from "./services/emailService";
@@ -122,11 +123,26 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/resetePassword", async (req: Request, res: Response) => {
+app.post("/resetPassword", async (req: Request, res: Response) => {
   try {
     const { idUsuario, userPassword } = req.body;
 
     const retorno = await resetPasswordUser(idUsuario, userPassword);
+
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Alterado a senha com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao alterar o usuário:", error);
+    res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
+app.post("/forgotPassword", async (req: Request, res: Response) => {
+  try {
+    const { usernameEmail, typeResetPass } = req.body;
+
+    const retorno = await forgotPasswordUser(usernameEmail, typeResetPass);
 
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Alterado a senha com sucesso" });

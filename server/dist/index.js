@@ -108,10 +108,23 @@ app.post("/deleteUser", async (req, res) => {
         res.status(500).json({ error: "Erro ao deletar o usuário" });
     }
 });
-app.post("/resetePassword", async (req, res) => {
+app.post("/resetPassword", async (req, res) => {
     try {
         const { idUsuario, userPassword } = req.body;
         const retorno = await (0, userService_1.resetPasswordUser)(idUsuario, userPassword);
+        if (retorno == "Ok") {
+            res.json({ status: "Ok", message: "Alterado a senha com sucesso" });
+        }
+    }
+    catch (error) {
+        console.error("Erro ao alterar o usuário:", error);
+        res.status(500).json({ error: "Erro ao deletar o usuário" });
+    }
+});
+app.post("/forgotPassword", async (req, res) => {
+    try {
+        const { usernameEmail, typeResetPass } = req.body;
+        const retorno = await (0, userService_1.forgotPasswordUser)(usernameEmail, typeResetPass);
         if (retorno == "Ok") {
             res.json({ status: "Ok", message: "Alterado a senha com sucesso" });
         }

@@ -114,7 +114,9 @@ const Login = () => {
     }
   };
 
-  const handleForgotPassword = () => {};
+  const handleForgotPassword = () => {
+    setShowForgotPasswordPopup(true);
+  };
 
   return (
     <section id="login">

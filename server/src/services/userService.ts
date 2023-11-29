@@ -3,6 +3,7 @@ import connection from "../database/db";
 import { User } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { error } from "console";
 
 interface LoginResponse {
   result: RowDataPacket;
@@ -127,6 +128,48 @@ export const resetPasswordUser = (idUsuario: number, userPassword: string) => {
   });
 };
 
+export const forgotPasswordUser = (
+  usernameEmail: string,
+  typeResetPass: string
+) => {
+  return new Promise((resolve, reject) => {
+    let result;
+    let idUsuario;
+    if (typeResetPass === "email") {
+      const sqlQuery = "select * from usuarios where email = ?";
+      const values = [typeResetPass];
+      connection.query(sqlQuery, values, (error, results) => {
+        if (error) {
+        } else {
+          result = results[0];
+          if (!result) {
+            idUsuario = result.idUsuario;
+          }
+        }
+      });
+    }
+
+    const randonPassword = generateRandomPassword(10);
+    bcrypt.hash(randonPassword, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+      const values = [hashedPassword, idUsuario];
+
+      connection.query(sqlQuery, values, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve("Ok");
+        }
+      });
+    });
+  });
+};
+
 export const loginUser = (
   userName: string,
   password: string
@@ -163,7 +206,7 @@ export const loginUser = (
             userId: result.idUsuario, // Id do usuário ou outro identificador único
             username: result.username,
             isAdmin: result.isAdmin,
-            podeEditar: result.podeEditar
+            podeEditar: result.podeEditar,
           };
 
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
