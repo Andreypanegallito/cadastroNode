@@ -104,7 +104,7 @@ export const sendEmailForgotPassUser = async (
   const emailObject = {
     from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
     to: email,
-    subject: "Agradeço o contato, entrarei em contato o mais breve possível",
+    subject: "Sua senha foi redefinida com sucesso",
     html: mensagemEmail,
     text: `Olá ${nome}, Sua senha foi redefinida com sucesso. \n\n Seus novos dados de acesso são:\n\n Usuário: ${username}\n Senha: ${password} \n\n Atenciosamente, \n Andrey Panegalli.`,
   };

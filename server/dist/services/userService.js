@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.forgotPasswordUser = exports.resetPasswordUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
+const user_1 = require("../utils/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const password_1 = require("../utils/password");
+const emailService_1 = require("../services/emailService");
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios", (error, results) => {
@@ -110,7 +112,7 @@ const resetPasswordUser = (idUsuario, userPassword) => {
 exports.resetPasswordUser = resetPasswordUser;
 const forgotPasswordUser = (usernameEmail, typeResetPass) => {
     return new Promise(async (resolve, reject) => {
-        let idUsuario;
+        let UserForgotPass = new user_1.User();
         if (typeResetPass === "email") {
             const sqlQuery = "select * from usuarios where email = ?";
             const values = [usernameEmail];
@@ -125,7 +127,10 @@ const forgotPasswordUser = (usernameEmail, typeResetPass) => {
                 });
                 const result = results[0];
                 if (result !== undefined) {
-                    idUsuario = result.idUsuario;
+                    UserForgotPass.idUsuario = result.idUsuario;
+                    UserForgotPass.username = result.username;
+                    UserForgotPass.email = result.email;
+                    UserForgotPass.nome = result.nome + " " + result.sobrenome;
                 }
             }
             catch (error) {
@@ -133,7 +138,7 @@ const forgotPasswordUser = (usernameEmail, typeResetPass) => {
                 return;
             }
         }
-        if (idUsuario !== undefined) {
+        if (UserForgotPass.idUsuario !== undefined) {
             const randonPassword = (0, password_1.generateRandomPassword)(10);
             bcrypt_1.default.hash(randonPassword, 10, async (err, hashedPassword) => {
                 if (err) {
@@ -141,14 +146,17 @@ const forgotPasswordUser = (usernameEmail, typeResetPass) => {
                     return;
                 }
                 const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
-                const values = [hashedPassword, idUsuario];
+                const values = [hashedPassword, UserForgotPass.idUsuario];
                 try {
                     await new Promise((res, rej) => {
                         db_1.default.query(sqlQuery, values, (error, result) => {
-                            if (error)
+                            if (error) {
                                 rej(error);
-                            else
+                            }
+                            else {
                                 res(result);
+                                const emailForgot = (0, emailService_1.sendEmailForgotPassUser)(UserForgotPass.username, randonPassword, UserForgotPass.email, UserForgotPass.nome);
+                            }
                         });
                     });
                     resolve("Ok");
@@ -172,56 +180,59 @@ exports.forgotPasswordUser = forgotPasswordUser;
 const loginUser = (userName, password) => {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM usuarios WHERE username = ?`;
-        db_1.default.query(sql, [userName], async (error, results) => {
-            if (error) {
-                reject(error);
-            }
-            else {
-                const result = results[0];
-                if (!result) {
-                    // Usuário não encontrado
-                    const status = "userErr";
-                    const loginResponse = {
-                        result: null,
-                        status,
-                        token: null,
-                    };
-                    resolve(loginResponse);
-                    return;
-                }
-                const storedHashedPassword = result.password;
-                const passwordsMatch = await bcrypt_1.default.compare(password, storedHashedPassword);
-                if (passwordsMatch) {
-                    // Senha correta - gera um token JWT
-                    const payload = {
-                        userId: result.idUsuario,
-                        username: result.username,
-                        isAdmin: result.isAdmin,
-                        podeEditar: result.podeEditar,
-                    };
-                    const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
-                        expiresIn: "1h", // Tempo de expiração do token (opcional)
-                    });
-                    const status = "Ok";
-                    const loginResponse = {
-                        result: result,
-                        status,
-                        token, // Inclui o token na resposta
-                    };
-                    resolve(loginResponse);
+        try {
+            db_1.default.query(sql, [userName], async (error, results) => {
+                if (error) {
+                    reject(error);
                 }
                 else {
-                    // senha errada
-                    const status = "passErr";
-                    const loginResponse = {
-                        result: null,
-                        status,
-                        token: null,
-                    };
-                    resolve(loginResponse);
+                    const result = results[0];
+                    if (!result) {
+                        // Usuário não encontrado
+                        const status = "userErr";
+                        const loginResponse = {
+                            result: null,
+                            status,
+                            token: null,
+                        };
+                        resolve(loginResponse);
+                        return;
+                    }
+                    const storedHashedPassword = result.password;
+                    const passwordsMatch = await bcrypt_1.default.compare(password, storedHashedPassword);
+                    if (passwordsMatch) {
+                        // Senha correta - gera um token JWT
+                        const payload = {
+                            userId: result.idUsuario,
+                            username: result.username,
+                            isAdmin: result.isAdmin,
+                            podeEditar: result.podeEditar,
+                        };
+                        const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+                            expiresIn: "1h", // Tempo de expiração do token (opcional)
+                        });
+                        const status = "Ok";
+                        const loginResponse = {
+                            result: result,
+                            status,
+                            token, // Inclui o token na resposta
+                        };
+                        resolve(loginResponse);
+                    }
+                    else {
+                        // senha errada
+                        const status = "passErr";
+                        const loginResponse = {
+                            result: null,
+                            status,
+                            token: null,
+                        };
+                        resolve(loginResponse);
+                    }
                 }
-            }
-        });
+            });
+        }
+        catch (_a) { }
     });
 };
 exports.loginUser = loginUser;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmailFormContato = void 0;
+exports.sendEmailForgotPassUser = exports.sendEmailFormContato = void 0;
 const nodeMailer = require("nodemailer");
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT);
@@ -71,4 +71,32 @@ const sendEmailFormContato = async (emailProps) => {
     return retorno;
 };
 exports.sendEmailFormContato = sendEmailFormContato;
+const sendEmailForgotPassUser = async (username, password, email, nome) => {
+    const mensagemEmail = `<h1>Olá ${nome}</h1>
+    <p>Sua senha foi redefinida com sucesso.</p>
+    <p>Seus novos dados de acesso são:</p>
+    <p>Usuário: ${username}</p>
+    <p>Senha: ${password}</p>
+    <p>Atenciosamente,<br />
+    Andrey Panegalli</p>`;
+    // Crie um objeto e-mail
+    const emailObject = {
+        from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
+        to: email,
+        subject: "Sua senha foi redefinida com sucesso",
+        html: mensagemEmail,
+        text: `Olá ${nome}, Sua senha foi redefinida com sucesso. \n\n Seus novos dados de acesso são:\n\n Usuário: ${username}\n Senha: ${password} \n\n Atenciosamente, \n Andrey Panegalli.`,
+    };
+    const retorno = await transport
+        .sendMail(emailObject)
+        .then(() => {
+        return "Ok";
+    })
+        .catch((err) => {
+        console.log("Ocorreu um erro ao enviar o e-mail para o destino preenchido no formulário.", err);
+        return "error";
+    });
+    return retorno;
+};
+exports.sendEmailForgotPassUser = sendEmailForgotPassUser;
 //# sourceMappingURL=emailService.js.map
