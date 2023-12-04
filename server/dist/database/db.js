@@ -18,3 +18,4 @@ connection.connect((error) => {
 });
 // connection.end();
 exports.default = connection;
+//# sourceMappingURL=db.js.map

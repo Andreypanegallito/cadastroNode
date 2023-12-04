@@ -3,7 +3,8 @@
     "target": "es2018",
     "module": "commonjs",
     "outDir": "./server/dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "sourceMap": true
   },
   "include": [
     "server/src/**/*.ts",

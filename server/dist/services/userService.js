@@ -7,6 +7,7 @@ exports.loginUser = exports.forgotPasswordUser = exports.resetPasswordUser = exp
 const db_1 = __importDefault(require("../database/db"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const password_1 = require("../utils/password");
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios", (error, results) => {
@@ -108,40 +109,63 @@ const resetPasswordUser = (idUsuario, userPassword) => {
 };
 exports.resetPasswordUser = resetPasswordUser;
 const forgotPasswordUser = (usernameEmail, typeResetPass) => {
-    return new Promise((resolve, reject) => {
-        let result;
+    return new Promise(async (resolve, reject) => {
         let idUsuario;
         if (typeResetPass === "email") {
             const sqlQuery = "select * from usuarios where email = ?";
-            const values = [typeResetPass];
-            db_1.default.query(sqlQuery, values, (error, results) => {
-                if (error) {
+            const values = [usernameEmail];
+            try {
+                const results = await new Promise((res, rej) => {
+                    db_1.default.query(sqlQuery, values, (error, results) => {
+                        if (error)
+                            rej(error);
+                        else
+                            res(results);
+                    });
+                });
+                const result = results[0];
+                if (result !== undefined) {
+                    idUsuario = result.idUsuario;
                 }
-                else {
-                    result = results[0];
-                    if (!result) {
-                        idUsuario = result.idUsuario;
-                    }
+            }
+            catch (error) {
+                reject(error.message);
+                return;
+            }
+        }
+        if (idUsuario !== undefined) {
+            const randonPassword = (0, password_1.generateRandomPassword)(10);
+            bcrypt_1.default.hash(randonPassword, 10, async (err, hashedPassword) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+                const values = [hashedPassword, idUsuario];
+                try {
+                    await new Promise((res, rej) => {
+                        db_1.default.query(sqlQuery, values, (error, result) => {
+                            if (error)
+                                rej(error);
+                            else
+                                res(result);
+                        });
+                    });
+                    resolve("Ok");
+                }
+                catch (error) {
+                    reject(error);
                 }
             });
         }
-        const randonPassword = generateRandomPassword(10);
-        bcrypt_1.default.hash(randonPassword, 10, (err, hashedPassword) => {
-            if (err) {
-                reject(err);
-                return;
+        else {
+            if (typeResetPass === "email") {
+                reject("Usuário não encontrado cadastrado em nossa base de dados. Informe um e-mail cadastrado.");
             }
-            const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
-            const values = [hashedPassword, idUsuario];
-            db_1.default.query(sqlQuery, values, (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-                else {
-                    resolve("Ok");
-                }
-            });
-        });
+            else if (typeResetPass === "username") {
+                reject("Usuário não encontrado cadastrado em nossa base de dados. Informe um usuário cadastrado.");
+            }
+        }
     });
 };
 exports.forgotPasswordUser = forgotPasswordUser;
@@ -202,3 +226,4 @@ const loginUser = (userName, password) => {
 };
 exports.loginUser = loginUser;
 // Outros métodos relacionados a consultas de usuários...
+//# sourceMappingURL=userService.js.map

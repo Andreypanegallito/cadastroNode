@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateRandomPassword = void 0;
 function generateRandomPassword(length) {
     const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
@@ -6,3 +9,5 @@ function generateRandomPassword(length) {
     }
     return password;
 }
+exports.generateRandomPassword = generateRandomPassword;
+//# sourceMappingURL=password.js.map

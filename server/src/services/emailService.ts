@@ -85,3 +85,43 @@ export const sendEmailFormContato = async (
 
   return retorno;
 };
+
+export const sendEmailForgotPassUser = async (
+  username: string,
+  password: string,
+  email: string,
+  nome: string
+) => {
+  const mensagemEmail = `<h1>Olá ${nome}</h1>
+    <p>Sua senha foi redefinida com sucesso.</p>
+    <p>Seus novos dados de acesso são:</p>
+    <p>Usuário: ${username}</p>
+    <p>Senha: ${password}</p>
+    <p>Atenciosamente,<br />
+    Andrey Panegalli</p>`;
+
+  // Crie um objeto e-mail
+  const emailObject = {
+    from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
+    to: email,
+    subject: "Agradeço o contato, entrarei em contato o mais breve possível",
+    html: mensagemEmail,
+    text: `Olá ${nome}, Sua senha foi redefinida com sucesso. \n\n Seus novos dados de acesso são:\n\n Usuário: ${username}\n Senha: ${password} \n\n Atenciosamente, \n Andrey Panegalli.`,
+  };
+
+  const retorno = await transport
+    .sendMail(emailObject)
+    .then(() => {
+      return "Ok";
+    })
+    .catch((err) => {
+      console.log(
+        "Ocorreu um erro ao enviar o e-mail para o destino preenchido no formulário.",
+        err
+      );
+
+      return "error";
+    });
+
+  return retorno;
+};

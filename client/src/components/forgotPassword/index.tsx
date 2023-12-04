@@ -13,10 +13,7 @@ interface FormDataResetPass {
 const ForgotPasswordPopup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [typeResetPass, setTypeResetPass] = useState("");
-  const [formDataResetPass, setFormDataResetPass] = useState<FormDataResetPass>({
-    usernameEmail: "",
-    typeResetPass: "",
-  });
+
 
 
   const validarUserEmail = (e: string) => {
@@ -29,10 +26,12 @@ const ForgotPasswordPopup = () => {
   };
 
   const resetPassword = async () => {
-    setFormDataResetPass({
+
+    const formDataResetPass = {
       usernameEmail: userEmail,
       typeResetPass: typeResetPass
-    });
+    }
+
     try {
       const response = await axios.post(`${apiUrl}/forgotPassword`, formDataResetPass);
     }

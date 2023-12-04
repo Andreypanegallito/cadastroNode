@@ -4,6 +4,8 @@ import { User } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error } from "console";
+import { generateRandomPassword } from "../utils/password";
+import { sendEmailForgotPassUser } from "../services/emailService";
 
 interface LoginResponse {
   result: RowDataPacket;
@@ -132,41 +134,74 @@ export const forgotPasswordUser = (
   usernameEmail: string,
   typeResetPass: string
 ) => {
-  return new Promise((resolve, reject) => {
-    let result;
-    let idUsuario;
+  return new Promise(async (resolve, reject) => {
+    let User: User;
     if (typeResetPass === "email") {
       const sqlQuery = "select * from usuarios where email = ?";
-      const values = [typeResetPass];
-      connection.query(sqlQuery, values, (error, results) => {
-        if (error) {
-        } else {
-          result = results[0];
-          if (!result) {
-            idUsuario = result.idUsuario;
-          }
+      const values = [usernameEmail];
+      try {
+        const results = await new Promise((res, rej) => {
+          connection.query(sqlQuery, values, (error, results) => {
+            if (error) rej(error);
+            else res(results);
+          });
+        });
+        const result = results[0];
+        if (result !== undefined) {
+          User.idUsuario = result.idUsuario;
+          User.username = result.username;
+          User.email = result.email;
+          User.nome = result.nome + "" + result.sobrenome;
         }
-      });
-    }
-
-    const randonPassword = generateRandomPassword(10);
-    bcrypt.hash(randonPassword, 10, (err, hashedPassword) => {
-      if (err) {
-        reject(err);
+      } catch (error) {
+        reject(error.message);
         return;
       }
+    }
 
-      const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
-      const values = [hashedPassword, idUsuario];
+    if (User.idUsuario !== undefined) {
+      const randonPassword = generateRandomPassword(10);
+      bcrypt.hash(randonPassword, 10, async (err, hashedPassword) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-      connection.query(sqlQuery, values, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
+        const sqlQuery = "UPDATE usuarios SET password = ? WHERE idUsuario = ?";
+        const values = [hashedPassword, User.idUsuario];
+
+        try {
+          await new Promise((res, rej) => {
+            connection.query(sqlQuery, values, (error, result) => {
+              if (error) {
+                rej(error);
+              } else {
+                res(result);
+                const emailForgot = sendEmailForgotPassUser(
+                  User.username,
+                  randonPassword,
+                  User.email,
+                  User.nome
+                );
+              }
+            });
+          });
           resolve("Ok");
+        } catch (error) {
+          reject(error);
         }
       });
-    });
+    } else {
+      if (typeResetPass === "email") {
+        reject(
+          "Usuário não encontrado cadastrado em nossa base de dados. Informe um e-mail cadastrado."
+        );
+      } else if (typeResetPass === "username") {
+        reject(
+          "Usuário não encontrado cadastrado em nossa base de dados. Informe um usuário cadastrado."
+        );
+      }
+    }
   });
 };
 

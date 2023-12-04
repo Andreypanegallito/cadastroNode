@@ -156,3 +156,4 @@ app.post("/sendEmailFormContato", async (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log("Servidor da API iniciado na porta", process.env.PORT);
 });
+//# sourceMappingURL=index.js.map
