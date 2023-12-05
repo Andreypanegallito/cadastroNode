@@ -136,27 +136,30 @@ export const forgotPasswordUser = (
 ) => {
   return new Promise(async (resolve, reject) => {
     let UserForgotPass: User = new User();
+    let sqlQuery: string;
     if (typeResetPass === "email") {
-      const sqlQuery = "select * from usuarios where email = ?";
-      const values = [usernameEmail];
-      try {
-        const results = await new Promise((res, rej) => {
-          connection.query(sqlQuery, values, (error, results) => {
-            if (error) rej(error);
-            else res(results);
-          });
+      sqlQuery = "select * from usuarios where email = ?";
+    } else {
+      sqlQuery = "select * from usuarios where username = ?";
+    }
+    const values = [usernameEmail];
+    try {
+      const results = await new Promise((res, rej) => {
+        connection.query(sqlQuery, values, (error, results) => {
+          if (error) rej(error);
+          else res(results);
         });
-        const result = results[0];
-        if (result !== undefined) {
-          UserForgotPass.idUsuario = result.idUsuario;
-          UserForgotPass.username = result.username;
-          UserForgotPass.email = result.email;
-          UserForgotPass.nome = result.nome + " " + result.sobrenome;
-        }
-      } catch (error) {
-        reject(error.message);
-        return;
+      });
+      const result = results[0];
+      if (result !== undefined) {
+        UserForgotPass.idUsuario = result.idUsuario;
+        UserForgotPass.username = result.username;
+        UserForgotPass.email = result.email;
+        UserForgotPass.nome = result.nome + " " + result.sobrenome;
       }
+    } catch (error) {
+      reject(error.message);
+      return;
     }
 
     if (UserForgotPass.idUsuario !== undefined) {

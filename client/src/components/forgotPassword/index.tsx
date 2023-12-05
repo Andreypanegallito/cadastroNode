@@ -26,7 +26,6 @@ const ForgotPasswordPopup = () => {
   };
 
   const resetPassword = async () => {
-
     const formDataResetPass = {
       usernameEmail: userEmail,
       typeResetPass: typeResetPass
@@ -34,6 +33,10 @@ const ForgotPasswordPopup = () => {
 
     try {
       const response = await axios.post(`${apiUrl}/forgotPassword`, formDataResetPass);
+      if (response.status === 200 && response.statusText === "OK") {
+
+      }
+      console.log(response);
     }
     catch (e: any) {
       console.error(e.message);
@@ -43,10 +46,10 @@ const ForgotPasswordPopup = () => {
   const htmlForgotPasswordPopup = () => {
     return (
       <>
-        <div className="forgotPassword">
+        <div id="forgotPassword" className="forgotPassword">
           <div className="divInput">
             <label htmlFor="userEmail">Informe o seu usuário ou e-mail</label>
-            <input type="text" id="userEmail" value={userEmail} onChange={e => validarUserEmail(e.target.value)} />
+            <input type="text" id="userEmail" value={userEmail} placeholder="Informe o usuário ou e-mail" onChange={e => validarUserEmail(e.target.value)} />
           </div>
           <div className="divBtn">
             <button type="button" onClick={resetPassword}> Resetar senha</button>
