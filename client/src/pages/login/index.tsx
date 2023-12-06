@@ -115,7 +115,7 @@ const Login = () => {
   };
 
   const handleForgotPassword = () => {
-    setShowForgotPasswordPopup(true);
+    setShowForgotPasswordPopup(!showForgotPasswordPopup);
   };
 
   return (
@@ -166,7 +166,7 @@ const Login = () => {
         </div>
       </div>
       {showPopup && <Popup renderContent={renderHtmlPopup} />}
-      {showForgotPasswordPopup && <ForgotPasswordPopup />}
+      {showForgotPasswordPopup && <ForgotPasswordPopup onClose={handleForgotPassword} />}
       {isPopupLoadingOpen && <LoadingPopup />}
     </section>
   );

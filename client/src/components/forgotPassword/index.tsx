@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import "./forgotPassword.scss";
 import Popup from "../popup";
 import axios from "axios";
+import { AiOutlineClose } from "react-icons/ai";
 const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
-interface FormDataResetPass {
-  usernameEmail: string;
-  typeResetPass: string;
+interface ForgotPassPopupProps {
+  onClose: () => void;
 }
 
-const ForgotPasswordPopup = () => {
+const ForgotPasswordPopup: React.FC<ForgotPassPopupProps> = ({ onClose }) => {
   const [userEmail, setUserEmail] = useState("");
   const [typeResetPass, setTypeResetPass] = useState("");
 
@@ -43,10 +43,17 @@ const ForgotPasswordPopup = () => {
     }
   };
 
+  const onClosePopup = () => {
+    onClose();
+  }
+
   const htmlForgotPasswordPopup = () => {
     return (
       <>
         <div id="forgotPassword" className="forgotPassword">
+          <button onClick={onClosePopup} className="btnClosePopup">
+            <AiOutlineClose />
+          </button>
           <div className="divInput">
             <label htmlFor="userEmail">Informe o seu usuário ou e-mail</label>
             <input type="text" id="userEmail" value={userEmail} placeholder="Informe o usuário ou e-mail" onChange={e => validarUserEmail(e.target.value)} />
