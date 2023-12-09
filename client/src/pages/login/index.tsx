@@ -150,6 +150,13 @@ const Login = () => {
                 className="senha"
               />
             </div>
+            <div className="itens-form">
+              <div className="forgotPass">
+                <button type="button" onClick={handleForgotPassword}>
+                  Esqueceu usuário/senha
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               className="btn-enviar"
@@ -158,7 +165,7 @@ const Login = () => {
               Login
             </button>
           </form>
-          <div className="esqueceu-senha">
+          <div className="signUp">
             <button type="button" onClick={handleForgotPassword}>
               Esqueceu usuário/senha
             </button>
