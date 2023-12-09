@@ -2,32 +2,18 @@ import React, { useState } from 'react';
 
 import './cadastroUsuario.scss'
 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { FormData } from '../../utils/user';
 
 
-interface FormData {
-  nome: string;
-  sobrenome: string;
-  username: string;
-  email: string;
-  password: string;
-  confpassword: string;
+interface CadastroUsuarioProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  onSubmit: (data: FormData) => void;
 }
 
-const CadastroUsuario: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    nome: '',
-    sobrenome: '',
-    username: '',
-    email: '',
-    password: '',
-    confpassword: ''
-  });
+const CadastroUsuario: React.FC<CadastroUsuarioProps> = ({ formData, setFormData, onSubmit }) => {
   const [isPasswordEquals, setPasswordEquals] = useState(false);
   const [isPasswordAltered, setIsPasswordAltered] = useState(false);
-  const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -78,28 +64,8 @@ const CadastroUsuario: React.FC = () => {
     // Aqui você pode fazer o envio dos dados para o servidor ou executar outras ações com os dados do formulário
 
     if (retorno && retornoPassword) {
+      onSubmit(formData);
       //faz a requisiçao pro back
-      try {
-        const response = await axios.post(`${apiUrl}/createUser`, formData);
-
-        if (response.data.status === 'Ok') {
-          // Realiza o redirecionamento para outra página
-          navigate('/users');
-        }
-      }
-      catch (error) {
-        console.error(error);
-        alert("Ops... Algo deu errado ao efetuar o cadastro do usuário. Tente novamente");
-      }
-      // Limpa o formulário após o envio
-      setFormData({
-        nome: '',
-        sobrenome: '',
-        username: '',
-        email: '',
-        password: '',
-        confpassword: '',
-      });
     }
   };
 

@@ -25,3 +25,12 @@ export interface ResetPasswordUser {
   username: string;
   password?: string;
 }
+
+export interface FormData {
+  nome: string;
+  sobrenome: string;
+  username: string;
+  email: string;
+  password: string;
+  confpassword: string;
+}
