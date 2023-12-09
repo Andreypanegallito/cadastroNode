@@ -7,6 +7,7 @@ import Popup from "../../components/popup";
 import Cookies from "js-cookie";
 import LoadingPopup from "../../components/loadingPopup";
 import ForgotPasswordPopup from "../../components/forgotPassword";
+import SelfRegisterPopup from "../../components/selfRegister";
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -20,6 +21,7 @@ const Login = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
+  const [showSelfRegisterPopup, setShowSelfRegisterPopup] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const [isPopupLoadingOpen, setIsPopupLoadingOpen] = useState(false);
   const navigate = useNavigate();
@@ -118,6 +120,10 @@ const Login = () => {
     setShowForgotPasswordPopup(!showForgotPasswordPopup);
   };
 
+  const handleSelfRegister = () => {
+    setShowSelfRegisterPopup(!showSelfRegisterPopup);
+  };
+
   return (
     <section id="login">
       <div className="container-login">
@@ -166,14 +172,18 @@ const Login = () => {
             </button>
           </form>
           <div className="signUp">
-            <button type="button" onClick={handleForgotPassword}>
-              Esqueceu usuário/senha
-            </button>
+            <span>
+              Não tem cadastro ainda?
+              <button type="button" onClick={handleSelfRegister}>
+                Cadastre-se
+              </button>
+            </span>
           </div>
         </div>
       </div>
       {showPopup && <Popup renderContent={renderHtmlPopup} />}
       {showForgotPasswordPopup && <ForgotPasswordPopup onClose={handleForgotPassword} />}
+      {showSelfRegisterPopup && <SelfRegisterPopup onClose={handleSelfRegister} />}
       {isPopupLoadingOpen && <LoadingPopup />}
     </section>
   );

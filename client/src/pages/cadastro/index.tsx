@@ -1,5 +1,5 @@
 import React from 'react';
-import CadastroUsuario from './components';
+import CadastroUsuario from '../../components/formRegisterUser';
 
 import './cadastro.scss';
 import Menu from '../../components/menu';
