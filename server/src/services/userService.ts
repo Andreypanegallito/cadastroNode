@@ -1,6 +1,6 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
-import { User, setValidationDateToken } from "../utils/user";
+import { User, setValidationDateToken, verificaExpiracao } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error } from "console";
@@ -10,6 +10,7 @@ import {
   sendEmailSelfRegister,
 } from "../services/emailService";
 import { v4 as uuidv4 } from "uuid";
+import { ActivateUserData } from "../utils/email";
 
 interface LoginResponse {
   result: RowDataPacket;
@@ -148,6 +149,65 @@ export const deleteUser = (idUsuario: number) => {
       }
     );
   });
+};
+
+export const activateUser = async (token: string) => {
+  let idUsuario: number;
+  let tokenDb: string;
+  let data_expiracao: Date;
+
+  const validateToken = new Promise<ActivateUserData>((resolve, reject) => {
+    connection.query(
+      "SELECT idUsuario, token, data_expiracao FROM usuarios WHERE token = ?",
+      [token],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          const data = results as ActivateUserData[];
+          if (data.length > 0) {
+            resolve(data[0]);
+          } else {
+            resolve(null); // ou rejeitar, dependendo da lógica desejada
+          }
+        }
+      }
+    );
+  });
+
+  validateToken
+    .then((data) => {
+      if (data) {
+        idUsuario = data.idUsuario;
+        tokenDb = data.token; // Usar o valor de token
+        data_expiracao = data.data_expiracao; // Usar o valor de data_expiracao
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      return "ErrToken";
+    });
+
+  const tokenExpirado = verificaExpiracao(data_expiracao);
+  if (tokenDb !== null && tokenExpirado === false) {
+    const setUserAtivo = new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE usuarios SET ativo = true, token = null, data_expiracao = null WHERE idUsuario = ?",
+        [idUsuario],
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve("Ok");
+          }
+        }
+      );
+    });
+
+    if ((await setUserAtivo) == "Ok") {
+      return setUserAtivo;
+    }
+  }
 };
 
 export const resetPasswordUser = (idUsuario: number, userPassword: string) => {
@@ -316,5 +376,3 @@ export const loginUser = (
     } catch {}
   });
 };
-
-// Outros métodos relacionados a consultas de usuários...

@@ -10,6 +10,7 @@ import {
   resetPasswordUser,
   forgotPasswordUser,
   selfRegister,
+  activateUser,
 } from "./services/userService";
 import { User } from "./utils/user";
 import { sendEmailFormContato } from "./services/emailService";
@@ -135,6 +136,19 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao alterar o usuário:", error);
     res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
+app.post("/activateUser", async (req: Request, res: Response) => {
+  try {
+    const { token } = req.body;
+    const retorno = await activateUser(token);
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Usuário criado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    res.status(500).json({ error: "Erro ao criar usuário" });
   }
 });
 

@@ -34,3 +34,11 @@ export const setValidationDateToken = () => {
   const expirationDate = new Date(now.getTime() + 86400000);
   return expirationDate;
 };
+
+export const verificaExpiracao = (dataExpiracao: Date) => {
+  const agora = new Date();
+  const diferenca = agora.getTime() - dataExpiracao.getTime();
+  const horas = diferenca / (1000 * 60 * 60);
+
+  return horas >= 24;
+};

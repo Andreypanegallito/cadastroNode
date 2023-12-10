@@ -7,9 +7,22 @@ const ActivateUser = () => {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
 
-  const handleActivateUser = () => {
-    console.log("a")
+  const handleActivateUser = async () => {
+    const url = new URL(window.location.href);
+    const token = url.searchParams.get('token');
 
+    try {
+      const response = await axios.post(`${apiUrl}/activateUser`, token);
+
+      if (response.data.status === 'Ok') {
+        // Realiza o redirecionamento para outra página
+        navigate('/login');
+      }
+    }
+    catch (error) {
+      console.error(error);
+      alert("Ops... Algo deu errado ao efetuar o cadastro do usuário. Tente novamente");
+    }
 
   };
 
