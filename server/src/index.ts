@@ -9,6 +9,7 @@ import {
   deleteUser,
   resetPasswordUser,
   forgotPasswordUser,
+  selfRegister,
 } from "./services/userService";
 import { User } from "./utils/user";
 import { sendEmailFormContato } from "./services/emailService";
@@ -76,6 +77,20 @@ app.post("/createUser", async (req: Request, res: Response) => {
     const { nome, sobrenome, username, email, password } = req.body;
     const newUser = new User(nome, sobrenome, username, email, password, true);
     const retorno = await createUser(newUser);
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Usuário criado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    res.status(500).json({ error: "Erro ao criar usuário" });
+  }
+});
+
+app.post("/selfRegister", async (req: Request, res: Response) => {
+  try {
+    const { nome, sobrenome, username, email, password } = req.body;
+    const newUser = new User(nome, sobrenome, username, email, password, false);
+    const retorno = await selfRegister(newUser);
     if (retorno == "Ok") {
       res.json({ status: "Ok", message: "Usuário criado com sucesso" });
     }

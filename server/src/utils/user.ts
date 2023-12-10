@@ -28,3 +28,9 @@ export class User {
     this.podeEditar = podeEditar;
   }
 }
+
+export const setValidationDateToken = () => {
+  const now = new Date();
+  const expirationDate = new Date(now.getTime() + 86400000);
+  return expirationDate;
+};

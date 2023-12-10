@@ -26,10 +26,10 @@ const SelfRegisterPopup: React.FC<ForgotPassPopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
 
 
-  const handleSubmit = async (a: any) => {
+  const handleSubmit = async () => {
     //faz a requisiçao pro back
     try {
-      const response = await axios.post(`${apiUrl}/createUser`, formData);
+      const response = await axios.post(`${apiUrl}/selfRegister`, formData);
 
       if (response.data.status === 'Ok') {
         // Realiza o redirecionamento para outra página
@@ -65,7 +65,6 @@ const SelfRegisterPopup: React.FC<ForgotPassPopupProps> = ({ onClose }) => {
           <div>
             <CadastroUsuario formData={formData} setFormData={setFormData} onSubmit={handleSubmit} />
           </div>
-
         </div>
       </>
     );

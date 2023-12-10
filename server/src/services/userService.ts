@@ -1,11 +1,15 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
-import { User } from "../utils/user";
+import { User, setValidationDateToken } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error } from "console";
 import { generateRandomPassword } from "../utils/password";
-import { sendEmailForgotPassUser } from "../services/emailService";
+import {
+  sendEmailForgotPassUser,
+  sendEmailSelfRegister,
+} from "../services/emailService";
+import { v4 as uuidv4 } from "uuid";
 
 interface LoginResponse {
   result: RowDataPacket;
@@ -61,6 +65,44 @@ export const createUser = (user: User) => {
           if (error) {
             reject(error);
           } else {
+            resolve("Ok");
+          }
+        }
+      );
+    });
+  });
+};
+
+export const selfRegister = (user: User) => {
+  const token = uuidv4();
+  const expirationDate = setValidationDateToken();
+
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(user.password, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const newUser = {
+        ...user,
+        password: hashedPassword,
+        token,
+        expirationDate,
+      };
+
+      connection.query(
+        "INSERT INTO usuarios SET ?",
+        newUser,
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            const email = sendEmailSelfRegister(
+              newUser.token,
+              newUser.email,
+              newUser.nome + "" + newUser.sobrenome
+            );
             resolve("Ok");
           }
         }

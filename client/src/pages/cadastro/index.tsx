@@ -28,7 +28,7 @@ const Cadastro = () => {
     confpassword: ''
   });
 
-  const handleSubmit = async (a: any) => {
+  const handleSubmit = async () => {
     //faz a requisiçao pro back
     try {
       const response = await axios.post(`${apiUrl}/createUser`, formData);
