@@ -12,7 +12,8 @@ const ActivateUser = () => {
     const token = url.searchParams.get('token');
 
     try {
-      const response = await axios.post(`${apiUrl}/activateUser`, token);
+      console.log(token);
+      const response = await axios.post(`${apiUrl}/activateUser`, { token });
 
       if (response.data.status === 'Ok') {
         // Realiza o redirecionamento para outra página
@@ -23,7 +24,6 @@ const ActivateUser = () => {
       console.error(error);
       alert("Ops... Algo deu errado ao efetuar o cadastro do usuário. Tente novamente");
     }
-
   };
 
 

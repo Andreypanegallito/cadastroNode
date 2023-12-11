@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.forgotPasswordUser = exports.resetPasswordUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.loginUser = exports.forgotPasswordUser = exports.resetPasswordUser = exports.activateUser = exports.deleteUser = exports.updateUser = exports.selfRegister = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const user_1 = require("../utils/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const password_1 = require("../utils/password");
 const emailService_1 = require("../services/emailService");
+const uuid_1 = require("uuid");
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios", (error, results) => {
@@ -56,6 +57,34 @@ const createUser = (user) => {
     });
 };
 exports.createUser = createUser;
+const selfRegister = (user) => {
+    const token = (0, uuid_1.v4)();
+    const data_expiracao = (0, user_1.setValidationDateToken)();
+    return new Promise((resolve, reject) => {
+        bcrypt_1.default.hash(user.password, 10, (err, hashedPassword) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            const newUser = {
+                ...user,
+                password: hashedPassword,
+                token,
+                data_expiracao,
+            };
+            db_1.default.query("INSERT INTO usuarios SET ?", newUser, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    const email = (0, emailService_1.sendEmailSelfRegister)(newUser.token, newUser.email, newUser.nome + "" + newUser.sobrenome);
+                    resolve("Ok");
+                }
+            });
+        });
+    });
+};
+exports.selfRegister = selfRegister;
 const updateUser = (user) => {
     return new Promise((resolve, reject) => {
         db_1.default.query("UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, ativo = ?, podeEditar = ? WHERE idUsuario = ?", [
@@ -89,6 +118,56 @@ const deleteUser = (idUsuario) => {
     });
 };
 exports.deleteUser = deleteUser;
+const activateUser = async (token) => {
+    try {
+        let idUsuario;
+        let tokenDb;
+        let data_expiracao;
+        const validateToken = new Promise((resolve, reject) => {
+            db_1.default.query("SELECT idUsuario, token, data_expiracao FROM usuarios WHERE token = ?", [token], (error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    const data = results;
+                    if (data.length > 0) {
+                        resolve(data[0]);
+                    }
+                    else {
+                        resolve(null); // ou rejeitar, dependendo da lógica desejada
+                    }
+                }
+            });
+        });
+        const data = await validateToken;
+        if (data) {
+            idUsuario = data.idUsuario;
+            tokenDb = data.token; // Usar o valor de token
+            data_expiracao = data.data_expiracao; // Usar o valor de data_expiracao
+            const tokenExpirado = (0, user_1.verificaExpiracao)(data_expiracao);
+            if (tokenDb !== null && tokenExpirado === false) {
+                const setUserAtivo = new Promise((resolve, reject) => {
+                    db_1.default.query("UPDATE usuarios SET ativo = true, token = null, data_expiracao = null WHERE idUsuario = ?", [idUsuario], (error, result) => {
+                        if (error) {
+                            reject(error);
+                        }
+                        else {
+                            resolve("Ok");
+                        }
+                    });
+                });
+                const resultado = await setUserAtivo;
+                return resultado;
+            }
+        }
+        return "ErrToken";
+    }
+    catch (error) {
+        console.error(error);
+        return "ErrToken"; // Retorna "ErrToken" em caso de erro
+    }
+};
+exports.activateUser = activateUser;
 const resetPasswordUser = (idUsuario, userPassword) => {
     return new Promise((resolve, reject) => {
         bcrypt_1.default.hash(userPassword, 10, (err, hashedPassword) => {
@@ -240,5 +319,4 @@ const loginUser = (userName, password) => {
     });
 };
 exports.loginUser = loginUser;
-// Outros métodos relacionados a consultas de usuários...
 //# sourceMappingURL=userService.js.map

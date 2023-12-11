@@ -76,7 +76,7 @@ export const createUser = (user: User) => {
 
 export const selfRegister = (user: User) => {
   const token = uuidv4();
-  const expirationDate = setValidationDateToken();
+  const data_expiracao = setValidationDateToken();
 
   return new Promise((resolve, reject) => {
     bcrypt.hash(user.password, 10, (err, hashedPassword) => {
@@ -89,7 +89,7 @@ export const selfRegister = (user: User) => {
         ...user,
         password: hashedPassword,
         token,
-        expirationDate,
+        data_expiracao,
       };
 
       connection.query(
@@ -152,61 +152,60 @@ export const deleteUser = (idUsuario: number) => {
 };
 
 export const activateUser = async (token: string) => {
-  let idUsuario: number;
-  let tokenDb: string;
-  let data_expiracao: Date;
+  try {
+    let idUsuario: number;
+    let tokenDb: string;
+    let data_expiracao: Date;
 
-  const validateToken = new Promise<ActivateUserData>((resolve, reject) => {
-    connection.query(
-      "SELECT idUsuario, token, data_expiracao FROM usuarios WHERE token = ?",
-      [token],
-      (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          const data = results as ActivateUserData[];
-          if (data.length > 0) {
-            resolve(data[0]);
-          } else {
-            resolve(null); // ou rejeitar, dependendo da lógica desejada
-          }
-        }
-      }
-    );
-  });
-
-  validateToken
-    .then((data) => {
-      if (data) {
-        idUsuario = data.idUsuario;
-        tokenDb = data.token; // Usar o valor de token
-        data_expiracao = data.data_expiracao; // Usar o valor de data_expiracao
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      return "ErrToken";
-    });
-
-  const tokenExpirado = verificaExpiracao(data_expiracao);
-  if (tokenDb !== null && tokenExpirado === false) {
-    const setUserAtivo = new Promise((resolve, reject) => {
+    const validateToken = new Promise<ActivateUserData>((resolve, reject) => {
       connection.query(
-        "UPDATE usuarios SET ativo = true, token = null, data_expiracao = null WHERE idUsuario = ?",
-        [idUsuario],
-        (error, result) => {
+        "SELECT idUsuario, token, data_expiracao FROM usuarios WHERE token = ?",
+        [token],
+        (error, results) => {
           if (error) {
             reject(error);
           } else {
-            resolve("Ok");
+            const data = results as ActivateUserData[];
+            if (data.length > 0) {
+              resolve(data[0]);
+            } else {
+              resolve(null); // ou rejeitar, dependendo da lógica desejada
+            }
           }
         }
       );
     });
 
-    if ((await setUserAtivo) == "Ok") {
-      return setUserAtivo;
+    const data = await validateToken;
+    if (data) {
+      idUsuario = data.idUsuario;
+      tokenDb = data.token; // Usar o valor de token
+      data_expiracao = data.data_expiracao; // Usar o valor de data_expiracao
+
+      const tokenExpirado = verificaExpiracao(data_expiracao);
+      if (tokenDb !== null && tokenExpirado === false) {
+        const setUserAtivo = new Promise<string>((resolve, reject) => {
+          connection.query(
+            "UPDATE usuarios SET ativo = true, token = null, data_expiracao = null WHERE idUsuario = ?",
+            [idUsuario],
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve("Ok");
+              }
+            }
+          );
+        });
+
+        const resultado = await setUserAtivo;
+        return resultado;
+      }
     }
+    return "ErrToken";
+  } catch (error) {
+    console.error(error);
+    return "ErrToken"; // Retorna "ErrToken" em caso de erro
   }
 };
 

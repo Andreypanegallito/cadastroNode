@@ -13,7 +13,8 @@
     background-color: white;
     padding: 10px 20px;
     border-radius: 5px;
-    width: 300px;
+    width: auto;
+    // width: 300px;
 
     h2 {
       margin-top: 0;
@@ -64,7 +65,7 @@
 
     .item-popup.disabled {
       background-color: #ccc;
-    color: #666;
+      color: #666;
     }
 
     .div-check {

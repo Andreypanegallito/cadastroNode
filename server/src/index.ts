@@ -144,7 +144,7 @@ app.post("/activateUser", async (req: Request, res: Response) => {
     const { token } = req.body;
     const retorno = await activateUser(token);
     if (retorno == "Ok") {
-      res.json({ status: "Ok", message: "Usuário criado com sucesso" });
+      res.json({ status: "Ok", message: "Usuário ativado com sucesso" });
     }
   } catch (error) {
     console.error("Erro ao criar usuário:", error);

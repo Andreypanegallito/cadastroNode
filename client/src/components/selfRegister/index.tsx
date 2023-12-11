@@ -57,16 +57,14 @@ const SelfRegisterPopup: React.FC<ForgotPassPopupProps> = ({ onClose }) => {
 
   const htmlSelfRegisterPopup = () => {
     return (
-      <>
-        <div id="forgotPassword" className="forgotPassword">
-          <button onClick={onClosePopup} className="btnClosePopup">
-            <AiOutlineClose />
-          </button>
-          <div>
-            <CadastroUsuario formData={formData} setFormData={setFormData} onSubmit={handleSubmit} />
-          </div>
+      <div id="selfRegister" className="selfRegister">
+        <button onClick={onClosePopup} className="btnClosePopup">
+          <AiOutlineClose />
+        </button>
+        <div>
+          <CadastroUsuario formData={formData} setFormData={setFormData} onSubmit={handleSubmit} />
         </div>
-      </>
+      </div>
     );
   };
 

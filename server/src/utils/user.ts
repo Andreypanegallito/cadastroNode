@@ -32,7 +32,12 @@ export class User {
 export const setValidationDateToken = () => {
   const now = new Date();
   const expirationDate = new Date(now.getTime() + 86400000);
-  return expirationDate;
+  const offset = expirationDate.getTimezoneOffset() * 60000; // Convertendo o offset para milissegundos
+  const expirationDateFormat = new Date(expirationDate.getTime() - offset)
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
+  return expirationDateFormat;
 };
 
 export const verificaExpiracao = (dataExpiracao: Date) => {
