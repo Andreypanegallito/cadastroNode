@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../../components/primaryButton";
 
 
 const ActivateUser = () => {
@@ -28,15 +29,16 @@ const ActivateUser = () => {
 
 
   return (
-    <section id="login">
-      <div className="container-login">
-        <div className="content-login half-login">
+    <section id="activateUser">
+      <div className="containerActivate">
+        <div className="contentActivate">
           <div className="titulo">
             <h1>ActivateUser</h1>
           </div>
 
           <div className="btnActivateUser">
-            <button type="button" onClick={handleActivateUser}> Ativar usuário</button>
+            <PrimaryButton textButton={'Ativar usuário'} OnClick={handleActivateUser} />
+            {/* <button type="button" onClick={handleActivateUser}> Ativar usuário</button> */}
           </div>
 
         </div>
