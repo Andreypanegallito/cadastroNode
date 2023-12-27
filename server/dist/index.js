@@ -131,13 +131,13 @@ app.post("/activateUser", async (req, res) => {
         }
         else if (retorno === "ErrToken") {
             res.json({
-                status: "Error",
+                status: "ErrToken",
                 message: "Usuário já foi ativado pela primeira vez.",
             });
         }
         else if (retorno === "ErrTokenExp") {
             res.json({
-                status: "Error",
+                status: "ErrTokenExp",
                 message: "Token já passou do tempo de validação.",
             });
         }
