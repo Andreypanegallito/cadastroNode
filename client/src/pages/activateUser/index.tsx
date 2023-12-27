@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../../components/primaryButton";
+import BackPopup from "../../components/backPopup";
 
 
 const ActivateUser = () => {
@@ -27,23 +28,28 @@ const ActivateUser = () => {
     }
   };
 
+  const renderHtmlPopup = () => {
+    return (
+      <section id="activateUser">
+        <div className="containerActivate">
+          <div className="contentActivate">
+            <div className="titulo">
+              <h1>ActivateUser</h1>
+            </div>
+
+            <div className="btnActivateUser">
+              <PrimaryButton textButton={'Ativar usuário'} OnClick={handleActivateUser} />
+              {/* <button type="button" onClick={handleActivateUser}> Ativar usuário</button> */}
+            </div>
+
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
-    <section id="activateUser">
-      <div className="containerActivate">
-        <div className="contentActivate">
-          <div className="titulo">
-            <h1>ActivateUser</h1>
-          </div>
-
-          <div className="btnActivateUser">
-            <PrimaryButton textButton={'Ativar usuário'} OnClick={handleActivateUser} />
-            {/* <button type="button" onClick={handleActivateUser}> Ativar usuário</button> */}
-          </div>
-
-        </div>
-      </div>
-    </section>
+    <BackPopup renderContent={renderHtmlPopup} />
   );
 };
 export default ActivateUser;
