@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../../components/primaryButton";
 import BackPopup from "../../components/backPopup";
+import styles from './activateUser.module.scss'
 
 
 const ActivateUser = () => {
@@ -30,21 +31,15 @@ const ActivateUser = () => {
 
   const renderHtmlPopup = () => {
     return (
-      <section id="activateUser">
-        <div className="containerActivate">
-          <div className="contentActivate">
-            <div className="titulo">
-              <h1>ActivateUser</h1>
-            </div>
-
-            <div className="btnActivateUser">
-              <PrimaryButton textButton={'Ativar usuário'} OnClick={handleActivateUser} />
-              {/* <button type="button" onClick={handleActivateUser}> Ativar usuário</button> */}
-            </div>
-
-          </div>
+      <div id={styles.activateUser}>
+        <div className={`titulo ${styles.titulo}`}>
+          <h1>ActivateUser</h1>
         </div>
-      </section>
+
+        <div className={styles.btnActivateUser}>
+          <PrimaryButton textButton={'Ativar usuário'} OnClick={handleActivateUser} />
+        </div>
+      </div>
     )
   }
 
