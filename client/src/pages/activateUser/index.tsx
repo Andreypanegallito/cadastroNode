@@ -4,29 +4,44 @@ import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../../components/primaryButton";
 import BackPopup from "../../components/backPopup";
 import styles from './activateUser.module.scss'
+import Popup from "../../components/popup";
 
 
 const ActivateUser = () => {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState("");
+
+
 
   const handleActivateUser = async () => {
     const url = new URL(window.location.href);
     const token = url.searchParams.get('token');
 
-    try {
-      console.log(token);
-      const response = await axios.post(`${apiUrl}/activateUser`, { token });
+    if (token !== undefined && token !== null) {
+      try {
+        console.log(token);
+        const response = await axios.post(`${apiUrl}/activateUser`, { token });
 
-      if (response.data.status === 'Ok') {
-        // Realiza o redirecionamento para outra página
-        navigate('/login');
+        if (response.data.status === 'Ok') {
+          // Realiza o redirecionamento para outra página
+          navigate('/login');
+        }
       }
+      catch (error) {
+        console.error(error);
+        setPopupContent("O token passado não é válido.");
+      }
+    } else {
+      console.log("null");
+      setPopupContent("Não foi passado nenhum token como parâmetro");
+      setShowPopup(true);
     }
-    catch (error) {
-      console.error(error);
-      alert("Ops... Algo deu errado ao efetuar o cadastro do usuário. Tente novamente");
-    }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
   };
 
   const renderHtmlPopup = () => {
@@ -43,8 +58,28 @@ const ActivateUser = () => {
     )
   }
 
+  const renderHtmlPopupError = () => {
+    return (
+      <>
+        <div className="item-popup message-user">
+          <h2>{popupContent}</h2>
+        </div>
+        <div className="div-botoes">
+          <button onClick={closePopup} className="cancel">
+            Fechar
+          </button>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <BackPopup renderContent={renderHtmlPopup} />
+    <>
+      <BackPopup renderContent={renderHtmlPopup} />
+      {showPopup && <Popup renderContent={renderHtmlPopupError} />}
+    </>
   );
+
+
 };
 export default ActivateUser;
