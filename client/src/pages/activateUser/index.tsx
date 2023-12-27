@@ -26,6 +26,12 @@ const ActivateUser = () => {
         if (response.data.status === 'Ok') {
           // Realiza o redirecionamento para outra página
           navigate('/login');
+        } else if (response.data.status === 'ErrToken') {
+          setPopupContent(response.data.message);
+          setShowPopup(true);
+        } else if (response.data.status === 'ErrTokenExp') {
+          setPopupContent(response.data.message);
+          setShowPopup(true);
         }
       }
       catch (error) {
