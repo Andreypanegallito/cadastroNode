@@ -21,7 +21,6 @@ const ActivateUser = () => {
 
     if (token !== undefined && token !== null) {
       try {
-        console.log(token);
         const response = await axios.post(`${apiUrl}/activateUser`, { token });
 
         if (response.data.status === 'Ok') {
@@ -34,7 +33,6 @@ const ActivateUser = () => {
         setPopupContent("O token passado não é válido.");
       }
     } else {
-      console.log("null");
       setPopupContent("Não foi passado nenhum token como parâmetro");
       setShowPopup(true);
     }

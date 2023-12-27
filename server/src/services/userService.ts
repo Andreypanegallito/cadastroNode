@@ -200,9 +200,12 @@ export const activateUser = async (token: string) => {
 
         const resultado = await setUserAtivo;
         return resultado;
+      } else {
+        return "ErrTokenExp";
       }
+    } else {
+      return "ErrToken";
     }
-    return "ErrToken";
   } catch (error) {
     console.error(error);
     return "ErrToken"; // Retorna "ErrToken" em caso de erro

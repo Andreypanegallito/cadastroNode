@@ -159,8 +159,13 @@ const activateUser = async (token) => {
                 const resultado = await setUserAtivo;
                 return resultado;
             }
+            else {
+                return "ErrTokenExp";
+            }
         }
-        return "ErrToken";
+        else {
+            return "ErrToken";
+        }
     }
     catch (error) {
         console.error(error);
