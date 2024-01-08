@@ -10,7 +10,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const password_1 = require("../utils/password");
 const emailService_1 = require("../services/emailService");
-const uuid_1 = require("uuid");
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         db_1.default.query("SELECT idUsuario, nome, sobrenome, username, email, DATE_FORMAT(data_criacao, '%d-%m-%Y %H:%i:%s') as data_criacao, ativo, podeEditar FROM usuarios", (error, results) => {
@@ -58,7 +57,11 @@ const createUser = (user) => {
 };
 exports.createUser = createUser;
 const selfRegister = (user) => {
-    const token = (0, uuid_1.v4)();
+    const payload = {
+        nome: user.nome,
+        usuario: user.username,
+    };
+    const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
     const data_expiracao = (0, user_1.setValidationDateToken)();
     return new Promise((resolve, reject) => {
         bcrypt_1.default.hash(user.password, 10, (err, hashedPassword) => {

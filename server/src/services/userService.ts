@@ -75,7 +75,11 @@ export const createUser = (user: User) => {
 };
 
 export const selfRegister = (user: User) => {
-  const token = uuidv4();
+  const payload = {
+    nome: user.nome,
+    usuario: user.username,
+  };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
   const data_expiracao = setValidationDateToken();
 
   return new Promise((resolve, reject) => {
