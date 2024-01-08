@@ -52,7 +52,7 @@ const ActivateUser = () => {
     return (
       <div id={styles.activateUser}>
         <div className={`titulo ${styles.titulo}`}>
-          <h1>ActivateUser</h1>
+          <h1> Ativar usuário </h1>
         </div>
 
         <div className={styles.btnActivateUser}>

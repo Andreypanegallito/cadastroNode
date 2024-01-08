@@ -21,3 +21,17 @@
   align-items: center;
   align-content: center;
 }
+
+@media (max-width: 768px) {
+  .containerBackPopup {
+    min-width: auto;
+    width: 90%;
+    padding: 0 55px;
+  }
+}
+
+@media (max-width: 500px) {
+  .containerBackPopup {
+    padding: 0 25px;
+  }
+}
