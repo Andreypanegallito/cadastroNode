@@ -16,9 +16,23 @@
     width: auto;
     // width: 300px;
 
-    h2 {
-      margin-top: 0;
-      text-align: center;
+    .popup-title {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 5px;
+
+      h2 {
+        margin-top: 0;
+        text-align: center;
+      }
+    }
+
+    .popup-message {
+      display: flex;
+      width: 100%;
+      text-align: justify;
+      margin: 10px auto;
     }
 
     .item-popup {

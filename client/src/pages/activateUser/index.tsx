@@ -5,13 +5,15 @@ import PrimaryButton from "../../components/primaryButton";
 import BackPopup from "../../components/backPopup";
 import styles from './activateUser.module.scss'
 import Popup from "../../components/popup";
-import jwt_decode from "jwt-decode";
+import { isTokenValid } from "../../utils/token";
+import * as rjwt from 'react-jwt';
 
 
 const ActivateUser = () => {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_NODE_URL;
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopupInvalidToken, setShowPopupInvalidToken] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -25,15 +27,25 @@ const ActivateUser = () => {
   }, []);
 
   const setContentName = () => {
-    const decodedToken: any = jwt_decode(token);
-    const name: string = decodedToken.nome;
-    setName(name);
+    if (isTokenValid(token)) {
+      const decodedToken: any = rjwt.decodeToken(token);
+      const name: string = decodedToken.nome;
+      setName(name);
+    } else {
+      setShowPopupInvalidToken(true);
+    }
   };
+
   const setContentUserName = () => {
-    const decodedToken: any = jwt_decode(token);
-    const userName: string = decodedToken.usuario;
-    setUserName(userName);
+    if (isTokenValid(token)) {
+      const decodedToken: any = rjwt.decodeToken(token);
+      const name = decodedToken.nome;
+      setName(name);
+    } else {
+      setShowPopupInvalidToken(true);
+    }
   };
+
   const handleActivateUser = async () => {
     if (token !== undefined && token !== null) {
       try {
@@ -64,6 +76,10 @@ const ActivateUser = () => {
     setShowPopup(false);
   };
 
+  const closePopupInvalidToken = () => {
+    setShowPopupInvalidToken(false);
+  };
+
   const renderHtmlPopup = () => {
     return (
       <div id={styles.activateUser}>
@@ -88,11 +104,28 @@ const ActivateUser = () => {
   const renderHtmlPopupError = () => {
     return (
       <>
-        <div className="item-popup message-user">
+        <div className="message-user">
           <h2>{popupContent}</h2>
         </div>
         <div className="div-botoes">
           <button onClick={closePopup} className="cancel">
+            Fechar
+          </button>
+        </div>
+      </>
+    );
+  }
+  const renderHtmlPopupInvalidToken = () => {
+    return (
+      <>
+        <div className=" popup-title">
+          <h2>Token Inválido</h2>
+        </div>
+        <div className="popup-message">
+          <p>Favor informar um token válido. Validar o token que foi enviado por e-mail.</p>
+        </div>
+        <div className="div-botoes">
+          <button onClick={closePopupInvalidToken} className="cancel">
             Fechar
           </button>
         </div>
@@ -104,6 +137,7 @@ const ActivateUser = () => {
     <>
       <BackPopup renderContent={renderHtmlPopup} />
       {showPopup && <Popup renderContent={renderHtmlPopupError} />}
+      {showPopupInvalidToken && <Popup renderContent={renderHtmlPopupInvalidToken} />}
     </>
   );
 
