@@ -78,6 +78,7 @@
             border-radius: 20px;
             height: 30px;
             width: 100%;
+            padding-left: 5px;
           }
 
           input.error {
@@ -144,6 +145,22 @@
           transition: 0.5s;
           border-radius: 20px;
           font-size: 14px;
+        }
+      }
+
+      .signUp {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+
+        span {
+          button {
+            cursor: pointer;
+          }
+
+          button:hover {
+            color: #5c09b5;
+          }
         }
       }
     }
