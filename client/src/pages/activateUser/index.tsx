@@ -24,7 +24,7 @@ const ActivateUser = () => {
   useEffect(() => {
     setContentName();
     setContentUserName();
-  }, []);
+  });
 
   const setContentName = () => {
     if (isTokenValid(token)) {
@@ -39,8 +39,8 @@ const ActivateUser = () => {
   const setContentUserName = () => {
     if (isTokenValid(token)) {
       const decodedToken: any = rjwt.decodeToken(token);
-      const name = decodedToken.nome;
-      setName(name);
+      const userName = decodedToken.usuario;
+      setUserName(userName);
     } else {
       setShowPopupInvalidToken(true);
     }
@@ -52,7 +52,6 @@ const ActivateUser = () => {
         const response = await axios.post(`${apiUrl}/activateUser`, { token });
 
         if (response.data.status === 'Ok') {
-          // Realiza o redirecionamento para outra página
           navigate('/login');
         } else if (response.data.status === 'ErrToken') {
           setPopupContent(response.data.message);
@@ -78,6 +77,7 @@ const ActivateUser = () => {
 
   const closePopupInvalidToken = () => {
     setShowPopupInvalidToken(false);
+    navigate('/login');
   };
 
   const renderHtmlPopup = () => {
@@ -122,7 +122,7 @@ const ActivateUser = () => {
           <h2>Token Inválido</h2>
         </div>
         <div className="popup-message">
-          <p>Favor informar um token válido. Validar o token que foi enviado por e-mail.</p>
+          <p>Favor informar um token válido. Verificar link com o token que foi enviado para o e-mail informado no cadastro.</p>
         </div>
         <div className="div-botoes">
           <button onClick={closePopupInvalidToken} className="cancel">
