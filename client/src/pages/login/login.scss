@@ -156,66 +156,15 @@
         span {
           button {
             cursor: pointer;
+            color: #244d5a;
+            transition: 0.5s;
           }
 
           button:hover {
             color: #5c09b5;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 1600px) {
-  #login {
-    .container-login {
-      padding: 0 35px;
-
-      .half-login {
-      }
-
-      .img-login {
-        svg {
-        }
-      }
-
-      .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .forgotPass {
-          button {
-          }
-
-          button:hover {
+            transform: scale(1.2);
+            transition: 0.5s;
+            margin-left: 10px;
           }
         }
       }
@@ -243,98 +192,8 @@
       }
 
       .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
         .forgotPass {
           margin: 10px 0;
-
-          button {
-          }
-
-          button:hover {
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  #login {
-    .container-login {
-      .half-login {
-      }
-
-      .img-login {
-        svg {
-        }
-      }
-
-      .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .forgotPass {
-          button {
-          }
-
-          button:hover {
-          }
         }
       }
     }
@@ -361,44 +220,8 @@
       }
 
       .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
         .forgotPass {
           margin: 10px 0;
-
-          button {
-          }
-
-          button:hover {
-          }
         }
       }
     }

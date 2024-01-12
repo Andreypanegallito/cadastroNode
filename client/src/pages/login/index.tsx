@@ -86,7 +86,6 @@ const Login = () => {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === "Ok") {
-          // Limpa o formulário após o envio
           setFormDataLogin({
             usernameLogin: "",
             passwordLogin: "",
@@ -96,7 +95,6 @@ const Login = () => {
           Cookies.set("jwtToken", token);
           setIsPopupLoadingOpen(false);
 
-          // Realiza o redirecionamento para outra página
           if (Cookies.get("jwtToken") !== undefined) {
             await navigate("/", { replace: true });
           }
