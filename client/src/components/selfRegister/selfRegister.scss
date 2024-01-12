@@ -1,7 +1,26 @@
-.popup .popup-content {
-  // width: auto;
+#selfRegister {
+  max-width: 700px;
+  width: 100%;
 }
 
-#selfRegister {
-  width: 700px;
+@media (max-width: 992px) {
+  #selfRegister {
+    max-width: 100%;
+    width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .popup .popup-content {
+    max-width: 90%;
+  }
+  #selfRegister {
+    width: auto;
+  }
+}
+
+@media (max-width: 550px) {
+  .popup .popup-content {
+    max-width: 85%;
+  }
 }

@@ -13,7 +13,7 @@
 
   .container-login {
     width: 60%;
-    height: 75%;
+    height: 65%;
     min-height: 300px;
     background: #fff;
     border-radius: 10px;
@@ -151,7 +151,7 @@
       .signUp {
         display: flex;
         justify-content: center;
-        margin-top: 10px;
+        margin: 10px auto 5px auto;
 
         span {
           button {
@@ -172,11 +172,31 @@
   }
 }
 
+@media (max-width: 1400px) {
+  #login {
+    .container-login {
+      width: 70%;
+      padding: 0px 50px;
+
+      .content-login {
+        #formLogin {
+          width: 90%;
+        }
+
+        .signUp {
+          width: 90%;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 992px) {
   #login {
     .container-login {
       flex-direction: column;
       height: 80%;
+      padding: 0 35px;
 
       .half-login {
         width: 100%;
@@ -205,6 +225,7 @@
     .container-login {
       height: 80%;
       width: 85%;
+      padding: 0 15px;
 
       .half-login {
         height: 60%;
@@ -212,6 +233,7 @@
 
       .img-login {
         height: auto;
+        margin: 0px auto 10px;
 
         svg {
           height: 6em;
@@ -220,8 +242,16 @@
       }
 
       .content-login {
+        height: 70%;
+
         .forgotPass {
           margin: 10px 0;
+        }
+
+        .signUp {
+          span {
+            text-align: center;
+          }
         }
       }
     }
