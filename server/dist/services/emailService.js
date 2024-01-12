@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmailForgotPassUser = exports.sendEmailFormContato = void 0;
+exports.sendEmailSelfRegister = exports.sendEmailForgotPassUser = exports.sendEmailFormContato = void 0;
 const nodeMailer = require("nodemailer");
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT);
@@ -99,4 +99,31 @@ const sendEmailForgotPassUser = async (username, password, email, nome) => {
     return retorno;
 };
 exports.sendEmailForgotPassUser = sendEmailForgotPassUser;
+const sendEmailSelfRegister = async (token, email, nome) => {
+    const mensagemEmail = `<h1>Olá ${nome}</h1>
+    <p>Seu cadastro foi realizado com sucesso.</p>
+    <p>Para você pode acessar o nosso sistema você deve clicar no link abaixo e ativar sua conta.</p>
+    <p>Link: https://cadastro-node.vercel.app/activateUser?token=${token}</p>
+    <p>Atenciosamente,<br />
+    Andrey Panegalli</p>`;
+    // Crie um objeto e-mail
+    const emailObject = {
+        from: "Andrey Panegalli Site - <andrey.panegalli@gmail.com>",
+        to: email,
+        subject: "Cadastro realizado com sucesso",
+        html: mensagemEmail,
+        text: `Olá ${nome}, seu cadastro foi realizado com sucesso. \n\n Para você pode acessar o nosso sistema você deve clicar no link abaixo e ativar sua conta.\n\n Link: https://cadastro-node.vercel.app/activateUser?token=${token} \n\n  Atenciosamente, \n Andrey Panegalli.`,
+    };
+    const retorno = await transport
+        .sendMail(emailObject)
+        .then(() => {
+        return "Ok";
+    })
+        .catch((err) => {
+        console.log("Ocorreu um erro ao enviar o e-mail para o destino preenchido no formulário.", err);
+        return "error";
+    });
+    return retorno;
+};
+exports.sendEmailSelfRegister = sendEmailSelfRegister;
 //# sourceMappingURL=emailService.js.map

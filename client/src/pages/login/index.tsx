@@ -7,6 +7,7 @@ import Popup from "../../components/popup";
 import Cookies from "js-cookie";
 import LoadingPopup from "../../components/loadingPopup";
 import ForgotPasswordPopup from "../../components/forgotPassword";
+import SelfRegisterPopup from "../../components/selfRegister";
 
 interface FormDataLogin {
   usernameLogin: string;
@@ -20,6 +21,7 @@ const Login = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
+  const [showSelfRegisterPopup, setShowSelfRegisterPopup] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const [isPopupLoadingOpen, setIsPopupLoadingOpen] = useState(false);
   const navigate = useNavigate();
@@ -84,7 +86,6 @@ const Login = () => {
         const response = await axios.post(`${apiUrl}/login`, formDataLogin);
 
         if (response.data.status === "Ok") {
-          // Limpa o formulário após o envio
           setFormDataLogin({
             usernameLogin: "",
             passwordLogin: "",
@@ -94,7 +95,6 @@ const Login = () => {
           Cookies.set("jwtToken", token);
           setIsPopupLoadingOpen(false);
 
-          // Realiza o redirecionamento para outra página
           if (Cookies.get("jwtToken") !== undefined) {
             await navigate("/", { replace: true });
           }
@@ -116,6 +116,10 @@ const Login = () => {
 
   const handleForgotPassword = () => {
     setShowForgotPasswordPopup(!showForgotPasswordPopup);
+  };
+
+  const handleSelfRegister = () => {
+    setShowSelfRegisterPopup(!showSelfRegisterPopup);
   };
 
   return (
@@ -150,6 +154,13 @@ const Login = () => {
                 className="senha"
               />
             </div>
+            <div className="itens-form">
+              <div className="forgotPass">
+                <button type="button" onClick={handleForgotPassword}>
+                  Esqueceu usuário/senha
+                </button>
+              </div>
+            </div>
             <button
               type="button"
               className="btn-enviar"
@@ -158,15 +169,19 @@ const Login = () => {
               Login
             </button>
           </form>
-          <div className="esqueceu-senha">
-            <button type="button" onClick={handleForgotPassword}>
-              Esqueceu usuário/senha
-            </button>
+          <div className="signUp">
+            <span>
+              Não tem cadastro ainda?
+              <button type="button" onClick={handleSelfRegister}>
+                Cadastre-se
+              </button>
+            </span>
           </div>
         </div>
       </div>
       {showPopup && <Popup renderContent={renderHtmlPopup} />}
       {showForgotPasswordPopup && <ForgotPasswordPopup onClose={handleForgotPassword} />}
+      {showSelfRegisterPopup && <SelfRegisterPopup onClose={handleSelfRegister} />}
       {isPopupLoadingOpen && <LoadingPopup />}
     </section>
   );

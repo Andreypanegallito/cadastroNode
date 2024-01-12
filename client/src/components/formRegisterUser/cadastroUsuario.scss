@@ -1,0 +1,185 @@
+#cadastroUsuario {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 15px auto;
+
+  .itens-form {
+    display: flex;
+    align-content: flex-start;
+
+    // flex-direction: column;
+    width: 100%;
+    margin: 10px 0;
+    padding: 0 10px;
+    flex-wrap: wrap;
+    position: relative;
+
+    label {
+      text-align: left;
+      width: 100%;
+    }
+
+    input {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      height: 30px;
+      width: 100%;
+    }
+
+    input.error {
+      border: 1px solid red;
+    }
+
+    // input.senha::-ms-reveal,
+    // input.senha::-ms-clear,
+    // input.senha::-webkit-contacts-auto-fill-button {
+    //   display: none;
+    // }
+
+    // input.senha::-webkit-credentials-auto-fill-button {
+    //   visibility: hidden;
+    // }
+
+    .viewPassword {
+      position: absolute;
+      right: 20px;
+      bottom: 4px;
+      display: none;
+      cursor: pointer;
+      align-items: center;
+      justify-content: end;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .half {
+    width: 50%;
+  }
+
+  .btn-enviar {
+    width: 300px;
+    height: 30px;
+    max-width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: rgb(36, 77, 90);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
+  .btn-enviar:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+    background-color: #5c09b5;
+  }
+}
+
+@media (max-width: 992px) {
+  #cadastroUsuario {
+    width: 90%;
+
+    .itens-form {
+      label {
+      }
+
+      input {
+      }
+
+      input.error {
+      }
+
+      .viewPassword {
+        svg {
+        }
+      }
+    }
+
+    .half {
+    }
+
+    .btn-enviar {
+    }
+
+    .btn-enviar:hover {
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #cadastroUsuario {
+    width: 100%;
+
+    .itens-form {
+      label {
+      }
+
+      input {
+      }
+
+      input.error {
+      }
+
+      .viewPassword {
+        svg {
+        }
+      }
+    }
+
+    .half {
+    }
+
+    .btn-enviar {
+    }
+
+    .btn-enviar:hover {
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  #cadastroUsuario {
+    width: 100%;
+    flex-direction: column;
+    margin: 25px auto;
+
+    .itens-form {
+      width: 100%;
+      padding: 0;
+
+      label {
+      }
+
+      input {
+      }
+
+      input.error {
+      }
+
+      .viewPassword {
+        svg {
+        }
+      }
+    }
+    .itens-form:last-of-type {
+      margin-bottom: 20px;
+    }
+
+    .half {
+    }
+
+    .btn-enviar {
+    }
+
+    .btn-enviar:hover {
+    }
+  }
+}

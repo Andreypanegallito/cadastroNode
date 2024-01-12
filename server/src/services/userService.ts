@@ -1,11 +1,16 @@
 import { RowDataPacket } from "mysql2";
 import connection from "../database/db";
-import { User } from "../utils/user";
+import { User, setValidationDateToken, verificaExpiracao } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { error } from "console";
 import { generateRandomPassword } from "../utils/password";
-import { sendEmailForgotPassUser } from "../services/emailService";
+import {
+  sendEmailForgotPassUser,
+  sendEmailSelfRegister,
+} from "../services/emailService";
+import { v4 as uuidv4 } from "uuid";
+import { ActivateUserData } from "../utils/email";
 
 interface LoginResponse {
   result: RowDataPacket;
@@ -69,6 +74,48 @@ export const createUser = (user: User) => {
   });
 };
 
+export const selfRegister = (user: User) => {
+  const payload = {
+    nome: user.nome,
+    usuario: user.username,
+  };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+  const data_expiracao = setValidationDateToken();
+
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(user.password, 10, (err, hashedPassword) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const newUser = {
+        ...user,
+        password: hashedPassword,
+        token,
+        data_expiracao,
+      };
+
+      connection.query(
+        "INSERT INTO usuarios SET ?",
+        newUser,
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            const email = sendEmailSelfRegister(
+              newUser.token,
+              newUser.email,
+              newUser.nome + "" + newUser.sobrenome
+            );
+            resolve("Ok");
+          }
+        }
+      );
+    });
+  });
+};
+
 export const updateUser = (user: User) => {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -106,6 +153,67 @@ export const deleteUser = (idUsuario: number) => {
       }
     );
   });
+};
+
+export const activateUser = async (token: string) => {
+  try {
+    let idUsuario: number;
+    let tokenDb: string;
+    let data_expiracao: Date;
+
+    const validateToken = new Promise<ActivateUserData>((resolve, reject) => {
+      connection.query(
+        "SELECT idUsuario, token, data_expiracao FROM usuarios WHERE token = ?",
+        [token],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            const data = results as ActivateUserData[];
+            if (data.length > 0) {
+              resolve(data[0]);
+            } else {
+              resolve(null); // ou rejeitar, dependendo da lógica desejada
+            }
+          }
+        }
+      );
+    });
+
+    const data = await validateToken;
+    if (data) {
+      idUsuario = data.idUsuario;
+      tokenDb = data.token; // Usar o valor de token
+      data_expiracao = data.data_expiracao; // Usar o valor de data_expiracao
+
+      const tokenExpirado = verificaExpiracao(data_expiracao);
+      if (tokenDb !== null && tokenExpirado === false) {
+        const setUserAtivo = new Promise<string>((resolve, reject) => {
+          connection.query(
+            "UPDATE usuarios SET ativo = true, token = null, data_expiracao = null WHERE idUsuario = ?",
+            [idUsuario],
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve("Ok");
+              }
+            }
+          );
+        });
+
+        const resultado = await setUserAtivo;
+        return resultado;
+      } else {
+        return "ErrTokenExp";
+      }
+    } else {
+      return "ErrToken";
+    }
+  } catch (error) {
+    console.error(error);
+    return "ErrToken"; // Retorna "ErrToken" em caso de erro
+  }
 };
 
 export const resetPasswordUser = (idUsuario: number, userPassword: string) => {
@@ -274,5 +382,3 @@ export const loginUser = (
     } catch {}
   });
 };
-
-// Outros métodos relacionados a consultas de usuários...

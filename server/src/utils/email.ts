@@ -11,3 +11,9 @@ export class Email {
     this.mensagem = mensagem;
   }
 }
+
+export interface ActivateUserData {
+  idUsuario: number;
+  token: string;
+  data_expiracao: Date;
+}

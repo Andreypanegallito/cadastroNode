@@ -78,6 +78,7 @@
             border-radius: 20px;
             height: 30px;
             width: 100%;
+            padding-left: 5px;
           }
 
           input.error {
@@ -125,9 +126,9 @@
         }
       }
 
-      .esqueceu-senha {
-        width: 100%;
-        margin-top: 15px;
+      .forgotPass {
+        width: auto;
+        margin: 0 15px 0 auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -146,59 +147,24 @@
           font-size: 14px;
         }
       }
-    }
-  }
-}
 
-@media (max-width: 1600px) {
-  #login {
-    .container-login {
-      padding: 0 35px;
+      .signUp {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
 
-      .half-login {
-      }
-
-      .img-login {
-        svg {
-        }
-      }
-
-      .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .esqueceu-senha {
+        span {
           button {
+            cursor: pointer;
+            color: #244d5a;
+            transition: 0.5s;
           }
 
           button:hover {
+            color: #5c09b5;
+            transform: scale(1.2);
+            transition: 0.5s;
+            margin-left: 10px;
           }
         }
       }
@@ -226,98 +192,8 @@
       }
 
       .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .esqueceu-senha {
+        .forgotPass {
           margin: 10px 0;
-
-          button {
-          }
-
-          button:hover {
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  #login {
-    .container-login {
-      .half-login {
-      }
-
-      .img-login {
-        svg {
-        }
-      }
-
-      .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .esqueceu-senha {
-          button {
-          }
-
-          button:hover {
-          }
         }
       }
     }
@@ -344,44 +220,8 @@
       }
 
       .content-login {
-        .titulo {
-        }
-
-        #formLogin {
-          .itens-form {
-            label {
-            }
-
-            input {
-            }
-
-            input.error {
-            }
-
-            .viewPassword {
-              svg {
-              }
-            }
-          }
-
-          .half {
-          }
-
-          .btn-enviar {
-          }
-
-          .btn-enviar:hover {
-          }
-        }
-
-        .esqueceu-senha {
+        .forgotPass {
           margin: 10px 0;
-
-          button {
-          }
-
-          button:hover {
-          }
         }
       }
     }

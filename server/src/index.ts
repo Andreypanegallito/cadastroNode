@@ -9,6 +9,8 @@ import {
   deleteUser,
   resetPasswordUser,
   forgotPasswordUser,
+  selfRegister,
+  activateUser,
 } from "./services/userService";
 import { User } from "./utils/user";
 import { sendEmailFormContato } from "./services/emailService";
@@ -85,6 +87,20 @@ app.post("/createUser", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/selfRegister", async (req: Request, res: Response) => {
+  try {
+    const { nome, sobrenome, username, email, password } = req.body;
+    const newUser = new User(nome, sobrenome, username, email, password, false);
+    const retorno = await selfRegister(newUser);
+    if (retorno == "Ok") {
+      res.json({ status: "Ok", message: "Usuário criado com sucesso" });
+    }
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    res.status(500).json({ error: "Erro ao criar usuário" });
+  }
+});
+
 // Exemplo de rota para inserir dados no banco de dados
 app.post("/updateUser", async (req: Request, res: Response) => {
   try {
@@ -120,6 +136,29 @@ app.post("/deleteUser", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao alterar o usuário:", error);
     res.status(500).json({ error: "Erro ao deletar o usuário" });
+  }
+});
+
+app.post("/activateUser", async (req: Request, res: Response) => {
+  try {
+    const { token } = req.body;
+    const retorno = await activateUser(token);
+    if (retorno === "Ok") {
+      res.json({ status: "Ok", message: "Usuário ativado com sucesso" });
+    } else if (retorno === "ErrToken") {
+      res.json({
+        status: "ErrToken",
+        message: "Usuário já foi ativado pela primeira vez.",
+      });
+    } else if (retorno === "ErrTokenExp") {
+      res.json({
+        status: "ErrTokenExp",
+        message: "Token já passou do tempo de validação.",
+      });
+    }
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    res.status(500).json({ error: "Erro ao ativar o usuário" });
   }
 });
 
