@@ -3,3 +3,4 @@
 .vscode/launch.json
 .node_modules
 **/node_modules
+vercel.json
