@@ -15,8 +15,7 @@ const Cadastro = () => {
 
   const linksMenu = [
     { url: '/', text: 'Página Inicial' },
-    { url: '/users', text: 'Usuários' },
-    { url: '/contato', text: 'Contato' },
+    { url: '/users', text: 'Usuários' }
   ];
 
   const [formData, setFormData] = useState<FormData>({

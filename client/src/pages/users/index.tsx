@@ -11,8 +11,7 @@ const Users = () => {
 
   const linksMenu = [
     { url: '/', text: 'Página Inicial' },
-    { url: '/cadastro', text: 'Cadastro' },
-    { url: '/contato', text: 'Contato' },
+    { url: '/cadastro', text: 'Cadastro' }
   ];
 
   const getUsers = async () => {

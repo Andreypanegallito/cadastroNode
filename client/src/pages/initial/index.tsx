@@ -27,11 +27,6 @@ const Initial = () => {
           </button>
         </div>
         <div className="item">
-          <button className="btn-link">
-            <Link to="/contato">Contato</Link>
-          </button>
-        </div>
-        <div className="item">
           <button onClick={deslogar} className="btn-link">
             Deslogar
           </button>

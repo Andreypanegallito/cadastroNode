@@ -3,7 +3,6 @@ import Initial from "../../pages/initial/index";
 import LoginPage from "../../pages/login/index";
 import UsersPage from "../../pages/users/index";
 import CadastroPage from "../../pages/cadastro/index";
-import ContatoPage from "../../pages/contato/index";
 import ActivateUserPage from "../../pages/activateUser/index";
 import Cookies from "js-cookie";
 import PageNotFound from "../../pages/pageNotFound";
@@ -40,11 +39,6 @@ const router = createBrowserRouter([
   {
     path: "/cadastro",
     Component: CadastroPage,
-    loader: protectedLoader,
-  },
-  {
-    path: "/contato",
-    Component: ContatoPage,
     loader: protectedLoader,
   },
   {

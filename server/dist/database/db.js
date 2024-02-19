@@ -7,7 +7,15 @@ const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 console.log(process.env.DATABASE_URL);
-const connection = mysql2_1.default.createConnection(process.env.DATABASE_URL);
+// banco online
+// const connection = mysql.createConnection(process.env.DATABASE_URL);
+// localhost
+var connection = mysql2_1.default.createConnection({
+    host: "localhost",
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
+});
 connection.connect((error) => {
     if (error) {
         console.error("Erro ao conectar ao banco de dados:", error);

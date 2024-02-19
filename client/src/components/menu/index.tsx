@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 
-
-
 import './menu.scss';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose, AiOutlinePoweroff } from 'react-icons/ai';

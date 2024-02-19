@@ -3,13 +3,11 @@ import connection from "../database/db";
 import { User, setValidationDateToken, verificaExpiracao } from "../utils/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { error } from "console";
 import { generateRandomPassword } from "../utils/password";
 import {
   sendEmailForgotPassUser,
   sendEmailSelfRegister,
 } from "../services/emailService";
-import { v4 as uuidv4 } from "uuid";
 import { ActivateUserData } from "../utils/email";
 
 interface LoginResponse {
